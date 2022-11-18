@@ -110,49 +110,22 @@
 
                 <div class="row layout-top-spacing">
 
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" >
                             <div class="row">
 
-                                <div id="card_3" class="col-lg-4 layout-spacing">
-                                    @if (Auth::user()->acc_create == '1')
-                                        <a href="{{ url('billsystem') }}">
+                                <div id="card_3"
+                                    @if (Auth::user()->hasRole('Admin'))
+                                        class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                     @else
-                                        <a href="">
+                                        class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                     @endif
+                                    >
 
-                                        <div class="component-card_3 bg-primary">
-                                            <div class="card-body">
-                                                <img src="{{ asset('admin_style/assets/img/icons/1.svg') }}" class="card-img-top" alt="...">
-                                                <h5 class="card-user_name text-uppercase">Bill System</h5>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div id="card_3" class="col-lg-4 layout-spacing">
-
-                                    @if (Auth::user()->acc_read == '1')
-                                        <a href="{{ url('billings') }}">
+                                    @if (Auth::user()->hasRole('Admin'))
+                                        <a href="{{ url('admin/inventory') }}">
                                     @else
-                                        <a href="">
+                                        <a href="{{ url('staff/inventory') }}">
                                     @endif
-
-                                        <div class="component-card_3 bg-danger">
-                                            <div class="card-body">
-                                                <img src="{{ asset('admin_style/assets/img/icons/2.svg') }}" class="card-img-top" alt="...">
-                                                <h5 class="card-user_name text-uppercase">Billings</h5>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div id="card_3" class="col-lg-4 layout-spacing">
-                                    @if (Auth::user()->acc_read == '1')
-                                        <a href="{{ url('inventory') }}">
-                                    @else
-                                        <a href="">
-                                    @endif
-
                                         <div class="component-card_3 bg-secondary">
                                             <div class="card-body">
                                                 <img src="{{ asset('admin_style/assets/img/icons/3.svg') }}" class="card-img-top" alt="...">
@@ -162,12 +135,19 @@
                                     </a>
                                 </div>
 
-                                <div id="card_3" class="col-lg-4 layout-spacing">
-                                    @if (Auth::user()->acc_read == '1')
-                                        <a href="{{ url('invoice') }}">
-                                    @else
-                                        <a href="">
-                                    @endif
+                                <div id="card_3"
+                                        @if (Auth::user()->hasRole('Admin'))
+                                            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                        @else
+                                            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                        @endif
+                                        >
+
+                                        @if (Auth::user()->hasRole('Admin'))
+                                            <a href="{{ url('admin/invoices') }}">
+                                        @else
+                                            <a href="{{ url('staff/invoices') }}">
+                                        @endif
 
                                         <div class="component-card_3 bg-success">
                                             <div class="card-body">
@@ -178,36 +158,42 @@
                                     </a>
                                 </div>
 
-                                <div id="card_3" class="col-lg-4 layout-spacing">
-                                    @if (Auth::user()->acc_read == '1')
-                                        <a href="{{ url('account') }}">
-                                    @else
-                                        <a href="">
-                                    @endif
+                                <div id="card_3"
+                                        @if (Auth::user()->hasRole('Admin'))
+                                            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                        @else
+                                            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                        @endif
+                                        >
 
-                                        <div class="component-card_3 bg-warning">
+                                        @if (Auth::user()->hasRole('Admin'))
+                                            <a href="{{ url('admin/orders') }}">
+                                        @else
+                                            <a href="{{ url('staff/orders') }}">
+                                        @endif
+
+                                        <div class="component-card_3 bg-danger">
                                             <div class="card-body">
-                                                <img src="{{ asset('admin_style/assets/img/icons/5.svg') }}" class="card-img-top" alt="...">
-                                                <h5 class="card-user_name text-uppercase">Accounts</h5>
+                                                <img src="{{ asset('admin_style/assets/img/icons/2.svg') }}" class="card-img-top" alt="...">
+                                                <h5 class="card-user_name text-uppercase">Orders</h5>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
 
-                                <div id="card_3" class="col-lg-4 layout-spacing">
-                                    @if (Auth::user()->role_as == 'a')
-                                        <a href="{{ url('settings') }}">
-                                    @else
-                                        <a href="{{ url('settings/profile') }}">
-                                    @endif
-                                        <div class="component-card_3 bg-info">
-                                            <div class="card-body">
-                                                <img src="{{ asset('admin_style/assets/img/icons/6.svg') }}" class="card-img-top" alt="...">
-                                                <h5 class="card-user_name text-uppercase">Settings</h5>
+                                @if (Auth::user()->hasRole('Admin'))
+                                    <div id="card_3" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing">
+                                        <a href="{{ url('admin/accounts') }}">
+                                            <div class="component-card_3 bg-warning">
+                                                <div class="card-body">
+                                                    <img src="{{ asset('admin_style/assets/img/icons/5.svg') }}" class="card-img-top" alt="...">
+                                                    <h5 class="card-user_name text-uppercase">Accounts</h5>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </div>
+                                        </a>
+                                    </div>
+                                @endif
+
                             </div>
                         </div>
                     </div>
