@@ -22,10 +22,10 @@ class AdminSeeder extends Seeder
         $user->email = 'admin@gmail.com';
         $user->contact = '0771111111';
         $user->password = Hash::make('admin@1122');
-        $user->image = 'user/user.png';
+        $user->image = 'upload/users/user.png';
         $user->status = 1;
         $user->save();
-        
+
         $user->assignRole('Admin');
     }
 }
