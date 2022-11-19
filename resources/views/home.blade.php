@@ -55,11 +55,21 @@
 
             <ul class="navbar-item flex-row nav-dropdowns">
 
+                <li class="nav-item dropdown user-profile-dropdown order-lg-0 order-1">
 
+                    <a href="{{ url('settings') }}" class="nav-link btn btn-info font-weight-bold text-uppercase" id="user-profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cogs"></i> Settings
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
 
                 <li class="nav-item dropdown user-profile-dropdown order-lg-0 order-1">
+
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();" class="nav-link btn btn-danger text-bold" id="user-profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    document.getElementById('logout-form').submit();" class="nav-link btn btn-danger font-weight-bold text-uppercase" id="user-profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-power-off"></i> Logout
                     </a>
 
@@ -115,7 +125,7 @@
 
                                 <div id="card_3"
                                     @if (Auth::user()->hasRole('Admin'))
-                                        class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                        class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                     @else
                                         class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                     @endif
@@ -126,7 +136,7 @@
                                     @else
                                         <a href="{{ url('staff/inventory') }}">
                                     @endif
-                                        <div class="component-card_3 bg-secondary">
+                                        <div class="component-card_3 bg-primary">
                                             <div class="card-body">
                                                 <img src="{{ asset('admin_style/assets/img/icons/3.svg') }}" class="card-img-top" alt="...">
                                                 <h5 class="card-user_name text-uppercase">Inventory</h5>
@@ -137,7 +147,7 @@
 
                                 <div id="card_3"
                                         @if (Auth::user()->hasRole('Admin'))
-                                            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                            class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                         @else
                                             class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                         @endif
@@ -160,7 +170,7 @@
 
                                 <div id="card_3"
                                         @if (Auth::user()->hasRole('Admin'))
-                                            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                            class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                         @else
                                             class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                         @endif
@@ -172,7 +182,7 @@
                                             <a href="{{ url('staff/orders') }}">
                                         @endif
 
-                                        <div class="component-card_3 bg-danger">
+                                        <div class="component-card_3 bg-info">
                                             <div class="card-body">
                                                 <img src="{{ asset('admin_style/assets/img/icons/2.svg') }}" class="card-img-top" alt="...">
                                                 <h5 class="card-user_name text-uppercase">Orders</h5>
@@ -181,10 +191,44 @@
                                     </a>
                                 </div>
 
+                                <div id="card_3"
+                                        @if (Auth::user()->hasRole('Admin'))
+                                            class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                        @else
+                                            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                        @endif
+                                        >
+
+                                        @if (Auth::user()->hasRole('Admin'))
+                                            <a href="{{ url('admin/repair_items') }}">
+                                        @else
+                                            <a href="{{ url('staff/repair_items') }}">
+                                        @endif
+
+                                        <div class="component-card_3 bg-danger">
+                                            <div class="card-body">
+                                                <img src="{{ asset('admin_style/assets/img/icons/7.png') }}" class="card-img-top" alt="...">
+                                                <h5 class="card-user_name text-uppercase">Repair Items</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
                                 @if (Auth::user()->hasRole('Admin'))
-                                    <div id="card_3" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing">
+                                    <div id="card_3" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing">
                                         <a href="{{ url('admin/accounts') }}">
                                             <div class="component-card_3 bg-warning">
+                                                <div class="card-body">
+                                                    <img src="{{ asset('admin_style/assets/img/icons/8.png') }}" class="card-img-top" alt="...">
+                                                    <h5 class="card-user_name text-uppercase">Staffs</h5>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div id="card_3" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing">
+                                        <a href="{{ url('admin/accounts') }}">
+                                            <div class="component-card_3 bg-secondary">
                                                 <div class="card-body">
                                                     <img src="{{ asset('admin_style/assets/img/icons/5.svg') }}" class="card-img-top" alt="...">
                                                     <h5 class="card-user_name text-uppercase">Accounts</h5>
