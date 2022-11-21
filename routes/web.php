@@ -25,4 +25,7 @@ Auth::routes(['register'=>false]);
 Route::middleware(['auth'])->group(function () {
     //Home Page
     Route::get('home',[App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    //Inventory Modules
+    Route::get('admin/inventory',[App\Http\Controllers\Admin\Inventory\IndexController::class, 'index'])->name('admin.inventory.dashboard');
 });
