@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
     return view('welcome');
 });
 
@@ -26,6 +27,13 @@ Route::middleware(['auth'])->group(function () {
     //Home Page
     Route::get('home',[App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    //Inventory Modules
-    Route::get('admin/inventory',[App\Http\Controllers\Admin\Inventory\IndexController::class, 'index'])->name('admin.inventory.dashboard');
+    //Admin Access
+    Route::prefix('admin')->group(function () {
+        //Inventory Modules
+        Route::get('/inventory',[App\Http\Controllers\Admin\Inventory\IndexController::class, 'index'])->name('admin.inventory.dashboard');
+
+        //Category Controller
+
+    });
+
 });

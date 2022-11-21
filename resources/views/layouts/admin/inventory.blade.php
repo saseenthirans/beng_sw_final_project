@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') | Software Solutions | {{$company->name}}</title>
     <link rel="icon" type="image/x-icon" href="{{asset('admin_staff/assets/img/favicon.ico')}}"/>
     <link href="{{asset('admin_staff/assets/css/loader.css')}}" rel="stylesheet" type="text/css" />
@@ -18,6 +19,8 @@
     <link href="{{asset('admin_staff/plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('admin_staff/assets/css/dashboard/dash_1.css')}}" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/table/datatable/datatables.css') }}">
+    <link rel="stylesheet" type="text/css"  href="{{ asset('admin_staff/plugins/table/datatable/dt-global_style.css') }}">
 
 </head>
 <body class="sidebar-noneoverflow">
@@ -79,9 +82,8 @@
                 <div class="profile-info">
                     <figure class="user-cover-image"></figure>
                     <div class="user-info">
-                        <img src="{{asset('admin_staff/assets/img/profile-17.jpg')}}" alt="avatar">
-                        <h6 class="">Sonia Shaw</h6>
-                        <p class="">Project Leader</p>
+                        <img src="{{asset(Auth::user()->image)}}" alt="avatar">
+                        <h6 class="">{{ Auth::user()->name }}</h6>
                     </div>
                 </div>
                 <div class="shadow-bottom"></div>
@@ -106,12 +108,34 @@
                         </ul>
                     </li> -->
 
+                    @php
+                        $segment = Request::segment(3);
+                    @endphp
 
-                    <li class="menu active">
-                        <a href="widgets.html" aria-expanded="true" class="dropdown-toggle">
+                    <li class="menu">
+                        <a href="{{route('home')}}" aria-expanded="false" class="dropdown-toggle">
                             <div class="">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                <span>Home</span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="menu @if (!$segment) active @endif">
+                        <a href="{{url('admin/inventory')}}" @if (!$segment) aria-expanded="true" @endif  class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-monitor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                                 <span>Dashboard</span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="menu @if ($segment == 'categories') active @endif">
+                        <a href="{{url('admin/inventory/categories')}}" @if ($segment == 'categories') aria-expanded="true" @endif
+                            class="dropdown-toggle">
+                            <div class="">
+                                <svg class="svg-inline--fa fa-th fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="th" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"></path></svg>
+                                <span>Categories</span>
                             </div>
                         </a>
                     </li>
@@ -129,6 +153,7 @@
 
                 <div class="row layout-top-spacing">
 
+                    @yield('content')
 
                 </div>
 
@@ -166,6 +191,12 @@
     <script src="{{asset('admin_staff/plugins/apex/apexcharts.min.js')}}"></script>
     <script src="{{asset('admin_staff/assets/js/dashboard/dash_1.js')}}"></script>
     <!-- BEGIN PAGE LEVEL admin_staff/plugins/CUSTOM SCRIPTS -->
+
+    <script src="{{ asset('admin_staff/plugins/table/datatable/datatables.js') }}"></script>
+
+    <script src="https://kit.fontawesome.com/7da253b858.js"></script>
+
+    @yield('scripts')
 
 </body>
 </html>
