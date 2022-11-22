@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer(
-            'layouts.admin.inventory',
+            'layouts.admin_staff',
             function ($view) {
                 $company = Company::find(1);
                 $view->with('company', $company);

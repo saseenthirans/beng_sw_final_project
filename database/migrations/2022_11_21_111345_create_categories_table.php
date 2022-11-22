@@ -21,6 +21,8 @@ class CreateCategoriesTable extends Migration
             $table->string('banner_image')->nullable();
             $table->integer('is_home')->default(0);
             $table->integer('status')->default(1);
+            $table->integer('views')->default(1);
+            $table->integer('created_by');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -22,6 +22,52 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css"  href="{{ asset('admin_staff/plugins/table/datatable/dt-global_style.css') }}">
 
+    <link href="{{asset('admin_staff/assets/css/scrollspyNav.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('admin_staff/plugins/file-upload/file-upload-with-preview.min.css')}}" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/dropify/dropify.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/assets/css/forms/theme-checkbox-radio.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('admin_staff/assets/css/forms/switches.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+    <link href="{{ asset('admin_staff/assets/css/apps/invoice-edit.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('admin_staff/plugins/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin_staff/plugins/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/dropify/dropify.min.css') }}">
+
+
+
+    <style>
+        .btn-150 {
+            background-color: #7382F5;
+            color: #fff;
+            width: 150px;
+            height: 40px;
+        }
+
+        .btn-150:hover,
+        .btn-150:focus {
+            color: #fff !important;
+            background-color: #7382F5;
+            box-shadow: none;
+            border-color: #7382F5;
+        }
+
+        .btn-150-danger {
+            background-color: #e7515a;
+            color: #fff;
+            width: 150px;
+            height: 40px;
+        }
+
+        .btn-150-danger:hover,
+        .btn-150-danger:focus {
+            color: #fff !important;
+            background-color: #e7515a;
+            box-shadow: none;
+            border-color: #e7515a;
+        }
+    </style>
 </head>
 <body class="sidebar-noneoverflow">
     <!-- BEGIN LOADER -->
@@ -88,57 +134,8 @@
                 </div>
                 <div class="shadow-bottom"></div>
                 <ul class="list-unstyled menu-categories" id="accordionExample">
-                    <!-- <li class="menu active">
-                        <a href="#dashboard" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                <span>Dashboard</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu recent-submenu mini-recent-submenu list-unstyled show" id="dashboard" data-parent="#accordionExample">
-                            <li class="active">
-                                <a href="index-2.html"> Sales </a>
-                            </li>
-                            <li>
-                                <a href="index2.html"> Analytics </a>
-                            </li>
-                        </ul>
-                    </li> -->
 
-                    @php
-                        $segment = Request::segment(3);
-                    @endphp
-
-                    <li class="menu">
-                        <a href="{{route('home')}}" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                <span>Home</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu @if (!$segment) active @endif">
-                        <a href="{{url('admin/inventory')}}" @if (!$segment) aria-expanded="true" @endif  class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-monitor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                                <span>Dashboard</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu @if ($segment == 'categories') active @endif">
-                        <a href="{{url('admin/inventory/categories')}}" @if ($segment == 'categories') aria-expanded="true" @endif
-                            class="dropdown-toggle">
-                            <div class="">
-                                <svg class="svg-inline--fa fa-th fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="th" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"></path></svg>
-                                <span>Categories</span>
-                            </div>
-                        </a>
-                    </li>
+                    @yield('menus')
 
                 </ul>
 
@@ -194,7 +191,18 @@
 
     <script src="{{ asset('admin_staff/plugins/table/datatable/datatables.js') }}"></script>
 
+    <script src="{{asset('admin_staff/assets/js/scrollspyNav.js')}}"></script>
+    <script src="{{asset('admin_staff/plugins/file-upload/file-upload-with-preview.min.js')}}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
     <script src="https://kit.fontawesome.com/7da253b858.js"></script>
+
+    <script src="{{ asset('admin_staff/plugins/dropify/dropify.min.js') }}"></script>
+    <script src="{{ asset('admin_staff/plugins/flatpickr/flatpickr.js') }}"></script>
+    <script src="{{ asset('admin_staff/plugins/flatpickr/custom-flatpickr.js') }}"></script>
+    <script src="{{ asset('admin_staff/assets/js/apps/invoice-edit.js') }}"></script>
+
 
     @yield('scripts')
 
