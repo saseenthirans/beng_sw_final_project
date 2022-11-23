@@ -145,7 +145,7 @@ code { color: #e7515a; }
     padding: 0 39px!important;
 }
 
-/* 
+/*
 =====================
     Navigation Bar
 =====================
@@ -153,7 +153,7 @@ code { color: #e7515a; }
 
 .header-container {
     max-height: 64px;
-    background: rgb(13, 26, 89);
+    background: #29274c;
     position: fixed;
     top: 0;
     right: 0;
@@ -280,7 +280,7 @@ code { color: #e7515a; }
 .navbar .navbar-item .nav-item.dropdown.message-dropdown .nav-link {
     position: relative;
 }
-.navbar .language-dropdown { 
+.navbar .language-dropdown {
     align-self: center;
     margin-right: 20px;
 }
@@ -518,11 +518,11 @@ code { color: #e7515a; }
     margin-right: 9px;
     align-self: center;
 }
-.navbar .navbar-item .nav-item.dropdown.notification-dropdown .dropdown-menu .media.file-upload svg { 
+.navbar .navbar-item .nav-item.dropdown.notification-dropdown .dropdown-menu .media.file-upload svg {
     color: #e7515a;
     fill: rgba(231, 81, 90, 0.23921568627450981);
 }
-.navbar .navbar-item .nav-item.dropdown.notification-dropdown .dropdown-menu .media.server-log svg { 
+.navbar .navbar-item .nav-item.dropdown.notification-dropdown .dropdown-menu .media.server-log svg {
     color: #009688;
     fill: rgba(0, 150, 136, 0.3686274509803922);
 }
@@ -806,7 +806,7 @@ code { color: #e7515a; }
         height: 18px;
         stroke-width: 1.8;
     }
-    
+
 
 
 .animated{-webkit-animation-duration:0.5s;animation-duration:0.5s;-webkit-animation-fill-mode:both;animation-fill-mode:both}
@@ -915,7 +915,7 @@ code { color: #e7515a; }
 /*
     ====================
         More Dropdown
-    ====================    
+    ====================
 */
 .page-header .custom-dropdown-icon a.dropdown-toggle {
     position: relative;
@@ -1174,7 +1174,7 @@ code { color: #e7515a; }
     .topbar-nav.header nav#topbar ul.menu-categories li.menu:hover > a svg.feather.feather-chevron-down {
         color: #4361ee;
     }
-         
+
     .topbar-nav.header nav#topbar ul.menu-categories li.menu > a > div {
         align-self: center;
         margin-right: 6px;
@@ -1533,7 +1533,7 @@ code { color: #e7515a; }
         position: relative;
     }
     .topbar-nav.header nav#topbar ul.menu-categories li.menu .submenu li.active a { color: #304aca; }
-    .topbar-nav.header nav#topbar ul.menu-categories li.menu.active a[aria-expanded="false"] > div svg:not(.feather-chevron-down), 
+    .topbar-nav.header nav#topbar ul.menu-categories li.menu.active a[aria-expanded="false"] > div svg:not(.feather-chevron-down),
     .topbar-nav.header nav#topbar ul.menu-categories li.menu.active a[aria-expanded="true"] > div svg:not(.feather-chevron-down) {
         color: #fff;
         stroke-width: 2px;

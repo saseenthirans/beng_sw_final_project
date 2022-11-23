@@ -118,8 +118,8 @@
                             <div class="col-lg-12 col-12 mb-5">
                                 <div class="form-group text-center text-sm-right">
                                     <button type="submit"
-                                        class="btn btn-primary btn-max-200 text-uppercase font-weight-bold"
-                                        style="width: 200px">Save</button>
+                                        class="btn btn-theme btn-max-200 text-uppercase font-weight-bold"
+                                        style="width: 200px">Update</button>
                                 </div>
                             </div>
                         </div>

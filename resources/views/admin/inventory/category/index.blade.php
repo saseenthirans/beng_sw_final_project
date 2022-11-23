@@ -12,7 +12,7 @@
 @section('content')
     @if (count($categories))
         <div class="col-lg-12 col-12  layout-spacing">
-            <a href="{{ url('admin/inventory/categories/create') }}" class="btn btn-primary float-right text-uppercase">
+            <a href="{{ url('admin/inventory/categories/create') }}" class="btn btn-theme float-right text-uppercase">
                 <i class="fa fa-plus"></i> Create New Category
             </a>
         </div>
@@ -49,7 +49,7 @@
         <div class="col-lg-12 col-12 "
             style="height: calc(100vh - 40vh);  align-items: center; display: flex; justify-content: center;">
             <a href="{{ url('admin/inventory/categories/create') }}"
-                class="btn btn-primary btn-lg text-uppercase font-weight-bold" style="width: 300px;"><i
+                class="btn btn-theme btn-lg text-uppercase font-weight-bold" style="width: 300px;"><i
                     class="fa fa-plus"></i> Create New Category</a>
         </div>
     @endif
