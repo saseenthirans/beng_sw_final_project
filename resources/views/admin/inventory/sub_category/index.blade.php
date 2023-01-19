@@ -1,7 +1,7 @@
 @extends('layouts.admin_staff')
 
 @section('title')
-    Inventory - Category
+    Inventory - Sub Category
 @endsection
 
 <!-- Add the Dynamic Menu -->
@@ -11,40 +11,49 @@
 
 @section('content')
     @if (count($categories))
-        <div class="col-lg-12 col-12  layout-spacing">
-            <a href="{{ url('admin/inventory/categories/create') }}" class="btn btn-theme float-right text-uppercase">
-                <i class="fa fa-plus"></i> Create New Category
-            </a>
-        </div>
+        @if (count($subcategories))
+            <div class="col-lg-12 col-12  layout-spacing">
+                <a href="{{ url('admin/inventory/subcategories/create') }}" class="btn btn-theme float-right text-uppercase">
+                    <i class="fa fa-plus"></i> Create New Sub Category
+                </a>
+            </div>
 
-        <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
-            <div class="statbox widget box box-shadow">
-                <div class="widget-header">
-                    <div class="row">
-                        <div class="col-xl-12 col-md-12 col-sm-12 col-12 ">
-                            <h3 class="font-weight-bold pt-2 pb-2 text-uppercase">Categories</h3>
+            <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12 ">
+                                <h3 class="font-weight-bold pt-2 pb-2 text-uppercase">Categories</h3>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="widget-content widget-content-area br-6 m-2">
-                    <table id="data_table" class="table table-striped" style="width:100%">
+                    <div class="widget-content widget-content-area br-6 m-2">
+                        <table id="data_table" class="table table-striped" style="width:100%">
 
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Image</th>
-                                <th>Category</th>
-                                <th>Home Visible</th>
-                                <th>Created By</th>
-                                <th>Status</th>
-                                <th class="no-content">Actions</th>
-                            </tr>
-                        </thead>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Image</th>
+                                    <th>Category</th>
+                                    <th>Home Visible</th>
+                                    <th>Created By</th>
+                                    <th>Status</th>
+                                    <th class="no-content">Actions</th>
+                                </tr>
+                            </thead>
 
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div class="col-lg-12 col-12 "
+                style="height: calc(100vh - 40vh);  align-items: center; display: flex; justify-content: center;">
+                <a href="{{ url('admin/inventory/subcategories/create') }}"
+                    class="btn btn-theme btn-lg text-uppercase font-weight-bold" style="width: 300px;"><i
+                        class="fa fa-plus"></i> Create New Sub Category</a>
+            </div>
+        @endif
     @else
         <div class="col-lg-12 col-12 "
             style="height: calc(100vh - 40vh);  align-items: center; display: flex; justify-content: center;">
@@ -79,7 +88,7 @@
 
                     processing: true,
                     serverSide: true,
-                    ajax: '{!! url('/admin/inventory/get_categories') !!}',
+                    ajax: '{!! url('/admin/inventory/get_subcategories') !!}',
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',

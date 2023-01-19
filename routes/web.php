@@ -42,6 +42,17 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/categories/delete/{id}',[App\Http\Controllers\Admin\Inventory\CategoryController::class, 'delete'])->name('admin.inventory.category.delete');
         Route::get('/categories/logs/{id}',[App\Http\Controllers\Admin\Inventory\CategoryController::class, 'logs'])->name('admin.inventory.category.logs');
         Route::get('/categories/get_logs/{id}',[App\Http\Controllers\Admin\Inventory\CategoryController::class, 'get_logs'])->name('admin.inventory.category.get_logs');
+
+        //Sub Category Controller
+        Route::get('/subcategories',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'index'])->name('admin.inventory.subcategories');
+        Route::get('/get_subcategories',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'get_subcategories'])->name('admin.inventory.get_subcategories');
+        Route::get('/subcategories/create',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'add_new'])->name('admin.inventory.subcategories.create.form');
+        Route::post('/subcategories/create',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'create'])->name('admin.inventory.subcategories.create');
+        Route::get('/subcategories/update/{id}',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'update_form'])->name('admin.inventory.subcategories.update.form');
+        Route::post('/subcategories/update',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'update'])->name('admin.inventory.subcategories.update');
+        Route::post('/subcategories/delete/{id}',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'delete'])->name('admin.inventory.subcategories.delete');
+        Route::get('/subcategories/logs/{id}',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'logs'])->name('admin.inventory.subcategories.logs');
+        Route::get('/subcategories/get_logs/{id}',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'get_logs'])->name('admin.inventory.subcategories.get_logs');
     });
 
 });

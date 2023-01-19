@@ -1,7 +1,7 @@
 @extends('layouts.admin_staff')
 
 @section('title')
-    Inventory
+    Inventory - Category
 @endsection
 
 <!-- Add the Dynamic Menu -->
@@ -18,7 +18,7 @@
                         class="fa fa-arrow-left"></i> Back</a>
             </div>
         </div>
-        
+
         <div class="statbox widget box box-shadow">
             <div class="widget-header">
                 <div class="row">
