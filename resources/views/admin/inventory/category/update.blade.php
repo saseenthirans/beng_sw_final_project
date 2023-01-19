@@ -115,11 +115,18 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 col-12 mb-5">
+                            <div class="col-lg-12 col-12 mb-5" id="submit_button">
                                 <div class="form-group text-center text-sm-right">
                                     <button type="submit"
                                         class="btn btn-theme btn-max-200 text-uppercase font-weight-bold"
                                         style="width: 200px">Update</button>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-12 mb-5" id="disable_button" style="display: none">
+                                <div class="form-group text-center text-sm-right">
+                                    <button type="button" class="btn btn-theme btn-max-200 text-uppercase font-weight-bold"
+                                        style="width: 200px"><i class="fas fa-spinner fa-spin"></i> Updating ...</button>
                                 </div>
                             </div>
                         </div>
@@ -148,6 +155,10 @@
 
                 $.ajax({
                     type: "POST",
+                    beforeSend: function() {
+                        $('#submit_button').css('display', 'none');
+                        $('#disable_button').css('display', 'block');
+                    },
                     url: "{{ url('/admin/inventory/categories/update') }}",
                     data: formData,
                     dataType: "JSON",
@@ -155,6 +166,8 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
+                        $('#submit_button').css('display', 'block');
+                        $('#disable_button').css('display', 'none');
                         if (response.statuscode == 400) {
                             $.each(response.errors, function(key, item) {
                                 if (key) {
