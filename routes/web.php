@@ -53,6 +53,15 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/subcategories/delete/{id}',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'delete'])->name('admin.inventory.subcategories.delete');
         Route::get('/subcategories/logs/{id}',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'logs'])->name('admin.inventory.subcategories.logs');
         Route::get('/subcategories/get_logs/{id}',[App\Http\Controllers\Admin\Inventory\SubCategoryController::class, 'get_logs'])->name('admin.inventory.subcategories.get_logs');
+
+        //Suppliers Controller
+        Route::get('/suppliers',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'index'])->name('admin.inventory.suppliers');
+        Route::get('/get_suppliers',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'get_suppliers'])->name('admin.inventory.get_suppliers');
+        Route::get('/suppliers/create',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'add_new'])->name('admin.inventory.suppliers.create.form');
+        Route::post('/suppliers/create',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'create'])->name('admin.inventory.suppliers.create');
+        Route::get('/suppliers/update/{id}',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'update_form'])->name('admin.inventory.suppliers.update.form');
+        Route::post('/suppliers/update',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'update'])->name('admin.inventory.suppliers.update');
+        Route::post('/suppliers/delete/{id}',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'delete'])->name('admin.inventory.suppliers.delete');
     });
 
 });
