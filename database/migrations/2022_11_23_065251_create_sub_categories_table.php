@@ -20,6 +20,7 @@ class CreateSubCategoriesTable extends Migration
             $table->integer('status')->default(1)->comment('0 = Inactive | 1 = Active');
             $table->integer('user_id')->comment('Creator User Id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

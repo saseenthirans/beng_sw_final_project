@@ -34,7 +34,7 @@
     <link href="{{ asset('admin_staff/plugins/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin_staff/plugins/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/dropify/dropify.min.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/select2/select2.min.css') }}">
 
 
     <style>
@@ -202,7 +202,13 @@
     <script src="{{ asset('admin_staff/plugins/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('admin_staff/plugins/flatpickr/custom-flatpickr.js') }}"></script>
     <script src="{{ asset('admin_staff/assets/js/apps/invoice-edit.js') }}"></script>
-
+    <script src="{{ asset('admin_staff/plugins/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('admin_staff/plugins/select2/custom-select2.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $(".disabled-results").select2();
+        });
+    </script>
 
     @yield('scripts')
 

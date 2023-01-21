@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\CategoryLog;
+use App\Models\SubCategory;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Yajra\Datatables\Datatables;
@@ -58,7 +59,7 @@ class CategoryController extends Controller
 
         $create = (new InventoryCategoryController)->create($request);
 
-        return response()->json(['status'=>true,  'message'=>'New Inventory Created Successfully']);
+        return response()->json(['status'=>true,  'message'=>'New Category Created Successfully']);
 
     }
 
@@ -99,12 +100,13 @@ class CategoryController extends Controller
 
         $update = (new InventoryCategoryController)->update($request);
 
-        return response()->json(['status'=>true,  'message'=>'New Inventory Updated Successfully']);
+        return response()->json(['status'=>true,  'message'=>'Selected category Updated Successfully']);
 
     }
 
     public function delete($id)
     {
+        SubCategory::where('category_id',$id)->delete();
         Category::destroy($id);
         return response()->json(['status'=>true,  'message'=>'Delete']);
     }
