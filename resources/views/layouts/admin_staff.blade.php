@@ -35,7 +35,7 @@
     <link href="{{ asset('admin_staff/plugins/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/dropify/dropify.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/select2/select2.min.css') }}">
-
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
     <style>
         .btn-150 {
@@ -204,9 +204,17 @@
     <script src="{{ asset('admin_staff/assets/js/apps/invoice-edit.js') }}"></script>
     <script src="{{ asset('admin_staff/plugins/select2/select2.min.js') }}"></script>
     <script src="{{ asset('admin_staff/plugins/select2/custom-select2.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $(".disabled-results").select2();
+
+            $('.summernote').summernote({
+                placeholder: 'Full Description',
+                tabsize: 2,
+                height: 250
+            });
         });
     </script>
 

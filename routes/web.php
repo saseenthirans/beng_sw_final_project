@@ -62,6 +62,22 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/suppliers/update/{id}',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'update_form'])->name('admin.inventory.suppliers.update.form');
         Route::post('/suppliers/update',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'update'])->name('admin.inventory.suppliers.update');
         Route::post('/suppliers/delete/{id}',[App\Http\Controllers\Admin\Inventory\SupplierController::class, 'delete'])->name('admin.inventory.suppliers.delete');
+
+        //Inventory Controller
+        Route::get('/inventories',[App\Http\Controllers\Admin\Inventory\InventoryController::class, 'index'])->name('admin.inventory.inventories');
+        Route::get('/get_inventories',[App\Http\Controllers\Admin\Inventory\InventoryController::class, 'get_inventories'])->name('admin.inventory.get_inventories');
+        Route::get('/inventories/create',[App\Http\Controllers\Admin\Inventory\InventoryController::class, 'add_new'])->name('admin.inventory.inventories.create.form');
+        Route::post('/inventories/create',[App\Http\Controllers\Admin\Inventory\InventoryController::class, 'create'])->name('admin.inventory.inventories.create');
+        Route::get('/inventories/update/{id}',[App\Http\Controllers\Admin\Inventory\InventoryController::class, 'update_form'])->name('admin.inventory.inventories.update.form');
+        Route::post('/inventories/update',[App\Http\Controllers\Admin\Inventory\InventoryController::class, 'update'])->name('admin.inventory.inventories.update');
+        Route::post('/inventories/delete/{id}',[App\Http\Controllers\Admin\Inventory\InventoryController::class, 'delete'])->name('admin.inventory.inventories.delete');
+        Route::get('/inventories/logs/{id}',[App\Http\Controllers\Admin\Inventory\InventoryController::class, 'logs'])->name('admin.inventory.inventories.logs');
+        Route::get('/inventories/get_logs/{id}',[App\Http\Controllers\Admin\Inventory\InventoryController::class, 'get_logs'])->name('admin.inventory.inventories.get_logs');
+
+        Route::get('/inventories/images/{id}',[App\Http\Controllers\Admin\Inventory\InventoryImageController::class, 'index'])->name('admin.inventory.inventories.images');
+        Route::get('/inventories/get_images/{id}',[App\Http\Controllers\Admin\Inventory\InventoryImageController::class, 'get_images'])->name('admin.inventory.inventories.get_images');
+        Route::post('/inventories/images/create',[App\Http\Controllers\Admin\Inventory\InventoryImageController::class, 'create'])->name('admin.inventory.inventories.images.create');
+        Route::post('/inventories/images/delete/{id}',[App\Http\Controllers\Admin\Inventory\InventoryImageController::class, 'delete'])->name('admin.inventory.inventories.images.delete');
     });
 
 });

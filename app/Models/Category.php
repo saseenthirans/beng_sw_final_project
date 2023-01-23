@@ -19,4 +19,9 @@ class Category extends Model
     {
         return $this->hasMany(CategoryLog::class, 'id', 'category_id');
     }
+
+    public function activeSubCategory()
+    {
+        return $this->hasMany(SubCategory::class, 'category_id', 'id')->where('status',1);
+    }
 }

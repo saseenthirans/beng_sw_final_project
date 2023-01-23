@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Base\InventorySubCategoryController;
+use App\Models\Inventory;
 use App\Models\SubCategory;
 use App\Models\SubCategoryLog;
 use Illuminate\Support\Facades\Crypt;
@@ -89,6 +90,7 @@ class SubCategoryController extends Controller
 
     public function delete($id)
     {
+        Inventory::where('category_id',$id)->delete();
         SubCategory::destroy($id);
         return response()->json(['status'=>true,  'message'=>'Delete']);
     }

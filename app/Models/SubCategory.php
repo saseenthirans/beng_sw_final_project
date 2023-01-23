@@ -20,6 +20,11 @@ class SubCategory extends Model
         return $this->hasOne(Category::class, 'id','category_id');
     }
 
+    public function categoryActive()
+    {
+        return $this->hasOne(Category::class, 'id','category_id')->where('status',1);
+    }
+
     public function getSubCategoryLogs()
     {
         return $this->hasMany(SubCategoryLog::class, 'id', 'sub_category_id');
