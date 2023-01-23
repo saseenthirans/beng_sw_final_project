@@ -78,6 +78,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/inventories/get_images/{id}',[App\Http\Controllers\Admin\Inventory\InventoryImageController::class, 'get_images'])->name('admin.inventory.inventories.get_images');
         Route::post('/inventories/images/create',[App\Http\Controllers\Admin\Inventory\InventoryImageController::class, 'create'])->name('admin.inventory.inventories.images.create');
         Route::post('/inventories/images/delete/{id}',[App\Http\Controllers\Admin\Inventory\InventoryImageController::class, 'delete'])->name('admin.inventory.inventories.images.delete');
+
+        //Sales Controller
+        Route::get('/sales',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'index'])->name('admin.inventory.sales');
+        Route::get('/get_sales',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'get_sales'])->name('admin.inventory.get_sales');
+        Route::get('/sales/create',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'add_new'])->name('admin.inventory.sales.create.form');
+        Route::post('/sales/getprice',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'getprice'])->name('admin.inventory.sales.create.getprice');
+        Route::post('/sales/create',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'create'])->name('admin.inventory.sales.create');
+        Route::get('/sales/update/{id}',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'update_form'])->name('admin.inventory.sales.update.form');
+        Route::post('/sales/update',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'update'])->name('admin.inventory.sales.update');
+        Route::post('/sales/delete/{id}',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'delete'])->name('admin.inventory.sales.delete');
     });
 
 });

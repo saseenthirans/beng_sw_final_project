@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Base\InventoryInventoryController;
 use App\Models\InventoryLog;
+use App\Models\Sales;
 use Yajra\DataTables\DataTables;
 
 class InventoryController extends Controller
@@ -103,6 +104,7 @@ class InventoryController extends Controller
 
     public function delete($id)
     {
+        Sales::where('inv_id',$id)->delete();
         Inventory::destroy($id);
         return response()->json(['status'=>true,  'message'=>'Selected Inventory Deleted Successfully']);
     }
