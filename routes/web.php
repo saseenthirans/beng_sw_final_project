@@ -88,6 +88,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/sales/update/{id}',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'update_form'])->name('admin.inventory.sales.update.form');
         Route::post('/sales/update',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'update'])->name('admin.inventory.sales.update');
         Route::post('/sales/delete/{id}',[App\Http\Controllers\Admin\Inventory\SalesController::class, 'delete'])->name('admin.inventory.sales.delete');
+
+         //Sales Controller
+         Route::get('/purchases',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'index'])->name('admin.inventory.purchases');
+         Route::get('/get_purchases',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'get_purchases'])->name('admin.inventory.get_purchases');
+         Route::get('/purchases/create',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'add_new'])->name('admin.inventory.purchases.create.form');
+         Route::post('/purchases/create',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'create'])->name('admin.inventory.purchases.create');
+         Route::get('/purchases/update/{id}',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'update_form'])->name('admin.inventory.purchases.update.form');
+         Route::post('/purchases/update',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'update'])->name('admin.inventory.purchases.update');
+         Route::post('/purchases/delete/{id}',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'delete'])->name('admin.inventory.purchases.delete');
     });
 
 });
