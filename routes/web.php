@@ -93,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
          Route::get('/purchases',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'index'])->name('admin.inventory.purchases');
          Route::get('/get_purchases',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'get_purchases'])->name('admin.inventory.get_purchases');
          Route::get('/purchases/create',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'add_new'])->name('admin.inventory.purchases.create.form');
+         Route::post('/purchases/product_validation',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'product_validation'])->name('admin.inventory.purchases.product_validation');
          Route::post('/purchases/create',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'create'])->name('admin.inventory.purchases.create');
          Route::get('/purchases/update/{id}',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'update_form'])->name('admin.inventory.purchases.update.form');
          Route::post('/purchases/update',[App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'update'])->name('admin.inventory.purchases.update');
