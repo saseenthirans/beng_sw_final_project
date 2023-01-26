@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Base\InventoryPurchaseController;
+use App\Models\PaymentMethod;
 
 class PurchaseController extends Controller
 {
@@ -31,10 +32,12 @@ class PurchaseController extends Controller
     {
         $suppliers = Supplier::where('status',1)->get();
         $inventory = Inventory::all();
+        $paymethod = PaymentMethod::all();
 
         return view('admin.inventory.purchase.create',[
             'suppliers' => $suppliers,
-            'inventory' => $inventory
+            'inventory' => $inventory,
+            'paymethod' => $paymethod
         ]);
     }
 
