@@ -17,7 +17,7 @@ class CreatePurchasePaymentsTable extends Migration
             $table->id();
             $table->integer('pur_id');
             $table->integer('pay_type');
-            $table->decimal('amount');
+            $table->decimal('amount',20,2);
             $table->date('paid_date');
             $table->timestamps();
         });

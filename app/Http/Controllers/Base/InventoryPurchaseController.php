@@ -6,6 +6,9 @@ use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use App\Models\Inventory;
+use App\Models\PurchaseItem;
+use App\Models\PurchasePayment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
@@ -68,5 +71,68 @@ class InventoryPurchaseController extends Controller
             ->make(true);
 
         return $data;
+    }
+
+    public function create($request)
+    {
+        $invoice_doc = '';
+        if(isset($request->invoice_doc) && $request->invoice_doc->getClientOriginalName()){
+
+            $invoice_doc = (new HelperController)->fileUpload2($request->invoice_doc,'pur_' ,'purchase');
+        }
+
+        $purchase = new Purchase();
+        $purchase->invoice = $request->invoice_number;
+        $purchase->supplier_id = $request->supplier;
+        $purchase->pur_date = $request->purchased_date;
+        $purchase->pur_amount = 0;
+        $purchase->discount = isset($request->discount) && !empty($request->discount) ? $request->discount : 0;
+        $purchase->inv_file = $invoice_doc;
+        $purchase->save();
+
+        if (isset($request->product_id) && !empty($request->product_id)) {
+            $product_id = $request->product_id;
+            $qty = $request->qty;
+            $price = $request->price;
+
+            $amount = 0;
+            for ($i = 0; $i < count($product_id); $i++) {
+
+                $amount = $amount + ($price[$i] * $qty[$i]);
+
+                $item = new PurchaseItem();
+                $item->pur_id = $purchase->id;
+                $item->product_id = $product_id[$i];
+                $item->qty = $qty[$i];
+                $item->unit_price = $price[$i];
+                $item->amount = $price[$i] * $qty[$i];
+                $item->save();
+
+                //Update or Store Factory Inventory
+
+                $inventory = Inventory::find($product_id[$i]);
+
+                if ($inventory) {
+                    $inventory->qty = $inventory->qty + $qty[$i];
+                    $inventory->update();
+                }
+            }
+
+            //Update the Existing Purchase Total Amount
+            $purchaseExist = Purchase::find($purchase->id);
+            $purchaseExist->pur_amount = $purchaseExist->pur_amount + $amount;
+            $purchaseExist->update();
+        }
+
+        if ($request->is_paid == true) {
+            $payment = new PurchasePayment();
+            $payment->pur_id = $purchase->id;
+            $payment->pay_type = $request->pay_method;
+            $payment->amount = $request->paid_amount;
+            $payment->paid_date = $request->paid_date;
+            $payment->save();
+        }
+
+        return true;
     }
 }

@@ -21,4 +21,15 @@ class HelperController extends Controller
 
         return $file;
     }
+
+    public function fileUpload2($upload_file,$name,$path_name)
+    {
+        $doc = $upload_file;
+        $docName = $name.time().'.'.$doc->extension();
+        $file = 'upload/'.$path_name.'/'.$docName;
+        $path = public_path('/upload/'.$path_name);
+        $doc->move($path, $docName);
+
+        return $file;
+    }
 }

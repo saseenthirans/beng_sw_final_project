@@ -68,4 +68,36 @@ class PurchaseController extends Controller
             'total_' => number_format(($request->qty * $request->price),2)
         ]]);
     }
+
+    public function create(Request $request)
+    {
+        if ($request->is_paid == true) {
+            $validator = Validator::make($request->all(),
+                [
+                    'invoice_number' => 'required|unique:purchases,invoice',
+                    'supplier' => 'required',
+                    'purchased_date' => 'required',
+                    'pay_method' => 'required',
+                    'paid_date' => 'required',
+                    'paid_amount' => 'required',
+                ]
+            );
+        } else {
+            $validator = Validator::make($request->all(),
+                [
+                    'invoice_number' => 'required|unique:purchases,invoice',
+                    'supplier' => 'required',
+                    'purchased_date' => 'required',
+                ]
+            );
+        }
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'statuscode' => 400, 'errors' => $validator->errors()]);
+        }
+
+        (new InventoryPurchaseController)->create($request);
+
+        return response()->json(['status' => true,  'message' => 'New Purchases Created Successfully']);
+    }
 }

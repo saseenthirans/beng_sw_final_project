@@ -110,14 +110,14 @@
                                                                     @endforeach
                                                                 </select>
                                                                 <br>
-                                                                <span class="text-danger err_product"></span>
+                                                                <span class="text-danger error_product"></span>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="form-group">
                                                                 <input type="text" class="form-control qty"
                                                                     id="qty">
-                                                                <span class="text-danger err_qty"></span>
+                                                                <span class="text-danger error_qty"></span>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -125,7 +125,7 @@
                                                                 <input type="text" class="form-control price"
                                                                     id="price">
 
-                                                                <span class="text-danger err_price"></span>
+                                                                <span class="text-danger error_price"></span>
                                                             </div>
                                                         </td>
                                                         <td class=" text-center">
@@ -220,21 +220,21 @@
                                         style="display: none">
                                         <label for="exampleFormControlInput2">Payment Method<span
                                                 class="text-danger">*</span></label>
-                                        <select name="paymethod" class="form-control">
+                                        <select name="pay_method" class="form-control">
                                             <option value=""></option>
                                             @foreach ($paymethod as $item)
                                                 <option value="{{ $item->id }}">{{ $item->method }}</option>
                                             @endforeach
                                         </select>
 
-                                        <span class="text-danger font-weight-bold error_paymethod"></span>
+                                        <span class="text-danger font-weight-bold error_pay_method"></span>
                                     </div>
 
                                     <div class="form-group col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" id="paid_date_div"
                                         style="display: none">
                                         <label for="exampleFormControlInput2">Paid Date<span
                                                 class="text-danger">*</span></label>
-                                        <input type="date" name="paid_date" class="form-control">
+                                        <input type="date" name="paid_date" max="{{ date('Y-m-d')}}" class="form-control">
 
                                         <span class="text-danger font-weight-bold error_paid_date"></span>
                                     </div>
@@ -355,7 +355,7 @@
                         if (response.status == false) {
                             $.each(response.errors, function(key, item) {
                                 if (key) {
-                                    $('.err_' + key).text(item);
+                                    $('.error_' + key).text(item);
                                 }
                             });
                         } else {
@@ -550,16 +550,18 @@
             });
 
             function clearError() {
-                $('.err_product').text('');
-                $('.err_qty').text('');
-                $('.err_price').text('');
+                $('.error_product').text('');
+                $('.error_qty').text('');
+                $('.error_price').text('');
             }
 
             function clearFormError() {
-                $('.err_purchase_number').text('');
-                $('.err_date').text('');
-                $('.err_supplier').text('');
-                $('.err_tax_amount').text('');
+                $('.error_invoice_number').text('');
+                $('.error_supplier').text('');
+                $('.error_purchased_date').text('');
+                $('.error_pay_method').text('');
+                $('.error_paid_date').text('');
+                $('.error_paid_amount').text('');
             }
 
             function clearInput() {
@@ -568,9 +570,9 @@
                 $('#price').val('');
             }
 
-            $('#form_submit').submit(function(e) {
+            $('#submitForm').submit(function(e) {
                 e.preventDefault();
-                let formData = new FormData($('#form_submit')[0]);
+                let formData = new FormData($('#submitForm')[0]);
 
                 $.ajax({
                     type: "POST",
@@ -578,7 +580,7 @@
                         $('#submit_button').css('display', 'none');
                         $('#disable_button').css('display', 'block');
                     },
-                    url: "{{ url('/purchases/create') }}",
+                    url: "{{ url('/admin/inventory/purchases/create') }}",
                     data: formData,
                     dataType: "JSON",
                     contentType: false,
@@ -592,13 +594,13 @@
                         if (response.status == false) {
                             $.each(response.errors, function(key, item) {
                                 if (key) {
-                                    $('.err_' + key).text(item);
+                                    $('.error_' + key).text(item);
                                 }
                             });
                         } else {
                             $.confirm({
                                 theme: 'modern',
-                                columnClass: 'col-md-6 col-8 col-md-offset-4',
+                                columnClass: 'col-xl-6 col-lg-6 col-md-6 col-12 col-md-offset-4',
                                 title: 'Success! ',
                                 content: response.message,
                                 type: 'green',
@@ -608,7 +610,7 @@
                                         btnClass: 'btn-150',
                                         action: function() {
                                             location.href =
-                                                "{{ url('/purchases') }}";
+                                                "{{ url('/admin/inventory/purchases') }}";
                                         }
                                     },
                                 }

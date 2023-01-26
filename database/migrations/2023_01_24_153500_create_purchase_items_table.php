@@ -18,8 +18,8 @@ class CreatePurchaseItemsTable extends Migration
             $table->integer('pur_id');
             $table->integer('product_id');
             $table->integer('qty');
-            $table->decimal('unit_price');
-            $table->decimal('amount');
+            $table->decimal('unit_price',20,2);
+            $table->decimal('amount',20,2);
             $table->timestamps();
         });
     }
