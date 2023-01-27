@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             AdminSeeder::class,
             CompanySeeder::class,
-            StatusSeeder::class
+            StatusSeeder::class,
+            PaymentMethodSeeder::class,
         ]);
     }
 }

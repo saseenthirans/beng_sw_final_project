@@ -49,7 +49,7 @@ class InventoryController extends Controller
                 'product_name' => 'required',
                 'category' => 'required',
                 'selling_price' => 'required|numeric|between:0,9999999999.99',
-                'sort_description' => 'required|min:50',
+                'sort_description' => 'required|min:10',
                 'full_description' => 'required|min:50',
                 'image' => 'required'
             ]
@@ -88,7 +88,7 @@ class InventoryController extends Controller
                 'product_name' => 'required',
                 'category' => 'required',
                 'selling_price' => 'required|numeric|between:0,9999999999.99',
-                'sort_description' => 'required|min:50',
+                'sort_description' => 'required|min:10',
                 'full_description' => 'required|min:50'
             ]
         );
