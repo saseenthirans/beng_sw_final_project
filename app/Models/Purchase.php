@@ -14,4 +14,14 @@ class Purchase extends Model
     {
         return $this->hasOne(Supplier::class, 'id', 'supplier_id');
     }
+
+    public function purItems()
+    {
+        return $this->hasMany(PurchaseItem::class, 'pur_id','id');
+    }
+
+    public function purPayments()
+    {
+        return $this->hasMany(PurchasePayment::class, 'pur_id','id');
+    }
 }

@@ -217,7 +217,7 @@
                 columnClass: 'col-md-6 col-md-offset-4',
                 icon: 'fa fa-info-circle text-danger',
                 title: 'Are you Sure!',
-                content: 'Do you want to Delete the Selected Category?',
+                content: 'Do you want to Delete the Selected Purchase?',
                 type: 'red',
                 autoClose: 'cancel|10000',
                 buttons: {

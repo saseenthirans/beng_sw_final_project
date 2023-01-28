@@ -23,7 +23,7 @@
             <div class="widget-header">
                 <div class="row">
                     <div class="col-xl-12 col-md-12 col-sm-12 col-12 text-center">
-                        <h3 class="p-4 font-weight-bold text-uppercase">Create New Purchases </h3>
+                        <h3 class="p-4 font-weight-bold text-uppercase">Update Purchases </h3>
                     </div>
                 </div>
             </div>
@@ -32,13 +32,13 @@
                     @csrf
                     <div class="col-lg-12 col-12 mt-5 ">
                         <div class="row">
-
+                            <input type="hidden" name="id" value="{{$purchase->id}}" id="">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="form-group mb-4">
                                     <label for="exampleFormControlInput2">Invoice Number<span
                                             class="text-danger">*</span></label>
                                     <input type="text" name="invoice_number" class="form-control"
-                                        value="{{ old('invoice_number') }}" id="exampleFormControlInput2">
+                                        value="{{ $purchase->invoice }}" id="exampleFormControlInput2">
 
                                     <span class="text-danger font-weight-bold error_invoice_number"></span>
                                 </div>
@@ -50,7 +50,9 @@
                                     <select name="supplier" class="form-control disabled-results">
                                         <option value=""></option>
                                         @foreach ($suppliers as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}"
+                                                {{ $purchase->supplier_id == $item->id ? 'selected' : '' }}>
+                                                {{ $item->name }}</option>
                                         @endforeach
                                     </select>
 
@@ -62,8 +64,8 @@
                                 <div class="form-group mb-4">
                                     <label for="exampleFormControlInput2">Purchased Date<span
                                             class="text-danger">*</span></label>
-                                    <input type="date" name="purchased_date" id="purchased_date" class="form-control"
-                                        value="{{ old('purchased_date') }}" max="{{ date('Y-m-d') }}"
+                                    <input type="date" name="purchased_date" class="form-control"
+                                        value="{{ $purchase->pur_date }}" max="{{ date('Y-m-d') }}"
                                         id="exampleFormControlInput2">
 
                                     <span class="text-danger font-weight-bold error_purchased_date"></span>
@@ -88,7 +90,7 @@
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered table-striped mb-4" id="input_field_table">
+                                            <table class="table table-bordered table-striped mb-4">
                                                 <thead>
                                                     <tr>
                                                         <th style="width: 40%">Product</th>
@@ -140,6 +142,17 @@
                                             </table>
                                         </div>
                                     </div>
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped mb-4">
+
+                                                <tbody id="input_field_table">
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -156,7 +169,8 @@
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                                         <div class="form-group mb-0">
-                                            <input type="text" readonly name="sub_total" id="sub_total"
+                                            <input type="text" readonly name="sub_total"
+                                                value="{{ $purchase->pur_amount }}" id="sub_total"
                                                 class="form-control sub_total text-right text-black" value="0"
                                                 id="exampleFormControlInput2">
                                         </div>
@@ -176,8 +190,8 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                                         <div class="form-group mb-0">
                                             <input type="text" name="discount" id="discount"
-                                                class="form-control discount price text-right text-black" value="0"
-                                                id="exampleFormControlInput2">
+                                                class="form-control discount price text-right text-black"
+                                                value="{{ $purchase->discount }}" id="exampleFormControlInput2">
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +208,9 @@
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                                         <div class="form-group mb-0">
-                                            <input type="text" readonly name="pur_total" id="pur_total"
+                                            <input type="text" readonly name="pur_total"
+                                                value="{{ number_format($purchase->pur_amount - $purchase->discount, 2, '.', '') }}"
+                                                id="pur_total"
                                                 class="form-control pur_total text-right font-weight-bold text-black"
                                                 value="0" id="exampleFormControlInput2">
                                         </div>
@@ -202,79 +218,11 @@
                                 </div>
                             </div>
 
-                            <div
-                                class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4 border border-dashed border-primary">
-                                <div class="row mt-3">
-                                    <div class="form-group col-lg-6 col-12">
-                                        <label for="formGroupExampleInput2">Not Paid / Paid</label>
-                                        <div>
-                                            <label class="switch s-icons s-outline  s-outline-success  mb-4 mr-2">
-                                                <input type="checkbox" name="is_paid" onclick='handleClick(this);'>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-6 col-12"></div>
-
-                                    <div class="form-group col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" id="paymethod_div"
-                                        style="display: none">
-                                        <label for="exampleFormControlInput2">Payment Method<span
-                                                class="text-danger">*</span></label>
-                                        <select name="pay_method" class="form-control">
-                                            <option value=""></option>
-                                            @foreach ($paymethod as $item)
-                                                <option value="{{ $item->id }}">{{ $item->method }}</option>
-                                            @endforeach
-                                        </select>
-
-                                        <span class="text-danger font-weight-bold error_pay_method"></span>
-                                    </div>
-
-                                    <div class="form-group col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" id="paid_date_div"
-                                        style="display: none">
-                                        <label for="exampleFormControlInput2">Paid Date<span
-                                                class="text-danger">*</span></label>
-                                        <input type="date" name="paid_date" id="paid_date" max="{{ date('Y-m-d')}}" class="form-control">
-
-                                        <span class="text-danger font-weight-bold error_paid_date"></span>
-                                    </div>
-
-                                    <div class="form-group col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12"
-                                        id="paid_amount_div" style="display: none">
-                                        <label for="exampleFormControlInput2">Paid Amount<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" name="paid_amount" id="paid_amount" value="0"
-                                            class="form-control price">
-
-                                        <span class="text-danger font-weight-bold error_paid_amount"></span>
-                                    </div>
-
-                                    <div class="form-group col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 text-right"
-                                        id="due_amount_labl" style="display: none">
-                                        <label for="exampleFormControlInput2"
-                                            class="font-weight-bold text-black text-right text-uppercase">Due
-                                            Amount</label>
-                                    </div>
-
-                                    <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-                                        id="due_amount_div" style="display: none">
-                                        <input type="text" name="due_amount" id="due_amount" value="0" readonly
-                                            class="form-control price text-right font-weight-bold text-black">
-
-                                        <span class="text-danger font-weight-bold error_due_amount"></span>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
                             <div class="col-lg-12 col-12 mt-5 mb-5" id="submit_button">
                                 <div class="form-group text-center text-sm-right">
                                     <button type="submit"
                                         class="btn btn-theme btn-max-200 text-uppercase font-weight-bold"
-                                        style="width: 200px">Save</button>
+                                        style="width: 200px">Update</button>
                                 </div>
                             </div>
 
@@ -282,7 +230,7 @@
                                 <div class="form-group text-center text-sm-right">
                                     <button type="button"
                                         class="btn btn-theme btn-max-200 text-uppercase font-weight-bold"
-                                        style="width: 200px"><i class="fas fa-spinner fa-spin"></i> Saving ...</button>
+                                        style="width: 200px"><i class="fas fa-spinner fa-spin"></i> Updating ...</button>
                                 </div>
                             </div>
                         </div>
@@ -331,6 +279,73 @@
             var i = 1;
             let sub_total = 0;
 
+            loadPurchaseItems();
+
+            function loadPurchaseItems() {
+                var id = '{{ $purchase->id }}';
+
+                var data = {
+                    "id": id
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('/admin/inventory/purchases/get_items') }}",
+                    data: data,
+                    dataType: "JSON",
+                    success: function(response) {
+                        $('#input_field_table').html('');
+
+                        $.each(response.data, function(key, item) {
+                            $('#input_field_table').append('<tr id="' + item.id + '">\
+                                    <td>' + item.product_name + ' </td>\
+                                    <td>' + item.qty + ' x ' + item.price_ + '</td>\
+                                    <td>' + item.total_ + '</td>\
+                                    <td><button type="button" class="btn btn-danger remove_button" id="' + item.id + '"><i class="fa fa-trash"></i></button></td>\
+                                </tr>');
+
+                            sub_total = (sub_total + item.total);
+                        });
+
+                        var discount_val = $('#discount').val();
+                        var paid_val = $('#paid_amount').val();
+
+                        //Discount Validation
+                        if (discount_val == "" || discount_val == 0) {
+                            var discount = parseInt(0);
+                        } else {
+                            var discount = parseInt(discount_val);
+                        }
+
+                        var pur_total = (sub_total - discount);
+
+                        var due_amount = (pur_total - paid_val);
+
+                        if (sub_total > 0) {
+                            sub_total = sub_total;
+                            pur_total = pur_total;
+                            due_amount = due_amount;
+                        } else {
+                            sub_total = parseFloat(0);
+                            pur_total = parseFloat(0);
+                            due_amount = parseFloat(0);
+                            $('#discount').val(parseFloat(0));
+                            $('#paid_amount').val(parseFloat(0));
+                        }
+
+                        if (due_amount >= 0) {
+                            due_amount = due_amount;
+                        } else {
+                            // error_paid_amount
+                            due_amount = parseFloat(0);
+                        }
+
+                        $('#sub_total').val(sub_total.toFixed(2));
+                        $('#pur_total').val(pur_total.toFixed(2));
+                        $('#due_amount').val(due_amount.toFixed(2));
+                    }
+                });
+            }
+
             $('#add_button').click(function(e) {
                 e.preventDefault();
 
@@ -338,11 +353,13 @@
                 var product = $('#product').val();
                 var qty = $('#qty').val();
                 var price = $('#price').val();
+                var id = '{{ $purchase->id }}';
 
                 var data = {
                     'product': product,
                     'qty': qty,
-                    'price': price
+                    'price': price,
+                    'id': id
                 }
 
                 $.ajax({
@@ -359,63 +376,12 @@
                                 }
                             });
                         } else {
+                            sub_total = 0;
                             clearInput();
 
-                            $('#input_field_table').append('<tr id="row_' + i + '">\
-                                        <td>' + response.data.product_name +
-                                ' <input type="hidden" name="product_id[]"  value="' +
-                                response.data.product_id + '"> </td>\
-                                        <td>' + response.data.qty + ' x ' + response.data.price_ +
-                                ' <input type="hidden" name="qty[]"  value="' + response
-                                .data
-                                .qty + '"></td>\
-                                        <td>' + response.data.total_ + '<input type="hidden" id="pur_amount"  value="' +
-                                response.data.total +
-                                '"> <input type="hidden" name="price[]"  value="' + response
-                                .data.price + '"></td>\
-                                        <td><button type="button" class="btn btn-danger remove_button" id="' + i + '"><i class="fa fa-trash"></i></button></td>\
-                                    </tr>');
+                            loadPurchaseItems();
 
-                            var discount_val = $('#discount').val();
-                            var paid_val = $('#paid_amount').val();
-
-                            //Discount Validation
-                            if (discount_val == "" || discount_val == 0) {
-                                var discount = parseInt(0);
-                            } else {
-                                var discount = parseInt(discount_val);
-                            }
-
-                            sub_total = (sub_total + response.data.total);
-
-                            var pur_total = (sub_total - discount);
-
-                            var due_amount = (pur_total - paid_val);
-
-                            if (sub_total > 0) {
-                                sub_total = sub_total;
-                                pur_total = pur_total;
-                                due_amount = due_amount;
-                            } else {
-                                sub_total = parseFloat(0);
-                                pur_total = parseFloat(0);
-                                due_amount = parseFloat(0);
-                                $('#discount').val(parseFloat(0));
-                                $('#paid_amount').val(parseFloat(0));
-                            }
-
-                            if (due_amount >= 0) {
-                                due_amount = due_amount;
-                            } else {
-                                // error_paid_amount
-                                due_amount = parseFloat(0);
-                            }
-
-                            $('#sub_total').val(sub_total.toFixed(2));
-                            $('#pur_total').val(pur_total.toFixed(2));
-                            $('#due_amount').val(due_amount.toFixed(2));
                         }
-
                     }
                 });
             });
@@ -423,48 +389,48 @@
             $(document).on('click', '.remove_button', function(e) {
                 e.preventDefault();
 
-                var button_id = $(this).attr("id");
-                var val = $(this).closest('#row_' + button_id + '').find('#pur_amount').val();
-
-                var discount_val = $('#discount').val();
-                var paid_val = $('#paid_amount').val();
-
-                //Discount Validation
-                if (discount_val == "" || discount_val == 0) {
-                    var discount = parseInt(0);
-                } else {
-                    var discount = parseInt(discount_val);
+                var id = $(this).attr("id");
+                var data = {
+                    'id': id
                 }
 
-                sub_total = (sub_total - val);
+                $.confirm({
+                    theme: 'modern',
+                    columnClass: 'col-md-6 col-md-offset-4',
+                    icon: 'fa fa-info-circle text-danger',
+                    title: 'Are you Sure!',
+                    content: 'Do you want to Delete the Selected Items?',
+                    type: 'red',
+                    autoClose: 'cancel|10000',
+                    buttons: {
+                        confirm: {
+                            text: 'Yes',
+                            btnClass: 'btn-150',
+                            action: function() {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ url('/admin/inventory/purchases/delete_items') }}",
+                                    data: data,
+                                    dataType: "JSON",
+                                    success: function(response) {
+                                        sub_total = 0;
+                                        loadPurchaseItems();
+                                    }
+                                });
+                            }
+                        },
 
-                var pur_total = (sub_total - discount);
-                var due_amount = (pur_total - paid_val);
+                        cancel: {
+                            text: 'Cancel',
+                            btnClass: 'btn-150-danger',
+                            action: function() {
 
-                if (sub_total > 0) {
-                    sub_total = sub_total;
-                    pur_total = pur_total;
-                    due_amount = due_amount;
-                } else {
-                    sub_total = parseFloat(0);
-                    pur_total = parseFloat(0);
-                    due_amount = parseFloat(0);
-                    $('#discount').val(parseFloat(0));
-                    $('#paid_amount').val(parseFloat(0));
-                }
+                            }
+                        },
+                    }
+                });
 
-                if (due_amount >= 0) {
-                    due_amount = due_amount;
-                } else {
-                    // error_paid_amount
-                    due_amount = parseFloat(0);
-                }
 
-                $('#sub_total').val(sub_total.toFixed(2));
-                $('#pur_total').val(pur_total.toFixed(2));
-                $('#due_amount').val(due_amount.toFixed(2));
-
-                $('#row_' + button_id + '').remove();
             });
 
             $('#discount').keyup(function(e) {
@@ -538,11 +504,9 @@
                 if (due_amount >= 0) {
                     due_amount = due_amount;
                     $('.error_paid_amount').text('');
-                    $('#submit_button').css('display','block');
                 } else {
                     $('.error_paid_amount').text('Enter the valid Due Amount');
                     due_amount = parseFloat(0);
-                    $('#submit_button').css('display','none');
                 }
 
                 $('#sub_total').val(sub_total.toFixed(2));
@@ -582,7 +546,7 @@
                         $('#submit_button').css('display', 'none');
                         $('#disable_button').css('display', 'block');
                     },
-                    url: "{{ url('/admin/inventory/purchases/create') }}",
+                    url: "{{ url('/admin/inventory/purchases/update') }}",
                     data: formData,
                     dataType: "JSON",
                     contentType: false,
@@ -638,13 +602,6 @@
                         57)) {
                     evt.preventDefault();
                 }
-            });
-
-            $('#purchased_date').change(function (e) {
-                e.preventDefault();
-                var min_date = $(this).val();
-
-                $('#paid_date').attr('min',min_date);
             });
 
         });

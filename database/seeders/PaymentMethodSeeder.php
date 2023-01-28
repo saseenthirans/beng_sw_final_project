@@ -21,7 +21,7 @@ class PaymentMethodSeeder extends Seeder
                 'updated_at' => date("Y-m-d H:i:s"),
             ],
             [
-                'method' => "Check",
+                'method' => "Cheque",
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ],
