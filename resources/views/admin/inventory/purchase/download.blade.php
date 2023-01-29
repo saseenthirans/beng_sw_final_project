@@ -6,9 +6,6 @@
 <body>
 
     <div>
-
-
-
         <table border="0" width="100%">
             <tr>
                 <td width="20%" style="font-size: 12px;font-weight: bold; font-family: sans-serif">Invoice No</td>
@@ -75,8 +72,6 @@
                     <td colspan="4" style="border: 1px solid #a3a3a3; font-size:14px; padding:5px; font-weight:bold; text-align:right">Gross Total</td>
                     <td  style="border: 1px solid #a3a3a3; font-size:14px; padding:5px; font-weight:bold; text-align:right">{{number_format(($purchase->pur_amount - $purchase->discount),2,'.','')}}</td>
                 </tr>
-
-
             @else
                 <tr>
                     <td colspan="5" style="border: 1px solid #a3a3a3; font-size:12px; padding:5px; font-weight:bold; text-align:center">Sorry! No Data Found ...</td>

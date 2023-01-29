@@ -36,7 +36,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/dropify/dropify.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_staff/plugins/select2/select2.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-
+    <link href="{{ asset('admin_staff/assets/css/elements/infobox.css') }}" rel="stylesheet" type="text/css" />
+    
     <style>
         .btn-150 {
             background-color: #7382F5;

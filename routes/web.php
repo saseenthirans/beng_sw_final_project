@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin/inventory')->middleware(['is_admin'])->group(function () {
         //Inventory Modules
         Route::get('/', [App\Http\Controllers\Admin\Inventory\IndexController::class, 'index'])->name('admin.inventory.dashboard');
+        Route::get('/get_purchase', [App\Http\Controllers\Admin\Inventory\IndexController::class, 'get_purchase'])->name('admin.inventory.dashboard.get_purchase');
 
         //Category Controller
         Route::get('/categories', [App\Http\Controllers\Admin\Inventory\CategoryController::class, 'index'])->name('admin.inventory.category');
