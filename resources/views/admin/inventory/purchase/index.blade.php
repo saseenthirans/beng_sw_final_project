@@ -39,6 +39,16 @@
                         </select>
                     </div>
 
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 form-group">
+                        <label for="">Start Date</label>
+                        <input type="date" name="start_date" class="form-control start_date" max="{{date('Y-m-d')}}">
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 form-group">
+                        <label for="">End Date</label>
+                        <input type="date" name="end_date" class="form-control end_date" max="{{date('Y-m-d')}}">
+                    </div>
+
                     <div class="col-lg-12 col-12 form-group">
                         <button type="button" class="btn btn-primary float-right ml-5 btn_filter"
                             style="width: 150px">Filter</button>
@@ -81,6 +91,12 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-12 col-12  layout-spacing">
+            <button id="btn_export" class="btn btn-dark float-right text-uppercase">
+                <i class="fa fa-download"></i> Export Purchase
+            </button>
+        </div>
     @else
         <div class="col-lg-12 col-12 "
             style="height: calc(100vh - 40vh);  align-items: center; display: flex; justify-content: center;">
@@ -94,6 +110,12 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            
             var table;
 
             loadData();
@@ -123,7 +145,9 @@
                         url: "{!! url('/admin/inventory/get_purchases') !!}",
                         data: function(d) {
                             d.supplier = $('.supplier').val(),
-                                d.status = $('.status').val()
+                            d.status = $('.status').val(),
+                            d.start_date = $('.start_date').val(),
+                            d.end_date = $('.end_date').val()
                         }
                     },
                     columns: [{
@@ -194,11 +218,50 @@
 
                 $('.supplier').val('').change();
                 $('.status').val('').change();
+                $('.start_date').val('');
+                $('.end_date').val('');
 
                 //reload the table
                 table.clear();
                 table.ajax.reload();
                 table.draw();
+            });
+
+            $('.start_date').change(function (e) {
+                e.preventDefault();
+                $('.end_date').attr('min', $(this).val());
+                $('.end_date').val($(this).val());
+            });
+
+            $('#btn_export').click(function (e) {
+                e.preventDefault();
+                var supplier = $('.supplier').val();
+                var start_date = $('.start_date').val();
+                var end_date = $('.end_date').val();
+                var status = $('.status').val();
+
+                var data = {
+                    'supplier' :supplier,
+                    'status' : status,
+                    'start_date' : start_date,
+                    'end_date' : end_date
+                }
+
+                $.ajax({
+                    xhrFields: {
+                        responseType: 'blob',
+                    },
+                    type: "POST",
+                    url: "{{url('/admin/inventory/purchases/export')}}",
+                    data: data,
+                    success: function(data)
+                    {
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(data);
+                        link.download = `purchased.xlsx`;
+                        link.click();
+                    },
+                });
             });
         });
     </script>

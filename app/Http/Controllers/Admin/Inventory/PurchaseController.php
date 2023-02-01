@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Inventory;
 
+use App\Exports\PurchaseExport;
+use PDF;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Inventory;
@@ -13,10 +15,10 @@ use App\Models\PurchasePayment;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Base\InventoryPurchaseController;
-use PDF;
 
 class PurchaseController extends Controller
 {
@@ -284,5 +286,11 @@ class PurchaseController extends Controller
 
         $pdf = PDF::loadView('admin.inventory.purchase.download', $data);
         return $pdf->download('purchase' . date('Ymdhis') . '.pdf');
+    }
+
+    public function export(Request $request)
+    {
+        $file_name = 'purchased' . date('_YmdHis') . '.xlsx';
+        return Excel::download(new PurchaseExport($request->supplier,$request->status, $request->start_date, $request->end_date), $file_name);
     }
 }

@@ -108,5 +108,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/purchases/store_payments', [App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'store_payments'])->name('admin.inventory.purchases.store_payments');
         Route::post('/purchases/delete_payment', [App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'delete_payment'])->name('admin.inventory.purchases.delete_payment');
         Route::get('/purchases/download/{id}', [App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'download'])->name('admin.inventory.purchases.download');
+        Route::post('/purchases/export', [App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'export'])->name('admin.inventory.purchases.export');
     });
 });
