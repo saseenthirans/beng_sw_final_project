@@ -110,4 +110,21 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/purchases/download/{id}', [App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'download'])->name('admin.inventory.purchases.download');
         Route::post('/purchases/export', [App\Http\Controllers\Admin\Inventory\PurchaseController::class, 'export'])->name('admin.inventory.purchases.export');
     });
+
+    //Admin Access with Invoice Module
+    Route::prefix('admin/invoices')->middleware(['is_admin'])->group(function () {
+        //Invoice Modules Dashboard
+        Route::get('/', [App\Http\Controllers\Admin\Invoice\IndexController::class, 'index'])->name('admin.invoice.dashboard');
+
+        //Suppliers Controller
+        Route::get('/customers', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'index'])->name('admin.invoice.customers');
+        Route::get('/get_customers', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'get_customers'])->name('admin.invoice.get_customers');
+        Route::get('/customers/create', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'add_new'])->name('admin.invoice.customers.create.form');
+        Route::post('/customers/create', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'create'])->name('admin.invoice.customers.create');
+        Route::get('/customers/update/{id}', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'update_form'])->name('admin.invoice.customers.update.form');
+        Route::post('/customers/update', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'update'])->name('admin.invoice.customers.update');
+        Route::post('/customers/delete/{id}', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'delete'])->name('admin.invoice.customers.delete');
+        Route::get('/customers/logs/{id}', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'logs'])->name('admin.invoice.customers.logs');
+        Route::get('/customers/get_logs/{id}', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'get_logs'])->name('admin.invoice.customers.get_logs');
+    });
 });

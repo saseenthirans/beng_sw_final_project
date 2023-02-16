@@ -41,7 +41,7 @@
                             </div>
                             <div class="d-sm-flex justify-content-between">
                                 <div class="field-wrapper">
-                                    <button type="submit" class="btn btn-dark" value="">Log In</button>
+                                    <button type="submit" class="btn btn-dark text-uppercase" value="">Log In</button>
                                 </div>
                             </div>
 
