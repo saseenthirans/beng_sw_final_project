@@ -38,10 +38,10 @@ class CustomerController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'contact' => 'required|unique:customers,contact,NULL,id,deleted_at,NULL',
-                'email' => 'required|email|unique:customers,email,NULL,id,deleted_at,NULL',
+                'first_name' => 'required|regex:/^[a-z A-Z]+$/u',
+                'last_name' => 'required|regex:/^[a-z A-Z]+$/u',
+                'contact' => 'required|digits:10|unique:customers,contact,NULL,id,deleted_at,NULL',
+                'email' => 'required|email:rfc,dns|unique:customers,email,NULL,id,deleted_at,NULL',
             ]
         );
 
@@ -72,10 +72,10 @@ class CustomerController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'contact' => 'required|unique:customers,contact,'.$id.',id,deleted_at,NULL',
-                'email' => 'required|email|unique:customers,email,'.$id.',id,deleted_at,NULL',
+                'first_name' => 'required|regex:/^[a-z A-Z]+$/u',
+                'last_name' => 'required|regex:/^[a-z A-Z]+$/u',
+                'contact' => 'required|digits:10|unique:customers,contact,'.$id.',id,deleted_at,NULL',
+                'email' => 'required|email:rfc,dns|unique:customers,email,'.$id.',id,deleted_at,NULL',
             ]
         );
 

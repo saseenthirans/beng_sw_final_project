@@ -38,8 +38,8 @@ class SupplierController extends Controller
             [
                 'supplier_name' => 'required',
                 'address' => 'required',
-                'contact' => 'required|unique:suppliers,contact,NULL,id,deleted_at,NULL',
-                'email' => 'required|email|unique:suppliers,email,NULL,id,deleted_at,NULL',
+                'contact' => 'required|digits:10|unique:suppliers,contact,NULL,id,deleted_at,NULL',
+                'email' => 'required|email:rfc,dns|unique:suppliers,email,NULL,id,deleted_at,NULL',
             ]
         );
 
@@ -78,8 +78,8 @@ class SupplierController extends Controller
             [
                 'supplier_name' => 'required',
                 'address' => 'required',
-                'contact' => 'required|unique:suppliers,contact,' . $id . ',id,deleted_at,NULL',
-                'email' => 'required|email|unique:suppliers,email,' . $id . ',id,deleted_at,NULL',
+                'contact' => 'required|digits:10|unique:suppliers,contact,' . $id . ',id,deleted_at,NULL',
+                'email' => 'required|email:rfc,dns|unique:suppliers,email,' . $id . ',id,deleted_at,NULL',
             ]
         );
 
@@ -101,7 +101,7 @@ class SupplierController extends Controller
     public function delete($id)
     {
         Supplier::destroy($id);
-        
+
         return response()->json(['status' => true,  'message' => 'Selected Supplier Deleted Successfully']);
     }
 }

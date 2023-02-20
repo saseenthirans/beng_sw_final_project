@@ -57,7 +57,7 @@ class PurchaseController extends Controller
             $request->all(),
             [
                 'product' => 'required',
-                'qty' => 'required|numeric',
+                'qty' => 'required|numeric|min:1',
                 'price' => 'required|numeric|between:0,9999999999.99'
             ]
         );
@@ -96,7 +96,7 @@ class PurchaseController extends Controller
                     'purchased_date' => 'required',
                     'pay_method' => 'required',
                     'paid_date' => 'required',
-                    'paid_amount' => 'required',
+                    'paid_amount' => 'required|numeric|between:0,9999999999.99',
                 ]
             );
         } else {
@@ -248,7 +248,7 @@ class PurchaseController extends Controller
             [
                 'pay_method' => 'required',
                 'paid_date' => 'required',
-                'paid_amount' => 'required',
+                'paid_amount' => 'required|numeric|between:0,9999999999.99',
             ]
         );
 
