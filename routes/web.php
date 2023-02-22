@@ -127,4 +127,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/customers/logs/{id}', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'logs'])->name('admin.invoice.customers.logs');
         Route::get('/customers/get_logs/{id}', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'get_logs'])->name('admin.invoice.customers.get_logs');
     });
+
+    //Admin Access with Invoice Module
+    Route::prefix('admin/staffs')->middleware(['is_admin'])->group(function () {
+        //Invoice Modules Dashboard
+        Route::get('/', [App\Http\Controllers\Admin\Staff\IndexController::class, 'index'])->name('admin.staffs.dashboard');
+
+        //Suppliers Controller
+        Route::get('/staffs', [App\Http\Controllers\Admin\Staff\StaffController::class, 'index'])->name('admin.staffs.staffs');
+        Route::get('/get_staffs', [App\Http\Controllers\Admin\Staff\StaffController::class, 'get_staffs'])->name('admin.staffs.get_staffs');
+        Route::get('/staffs/create', [App\Http\Controllers\Admin\Staff\StaffController::class, 'add_new'])->name('admin.staffs.staffs.create.form');
+        Route::post('/staffs/create', [App\Http\Controllers\Admin\Staff\StaffController::class, 'create'])->name('admin.staffs.staffs.create');
+        Route::get('/staffs/update/{id}', [App\Http\Controllers\Admin\Staff\StaffController::class, 'update_form'])->name('admin.staffs.staffs.update.form');
+        Route::post('/staffs/update', [App\Http\Controllers\Admin\Staff\StaffController::class, 'update'])->name('admin.staffs.staffs.update');
+        Route::post('/staffs/delete/{id}', [App\Http\Controllers\Admin\Staff\StaffController::class, 'delete'])->name('admin.staffs.staffs.delete');
+    });
 });

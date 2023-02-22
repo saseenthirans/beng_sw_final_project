@@ -216,7 +216,7 @@
 
                                 @if (Auth::user()->hasRole('Admin'))
                                     <div id="card_3" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing">
-                                        <a href="{{ url('admin/accounts') }}">
+                                        <a href="{{ url('admin/staffs') }}">
                                             <div class="component-card_3 bg-warning">
                                                 <div class="card-body">
                                                     <img src="{{ asset('admin_style/assets/img/icons/8.png') }}" class="card-img-top" alt="...">
