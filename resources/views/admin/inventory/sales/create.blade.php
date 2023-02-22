@@ -76,7 +76,7 @@
                                 <div class="form-group mb-4">
                                     <label for="exampleFormControlInput2">Amount<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" name="amount" class="form-control"
+                                    <input type="text" name="amount" class="form-control price"
                                         value="{{ old('amount') }}" id="exampleFormControlInput2">
 
                                     <span class="text-danger font-weight-bold error_amount"></span>
@@ -223,6 +223,15 @@
                 $('.error_start_date').text('');
                 $('.error_end_date').text('');
             }
+
+            $(".price").on("input", function(evt) {
+                var self = $(this);
+                self.val(self.val().replace(/[^0-9\.]/g, ''));
+                if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which >
+                        57)) {
+                    evt.preventDefault();
+                }
+            });
 
         });
     </script>

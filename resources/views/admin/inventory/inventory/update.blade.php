@@ -78,7 +78,7 @@
                                 <div class="form-group mb-4">
                                     <label for="exampleFormControlInput2">Selling Price<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" name="selling_price" class="form-control"
+                                    <input type="text" name="selling_price" class="form-control price"
                                         value="{{ $inventory->price }}" id="exampleFormControlInput2">
 
                                     <span class="text-danger font-weight-bold error_selling_price"></span>
@@ -221,6 +221,15 @@
                 $('.error_full_description').text('');
                 $('.error_image').text('');
             }
+
+            $(".price").on("input", function(evt) {
+                var self = $(this);
+                self.val(self.val().replace(/[^0-9\.]/g, ''));
+                if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which >
+                        57)) {
+                    evt.preventDefault();
+                }
+            });
 
         });
     </script>
