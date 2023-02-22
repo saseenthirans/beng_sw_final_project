@@ -59,8 +59,8 @@ Invoice - Customer
                                 <div class="form-group mb-4">
                                     <label for="exampleFormControlInput2">Contact<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" name="contact" class="form-control"
-                                        value="{{ old('contact') }}" id="exampleFormControlInput2">
+                                    <input type="text" name="contact" class="form-control contact"
+                                        value="{{ old('contact') }}" maxlength="10" id="exampleFormControlInput2">
 
                                     <span class="text-danger font-weight-bold error_contact"></span>
                                 </div>
@@ -178,6 +178,15 @@ Invoice - Customer
                 $('.error_contact').text('');
                 $('.error_email').text('');
             }
+
+            $(".contact").on("input", function(evt) {
+                var self = $(this);
+                self.val(self.val().replace(/[^0-9]/g, ''));
+                if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which >
+                        57)) {
+                    evt.preventDefault();
+                }
+            });
 
         });
     </script>

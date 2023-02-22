@@ -59,7 +59,7 @@
                                 <div class="form-group mb-4">
                                     <label for="exampleFormControlInput2">Contact<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" name="contact" class="form-control contact"
+                                    <input type="text" name="contact" maxlength="10" class="form-control contact"
                                         value="{{ $supplier->contact }}" id="exampleFormControlInput2">
 
                                     <span class="text-danger font-weight-bold error_contact"></span>
