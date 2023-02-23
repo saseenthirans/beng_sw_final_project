@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use App\Models\UserSalary;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -43,7 +44,15 @@ class StaffController extends Controller
                     return '<span class="badge badge-success">Active</span>';
                 }
             })
-
+            ->addColumn('basic_salary', function ($item) {
+                if ($item->basicSalary->salary) {
+                    return $item->basicSalary->salary;
+                }
+                else
+                {
+                    return '0.00';
+                }
+            })
             ->addColumn('action', function ($item) {
 
                 if (Auth::user()->hasRole('Admin')) {
@@ -55,7 +64,7 @@ class StaffController extends Controller
 
                 }
             })
-            ->rawColumns(['status', 'action'])
+            ->rawColumns(['status', 'action','basic_salary'])
             ->make(true);
 
         return $data;
@@ -75,6 +84,7 @@ class StaffController extends Controller
                 'last_name' => 'required|regex:/^[a-z A-Z]+$/u',
                 'contact' => 'required|digits:10|unique:users,contact,NULL,id,deleted_at,NULL',
                 'email' => 'required|email:rfc,dns|unique:users,email,NULL,id,deleted_at,NULL',
+                'basic_salary' => 'required|numeric|between:0,9999999999.99',
             ]
         );
 
@@ -94,6 +104,12 @@ class StaffController extends Controller
         $user->password = Hash::make($password);
         $user->image = 'upload/users/user.png';
         $user->save();
+
+        //Salary
+        $salary = new UserSalary();
+        $salary->user_id = $user->id;
+        $salary->salary = $request->basic_salary;
+        $salary->save();
 
         $user->assignRole('Staff');
 
@@ -130,6 +146,7 @@ class StaffController extends Controller
                 'last_name' => 'required|regex:/^[a-z A-Z]+$/u',
                 'contact' => 'required|digits:10|unique:users,contact,'.$id.',id,deleted_at,NULL',
                 'email' => 'required|email:rfc,dns|unique:users,email,'.$id.',id,deleted_at,NULL',
+                'basic_salary' => 'required|numeric|between:0,9999999999.99',
             ]
         );
 
@@ -145,6 +162,11 @@ class StaffController extends Controller
         $user->email = $request->email;
         $user->status = $request->status == true ? 1 : 0;
         $user->update();
+
+        //Salary
+        $salary = UserSalary::where('user_id',$id)->first();
+        $salary->salary = $request->basic_salary;
+        $salary->update();
 
         return response()->json(['status' => true,  'message' => 'Selected Staff Updated Successfully']);
     }

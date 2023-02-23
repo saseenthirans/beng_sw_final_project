@@ -77,6 +77,17 @@ Staff - Staff
                                 </div>
                             </div>
 
+                            <div class="col-lg-6 col-12">
+                                <div class="form-group mb-4">
+                                    <label for="exampleFormControlInput2">Basic Salary<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" name="basic_salary" class="form-control price"
+                                        value="{{ old('basic_salary') }}" maxlength="10" id="exampleFormControlInput2">
+
+                                    <span class="text-danger font-weight-bold error_basic_salary"></span>
+                                </div>
+                            </div>
+
                             <div class="form-group col-lg-6 col-12">
                                 <label for="formGroupExampleInput2">Active/Inactive</label>
                                 <div>
@@ -177,11 +188,21 @@ Staff - Staff
                 $('.error_address').text('');
                 $('.error_contact').text('');
                 $('.error_email').text('');
+                $('.error_basic_salary').text('');
             }
 
             $(".contact").on("input", function(evt) {
                 var self = $(this);
                 self.val(self.val().replace(/[^0-9]/g, ''));
+                if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which >
+                        57)) {
+                    evt.preventDefault();
+                }
+            });
+
+            $(".price").on("input", function(evt) {
+                var self = $(this);
+                self.val(self.val().replace(/[^0-9\.]/g, ''));
                 if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which >
                         57)) {
                     evt.preventDefault();

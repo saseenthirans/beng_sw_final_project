@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Software Solutions | {{ $company->name }}</title>
+    <title>Mobile Shop Management System | {{ $company->name }}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('admin_style/assets/img/fav.png') }}"/>
     <link href="{{ asset('admin_style/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('admin_style/assets/js/loader.js') }}"></script>

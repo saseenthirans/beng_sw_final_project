@@ -1,7 +1,7 @@
 @extends('layouts.admin_staff')
 
 @section('title')
-    Staff - Staff
+    Staff - Salary
 @endsection
 
 <!-- Add the Dynamic Menu -->
@@ -10,23 +10,34 @@
 @endsection
 
 @section('content')
-    @if (count($staffs))
+    @if (count($salary))
         <div class="col-lg-12 col-12  layout-spacing">
-            <a href="{{ url('admin/staffs/staffs/create') }}" class="btn btn-theme float-right text-uppercase">
-                <i class="fa fa-plus"></i> Create New Staff
+            <a href="{{ url('admin/staffs/salary/create') }}" class="btn btn-theme float-right text-uppercase">
+                <i class="fa fa-plus"></i> Add New Staff Salary
             </a>
         </div>
 
         <div class="col-lg-12 col-12  layout-spacing">
             <form action="">
                 <div class="row">
-                    <div class="col-lg-6 col-12 form-group">
-                        <label for="">Status</label>
-                        <select name="status" class="form-control disabled-results status">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 form-group">
+                        <label for="">Staff</label>
+                        <select name="status" class="form-control disabled-results staff">
                             <option value=""></option>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
+                            @foreach ($staffs as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
                         </select>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 form-group"></div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 form-group">
+                        <label for="">Start Date</label>
+                        <input type="date" name="start_date" class="form-control start_date" max="{{date('Y-m-d')}}">
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 form-group">
+                        <label for="">End Date</label>
+                        <input type="date" name="end_date" class="form-control end_date" max="{{date('Y-m-d')}}">
                     </div>
 
                     <div class="col-lg-12 col-12 form-group">
@@ -44,7 +55,7 @@
                 <div class="widget-header">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12 ">
-                            <h3 class="font-weight-bold pt-2 pb-2 text-uppercase">Staff</h3>
+                            <h3 class="font-weight-bold pt-2 pb-2 text-uppercase">Staff Salary</h3>
                         </div>
                     </div>
                 </div>
@@ -70,9 +81,9 @@
     @else
         <div class="col-lg-12 col-12 "
             style="height: calc(100vh - 40vh);  align-items: center; display: flex; justify-content: center;">
-            <a href="{{ url('admin/staffs/staffs/create') }}"
+            <a href="{{ url('admin/staffs/salary/create') }}"
                 class="btn btn-theme btn-lg text-uppercase font-weight-bold" style="width: 300px;"><i
-                    class="fa fa-plus"></i> Create New Staff</a>
+                    class="fa fa-plus"></i> Add New Staff Salary</a>
         </div>
     @endif
 @endsection

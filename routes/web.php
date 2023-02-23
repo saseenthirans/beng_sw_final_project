@@ -130,10 +130,10 @@ Route::middleware(['auth'])->group(function () {
 
     //Admin Access with Invoice Module
     Route::prefix('admin/staffs')->middleware(['is_admin'])->group(function () {
-        //Invoice Modules Dashboard
+        //Staff Modules Dashboard
         Route::get('/', [App\Http\Controllers\Admin\Staff\IndexController::class, 'index'])->name('admin.staffs.dashboard');
 
-        //Suppliers Controller
+        //Staff Controller
         Route::get('/staffs', [App\Http\Controllers\Admin\Staff\StaffController::class, 'index'])->name('admin.staffs.staffs');
         Route::get('/get_staffs', [App\Http\Controllers\Admin\Staff\StaffController::class, 'get_staffs'])->name('admin.staffs.get_staffs');
         Route::get('/staffs/create', [App\Http\Controllers\Admin\Staff\StaffController::class, 'add_new'])->name('admin.staffs.staffs.create.form');
@@ -141,5 +141,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/staffs/update/{id}', [App\Http\Controllers\Admin\Staff\StaffController::class, 'update_form'])->name('admin.staffs.staffs.update.form');
         Route::post('/staffs/update', [App\Http\Controllers\Admin\Staff\StaffController::class, 'update'])->name('admin.staffs.staffs.update');
         Route::post('/staffs/delete/{id}', [App\Http\Controllers\Admin\Staff\StaffController::class, 'delete'])->name('admin.staffs.staffs.delete');
+
+        //Staff Salary Controller
+        Route::get('/salary', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'index'])->name('admin.staffs.salary');
+        Route::get('/get_salary', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'get_salary'])->name('admin.staffs.get_salary');
+        Route::get('/salary/create', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'add_new'])->name('admin.staffs.salary.create.form');
+        Route::post('/salary/validation', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'validation'])->name('admin.staffs.salary.validation');
+        Route::post('/salary/create', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'create'])->name('admin.staffs.salary.create');
+        Route::get('/salary/update/{id}', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'update_form'])->name('admin.staffs.salary.update.form');
+        Route::post('/salary/update', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'update'])->name('admin.staffs.salary.update');
+        Route::post('/salary/delete/{id}', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'delete'])->name('admin.staffs.salary.delete');
     });
 });
