@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Base;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 
 class HelperController extends Controller
@@ -31,5 +32,13 @@ class HelperController extends Controller
         $doc->move($path, $docName);
 
         return $file;
+    }
+
+    public function welcomeMail($data)
+    {
+        Mail::send($data["view"], $data, function($message)use($data) {
+            $message->to($data["email"])
+                    ->subject($data["title"]);
+        });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Staff;
 
+use App\Http\Controllers\Base\HelperController;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
@@ -80,6 +82,8 @@ class StaffController extends Controller
             return response()->json(['status' => false, 'statuscode' => 400, 'errors' => $validator->errors()]);
         }
 
+        $password = Str::random(8);
+
         $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -87,11 +91,21 @@ class StaffController extends Controller
         $user->contact = $request->contact;
         $user->email = $request->email;
         $user->status = $request->status == true ? 1 : 0;
-        $user->password = Hash::make(Str::random(8));
+        $user->password = Hash::make($password);
         $user->image = 'upload/users/user.png';
         $user->save();
 
         $user->assignRole('Staff');
+
+        //Email Sending
+            $data["email"] = $user->email;
+            $data["name"] = $user->name;
+            $data["password"] = $password;
+            $data["title"] = "Welcome To RK Mobiles";
+            $data["view"] = "admin.staff.staff.welcome";
+
+            (new HelperController)->welcomeMail($data);
+        //End
 
         return response()->json(['status' => true,  'message' => 'New Staff Created Successfully']);
     }

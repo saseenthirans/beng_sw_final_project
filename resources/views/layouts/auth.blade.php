@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>@yield('title') | Software Solution for RK Mobiles</title>
+    <title>@yield('title') | Mobile Shop Management System</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('admin_style/assets/img/fav.png') }}"/>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&amp;display=swap" rel="stylesheet">

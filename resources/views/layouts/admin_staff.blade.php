@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') | Software Solutions | {{$company->name}}</title>
+    <title>@yield('title') | Mobile Shop Management System | {{$company->name}}</title>
     <link rel="icon" type="image/x-icon" href="{{asset('admin_staff/assets/img/favicon.ico')}}"/>
     <link href="{{asset('admin_staff/assets/css/loader.css')}}" rel="stylesheet" type="text/css" />
     <script src="{{asset('admin_staff/assets/js/loader.js')}}"></script>
