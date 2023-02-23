@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Inventory;
 
-use App\Http\Controllers\Base\InventoryCategoryController;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\Inventory;
 use App\Models\CategoryLog;
 use App\Models\SubCategory;
+use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
-use Yajra\Datatables\Datatables;
+use App\Http\Controllers\Base\InventoryCategoryController;
 
 class CategoryController extends Controller
 {
@@ -38,7 +39,7 @@ class CategoryController extends Controller
         if ($request->is_home == true) {
             $validator = Validator::make($request->all(),
                 [
-                    'category_name' => 'required|unique:categories,name',
+                    'category_name' => 'required|unique:categories,name,NULL,id,deleted_at,NULL',
                     'category_image' => 'required|image|mimes:jpeg,png,jpg,gif',
                     'banner_title' => 'required',
                     'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif'
@@ -47,7 +48,7 @@ class CategoryController extends Controller
         } else {
             $validator = Validator::make($request->all(),
                 [
-                    'category_name' => 'required|unique:categories,name',
+                    'category_name' => 'required|unique:categories,name,NULL,id,deleted_at,NULL',
                     'category_image' => 'required|image|mimes:jpeg,png,jpg,gif'
                 ]
             );
@@ -80,7 +81,7 @@ class CategoryController extends Controller
         if ($request->is_home == true && $category->banner_image == '') {
             $validator = Validator::make($request->all(),
                 [
-                    'category_name' => 'required|unique:categories,name,'.$request->id,
+                    'category_name' => 'required|unique:categories,name,'.$request->id.',id,deleted_at,NULL',
                     'category_image' => 'required|image|mimes:jpeg,png,jpg,gif',
                     'banner_title' => 'required',
                     'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif'
@@ -89,7 +90,7 @@ class CategoryController extends Controller
         } else {
             $validator = Validator::make($request->all(),
                 [
-                    'category_name' => 'required|unique:categories,name,'.$request->id,
+                    'category_name' => 'required|unique:categories,name,'.$request->id.',id,deleted_at,NULL',
                 ]
             );
         }
@@ -106,6 +107,14 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
+        $subcategory = SubCategory::where('category_id',$id)->get();
+        $id = [];
+
+        foreach($subcategory as $item)
+        {
+            $id[] = $item->id;
+        }
+        Inventory::whereIn('category_id',$id)->delete();
         SubCategory::where('category_id',$id)->delete();
         Category::destroy($id);
         return response()->json(['status'=>true,  'message'=>'Delete']);
