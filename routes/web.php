@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/inventories/delete/{id}', [App\Http\Controllers\Admin\Inventory\InventoryController::class, 'delete'])->name('admin.inventory.inventories.delete');
         Route::get('/inventories/logs/{id}', [App\Http\Controllers\Admin\Inventory\InventoryController::class, 'logs'])->name('admin.inventory.inventories.logs');
         Route::get('/inventories/get_logs/{id}', [App\Http\Controllers\Admin\Inventory\InventoryController::class, 'get_logs'])->name('admin.inventory.inventories.get_logs');
+        Route::post('/inventories/export', [App\Http\Controllers\Admin\Inventory\InventoryController::class, 'export'])->name('admin.inventory.inventories.export');
 
         Route::get('/inventories/images/{id}', [App\Http\Controllers\Admin\Inventory\InventoryImageController::class, 'index'])->name('admin.inventory.inventories.images');
         Route::get('/inventories/get_images/{id}', [App\Http\Controllers\Admin\Inventory\InventoryImageController::class, 'get_images'])->name('admin.inventory.inventories.get_images');

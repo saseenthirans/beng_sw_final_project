@@ -2,40 +2,34 @@
 
 namespace App\Exports;
 
-use App\Models\Purchase;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class PurchaseExport implements FromView, ShouldAutoSize, WithEvents
+class InventoryExport implements FromView, ShouldAutoSize, WithEvents
 {
     /**
     * @return \Illuminate\Support\Collection
     */
-
-    public function __construct($data, $count, $request, $supplier)
+    public function __construct($data, $count, $category)
     {
         $this->data = $data;
         $this->count = $count;
-        $this->request = $request;
-        $this->supplier = $supplier;
+        $this->category = $category;
     }
 
     public function view(): View
     {
 
-        $purchases = $this->data;
-        $request = $this->request;
-        $supplier = $this->supplier;
+        $inventory = $this->data;
+        $category = $this->category;
 
-        return view('exports.purchase', [
-            'purchases' => $purchases,
-            'request' => $request,
-            'supplier' => $supplier
+        return view('exports.inventory', [
+            'inventory' => $inventory,
+            'category' => $category
         ]);
     }
 
@@ -43,11 +37,11 @@ class PurchaseExport implements FromView, ShouldAutoSize, WithEvents
     {
         $datacount = $this->count;
 
-        $last_row = ($datacount+10);
+        $last_row = ($datacount+9);
         return [
             AfterSheet::class    => function(AfterSheet $event) use($last_row) {
 
-                $event->sheet->getStyle('A9:J'.$last_row)->applyFromArray([
+                $event->sheet->getStyle('A9:G'.$last_row)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

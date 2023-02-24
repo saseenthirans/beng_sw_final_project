@@ -115,7 +115,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            
+
             var table;
 
             loadData();
@@ -256,9 +256,10 @@
                     data: data,
                     success: function(data)
                     {
+                        var name = Date.now();
                         var link = document.createElement('a');
                         link.href = window.URL.createObjectURL(data);
-                        link.download = `purchased.xlsx`;
+                        link.download = `purchase_`+name+`.xlsx`;
                         link.click();
                     },
                 });

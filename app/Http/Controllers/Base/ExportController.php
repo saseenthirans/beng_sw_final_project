@@ -3,11 +3,26 @@
 namespace App\Http\Controllers\Base;
 
 use App\Models\Purchase;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ExportController extends Controller
 {
+    public function inventoryExport($request)
+    {
+        $query = Inventory::with(['category']);
+        if(isset($request->category) && !empty($request->category))
+            $query = $query->where('category_id', $request->category);
+
+        if(isset($request->qty) && !empty($request->qty))
+            $query = $query->where('qty', '<=' ,$request->qty);
+
+        $inventory = $query->orderBy('id','DESC')->get();
+
+        return $inventory;
+    }
+
     public function purchaseExport($request)
     {
         $query = Purchase::with(['supplier','purPayments']);

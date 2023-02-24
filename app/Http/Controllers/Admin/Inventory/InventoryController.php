@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Admin\Inventory;
 
+use App\Exports\InventoryExport;
+use App\Models\Sales;
 use App\Models\Category;
 use App\Models\Inventory;
 use App\Models\SubCategory;
+use App\Models\InventoryLog;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Base\ExportController;
 use App\Http\Controllers\Base\InventoryInventoryController;
-use App\Models\InventoryLog;
-use App\Models\Sales;
-use Yajra\DataTables\DataTables;
 
 class InventoryController extends Controller
 {
@@ -136,5 +139,20 @@ class InventoryController extends Controller
             ->make(true);
 
         return $data;
+    }
+
+    public function export(Request $request)
+    {
+        $data = (new ExportController)->inventoryExport($request);
+
+        $category_name = '';
+        if (isset($request->category) && !empty($request->category))
+        {
+            $category = SubCategory::find($request->category);
+            $category_name = $category->name;
+        }
+
+        $file_name = 'inventory' . date('_YmdHis') . '.xlsx';
+        return Excel::download(new InventoryExport($data, count($data),$category_name), $file_name);
     }
 }

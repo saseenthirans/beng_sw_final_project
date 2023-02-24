@@ -80,6 +80,12 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-12 col-12  layout-spacing">
+            <button id="btn_export" class="btn btn-dark float-right text-uppercase">
+                <i class="fa fa-download"></i> Export Inventory
+            </button>
+        </div>
     @else
         <div class="col-lg-12 col-12 "
             style="height: calc(100vh - 40vh);  align-items: center; display: flex; justify-content: center;">
@@ -93,6 +99,12 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             var table;
 
             loadData();
@@ -193,6 +205,34 @@
                 table.clear();
                 table.ajax.reload();
                 table.draw();
+            });
+
+            $('#btn_export').click(function (e) {
+                e.preventDefault();
+                var category = $('.category').val();
+                var qty = $('.qty').val();
+
+                var data = {
+                    'category' :category,
+                    'qty' : qty
+                }
+
+                $.ajax({
+                    xhrFields: {
+                        responseType: 'blob',
+                    },
+                    type: "POST",
+                    url: "{{url('/admin/inventory/inventories/export')}}",
+                    data: data,
+                    success: function(data)
+                    {
+                        var name = Date.now();
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(data);
+                        link.download = `inventory_`+name+`.xlsx`;
+                        link.click();
+                    },
+                });
             });
         });
     </script>

@@ -14,6 +14,11 @@
                     RK MOBILES
                 </th>
             </tr>
+            <tr>
+                <th colspan="10" style="text-transform: uppercase; font-size: 16px; text-align: left">
+                    Purchased Summery Report
+                </th>
+            </tr>
             <tr></tr>
             <tr>
                 <th colspan="4">
