@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Inventory;
 
 use App\Exports\PurchaseExport;
+use App\Http\Controllers\Base\ExportController;
 use PDF;
 use App\Models\Purchase;
 use App\Models\Supplier;
@@ -290,7 +291,16 @@ class PurchaseController extends Controller
 
     public function export(Request $request)
     {
+        $data = (new ExportController)->purchaseExport($request);
+
+        $supplier_name = '';
+        if (isset($request->supplier) && !empty($request->supplier))
+        {
+            $supplier = Supplier::find($request->supplier);
+            $supplier_name = $supplier->name;
+        }
+        
         $file_name = 'purchased' . date('_YmdHis') . '.xlsx';
-        return Excel::download(new PurchaseExport($request->supplier,$request->status, $request->start_date, $request->end_date), $file_name);
+        return Excel::download(new PurchaseExport($data, count($data),$request,$supplier_name), $file_name);
     }
 }

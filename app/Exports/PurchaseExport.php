@@ -3,81 +3,59 @@
 namespace App\Exports;
 
 use App\Models\Purchase;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class PurchaseExport implements FromCollection, WithHeadings
+class PurchaseExport implements FromView, ShouldAutoSize, WithEvents
 {
     /**
     * @return \Illuminate\Support\Collection
     */
 
-    public function __construct($supplier, $status, $start_date, $end_date)
+    public function __construct($data, $count, $request, $supplier)
     {
+        $this->data = $data;
+        $this->count = $count;
+        $this->request = $request;
         $this->supplier = $supplier;
-        $this->status = $status;
-        $this->start_date = $start_date;
-        $this->end_date = $end_date;
     }
 
-    public function collection()
+    public function view(): View
     {
-        $query = Purchase::with(['supplier','purPayments']);
 
-        if (isset($this->supplier) && !empty($this->supplier))
-            $query = $query->where('supplier_id', $this->supplier);
+        $purchases = $this->data;
+        $request = $this->request;
+        $supplier = $this->supplier;
 
-        if (isset($this->status) && !empty($this->status))
-            $query = $query->where('status', $this->status);
-
-        if (isset($this->start_date) && !empty($this->start_date))
-            $query = $query->whereDate('pur_date','>=', $this->start_date);
-
-        if (isset($this->end_date) && !empty($this->end_date))
-            $query = $query->whereDate('pur_date','<=', $this->end_date);
-
-        $purchases = $query->orderBy('id', 'DESC')->get();
-
-        $data = [];
-        $i = 0;
-        foreach($purchases as $item)
-        {
-            $i++;
-            $paid_amount = 0;
-            if (count($item->purPayments)) {
-                $paid_amount = $item->purPayments->sum('amount');
-            }
-
-            $data[] = [
-                'id' =>$i,
-                'invoice'=>$item->invoice,
-                'supplier' => $item->supplier->name,
-                'pur_date' => $item->pur_date,
-                'pur_amount' => number_format($item->pur_amount,2),
-                'discount' => number_format($item->discount,2),
-                'final_amount' => number_format(($item->pur_amount - $item->discount),2),
-                'paid_amount' => number_format($paid_amount, 2),
-                'due_amount' => number_format(($item->pur_amount - $item->discount - $paid_amount),2),
-                'status' => $item->status == '0' ? 'Unsettled' : 'Settled'
-            ];
-        }
-
-        return collect($data);
+        return view('exports.purchase', [
+            'purchases' => $purchases,
+            'request' => $request,
+            'supplier' => $supplier
+        ]);
     }
 
-    public function headings(): array
+    public function registerEvents() : array
     {
+        $datacount = $this->count;
+
+        $last_row = ($datacount+9);
         return [
-            '#',
-            'Invoice No',
-            'Supplier Name',
-            'Purchased Date',
-            'Purchased Amount',
-            'Discount amount',
-            'Final Amount',
-            'Paid Amount',
-            'Due Amount',
-            'Purchased Status'
+            AfterSheet::class    => function(AfterSheet $event) use($last_row) {
+
+                $event->sheet->getStyle('A8:J'.$last_row)->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ],
+                ]);
+            },
         ];
     }
 }
