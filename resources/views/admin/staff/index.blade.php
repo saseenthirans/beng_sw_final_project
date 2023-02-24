@@ -13,49 +13,43 @@
 
 @section('content')
 
-{{-- <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+<div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
     <div class="statbox widget box box-shadow">
 
         <div class="col-lg-12 row">
 
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                 <div class="infobox-3">
-                    <h5 class="info-heading">No.of Purchase</h5>
-                    <h5 class="info-count">{{ ($data['count']) }}</h5>
+                    <h5 class="info-heading">Total Staff</h5>
+                    <h5 class="info-count">{{ ($staffcount['0'] + $staffcount['1']) }}</h5>
                 </div>
             </div>
 
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
                 <div class="infobox-3">
-                    <h5 class="info-heading">Total Purchase</h5>
-                    <h5 class="info-count">{{ number_format($data['pur_total'],2,'.','') }}</h5>
+                    <h5 class="info-heading">Total Active Staff</h5>
+                    <h5 class="info-count">{{ $staffcount['1'] }}</h5>
                 </div>
             </div>
 
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mt-1 mb-1">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                 <div class="infobox-3">
-                    <h5 class="info-heading">No.of Suppliers</h5>
-                    <h5 class="info-count">{{  $data['supplier'] }}</h5>
+                    <h5 class="info-heading">Total Inactive Staff</h5>
+                    <h5 class="info-count">{{  $staffcount['0'] }}</h5>
                 </div>
             </div>
 
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mt-1 mb-1">
-                <div class="infobox-3">
-                    <h5 class="info-heading">Total Inventory Qty</h5>
-                    <h5 class="info-count">{{ $data['inventory']  }}</h5>
-                </div>
-            </div>
 
         </div>
     </div>
-</div> --}}
+</div>
 
 <div id="chartDonut" class="col-xl-12 col-lg-12 col-12 layout-spacing">
     <div class="statbox widget box box-shadow">
         <div class="widget-header">
             <div class="row">
                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                    <h4 class="text-center font-weight-bold text-uppercase" style="font-size: 24px">Monthly Purchase Count -
+                    <h4 class="text-center font-weight-bold text-uppercase" style="font-size: 24px">Monthly Salary Paid -
                         {{ date('Y') }}</h4>
                 </div>
             </div>
@@ -79,10 +73,9 @@
         {
             $.ajax({
                 type: "GET",
-                url: "{{url('/admin/inventory/get_purchase')}}",
+                url: "{{url('/admin/staffs/get_monthly_salary')}}",
                 dataType: "JSON",
                 success: function (response) {
-
                     var sLineArea = {
                         chart: {
                             height: 450,
@@ -98,17 +91,17 @@
                             curve: 'smooth'
                         },
                         series: [{
-                            name: 'Count',
-                            data: response.data.count
+                            name: 'Amount',
+                            data: response.amount
                         }],
                         yaxis: {
                             title: {
-                                text: 'No. of Purchases'
+                                text: 'Total Paid'
                             }
                         },
 
                         xaxis: {
-                            categories: response.data.month,
+                            categories: response.month,
                         },
 
                     }

@@ -133,6 +133,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin/staffs')->middleware(['is_admin'])->group(function () {
         //Staff Modules Dashboard
         Route::get('/', [App\Http\Controllers\Admin\Staff\IndexController::class, 'index'])->name('admin.staffs.dashboard');
+        Route::get('/get_monthly_salary', [App\Http\Controllers\Admin\Staff\IndexController::class, 'get_monthly_salary'])->name('admin.staffs.dashboard.get_monthly_salary');
 
         //Staff Controller
         Route::get('/staffs', [App\Http\Controllers\Admin\Staff\StaffController::class, 'index'])->name('admin.staffs.staffs');

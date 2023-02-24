@@ -82,7 +82,7 @@
                         <td>{{$item->staff->basicSalary->salary}}</td>
                         <td>{{date('Y F', strtotime($year_month))}}</td>
                         <td>{{date('Y-m-d', strtotime($item->updated_at))}}</td>
-                        <td style="text-align: right">{{$item->paid_amount}}</td>
+                        <td style="text-align: right">{{number_format($item->paid_amount,2)}}</td>
                     </tr>
                     @php
                         $paidamount = (($paidamount + $item->paid_amount));
