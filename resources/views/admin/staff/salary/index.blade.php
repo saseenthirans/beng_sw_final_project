@@ -65,11 +65,11 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
-                                <th>Contact</th>
-                                <th>Email</th>
+                                <th>StaffName</th>
                                 <th>Basic Salary</th>
-                                <th>Status</th>
+                                <th>Paid Salary</th>
+                                <th>Year Month</th>
+                                <th>Updated Date</th>
                                 <th class="no-content">Actions</th>
                             </tr>
                         </thead>
@@ -77,6 +77,12 @@
                     </table>
                 </div>
             </div>
+        </div>
+
+        <div class="col-lg-12 col-12  layout-spacing">
+            <button id="btn_export" class="btn btn-dark float-right text-uppercase">
+                <i class="fa fa-download"></i> Export Purchase
+            </button>
         </div>
     @else
         <div class="col-lg-12 col-12 "
@@ -91,6 +97,12 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             var table;
 
             loadDatas();
@@ -118,9 +130,11 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{!! url('/admin/staffs/get_staffs') !!}",
+                        url: "{!! url('/admin/staffs/get_salary') !!}",
                         data: function (d) {
-                                d.status = $('.status').val()
+                                d.staff = $('.staff').val(),
+                                d.start_date = $('.start_date').val(),
+                                d.end_date = $('.end_date').val()
                             }
                         },
                     columns: [{
@@ -131,23 +145,25 @@
                         },
                         {
                             data: 'name',
-                            name: 'name'
-                        },
-                        {
-                            data: 'contact',
-                            name: 'contact',
-                        },
-                        {
-                            data: 'email',
-                            name: 'email',
+                            name: 'users.name'
                         },
                         {
                             data: 'basic_salary',
                             name: 'basic_salary',
+                            searchable: false
                         },
                         {
-                            data: 'status',
-                            name: 'status',
+                            data: 'paid_amount',
+                            name: 'paid_amount',
+                            searchable: false
+                        },
+                        {
+                            data: 'paid_year_month',
+                            name: 'paid_year_month',
+                        },
+                        {
+                            data: 'updated_date',
+                            name: 'updated_date',
                             searchable: false
                         },
 
@@ -173,12 +189,50 @@
             $('.btn_reset').click(function (e) {
                 e.preventDefault();
 
-                $('.status').val('').change();
+                $('.staff').val('').change();
+                $('.start_date').val('');
+                $('.end_date').val('');
 
                 //reload the table
                 table.clear();
                 table.ajax.reload();
                 table.draw();
+            });
+
+            $('.start_date').change(function (e) {
+                e.preventDefault();
+                $('.end_date').attr('min', $(this).val());
+                $('.end_date').val($(this).val());
+            });
+
+            $('#btn_export').click(function (e) {
+                e.preventDefault();
+                var staff = $('.staff').val();
+                var start_date = $('.start_date').val();
+                var end_date = $('.end_date').val();
+
+                var data = {
+                    'staff' :staff,
+                    'end_date' : end_date,
+                    'start_date' : start_date
+                }
+
+                $.ajax({
+                    xhrFields: {
+                        responseType: 'blob',
+                    },
+                    type: "POST",
+                    url: "{{url('/admin/staffs/salary/export')}}",
+                    data: data,
+                    success: function(data)
+                    {
+                        var name = Date.now();
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(data);
+                        link.download = `staff_salary_`+name+`.xlsx`;
+                        link.click();
+                    },
+                });
             });
 
         });
@@ -213,10 +267,10 @@
                             }
                             $.ajax({
                                 type: "POST",
-                                url: "{{ url('/admin/staffs/staffs/delete/') }}" + "/" + id,
+                                url: "{{ url('/admin/staffs/salary/delete/') }}" + "/" + id,
                                 data: data,
                                 success: function(response) {
-                                    location.href = "{{ url('/admin/staffs/staffs') }}";
+                                    location.href = "{{ url('/admin/staffs/salary') }}";
                                 }
                             });
                         }

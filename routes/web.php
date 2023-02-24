@@ -152,5 +152,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/salary/update/{id}', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'update_form'])->name('admin.staffs.salary.update.form');
         Route::post('/salary/update', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'update'])->name('admin.staffs.salary.update');
         Route::post('/salary/delete/{id}', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'delete'])->name('admin.staffs.salary.delete');
+        Route::post('/salary/export', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'export'])->name('admin.staffs.salary.export');
     });
 });

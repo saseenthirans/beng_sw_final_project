@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Base;
 
 use App\Models\Purchase;
 use App\Models\Inventory;
+use App\Models\StaffSalary;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -42,5 +43,22 @@ class ExportController extends Controller
         $purchases = $query->orderBy('id', 'DESC')->get();
 
         return $purchases;
+    }
+
+    public function staffSalaryExport($request)
+    {
+        $query = StaffSalary::with('staff');
+            if (isset($request->staff) && !empty($request->staff))
+                $query = $query->where('user_id',$request->staff);
+
+            if (isset($request->start_date) && !empty($request->start_date))
+                $query = $query->whereDate('updated_at','>=', $request->start_date);
+
+            if (isset($request->end_date) && !empty($request->end_date))
+                $query = $query->whereDate('updated_at','<=', $request->end_date);
+
+        $salary = $query->orderBy('id','DESC')->get();
+
+        return $salary;
     }
 }
