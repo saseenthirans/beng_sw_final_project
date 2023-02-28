@@ -30,10 +30,10 @@
             <div class="widget-content widget-content-area">
                 <form method="POST" id="form_submit" enctype="multipart/form-data">
                     @csrf
-                    <div class="col-lg-12 col-12 mt-5 ">
+                    <div class="col-lg-12 col-12 mt-5 mb-5">
                         <div class="row">
 
-                            <div class="col-lg-6 col-12">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="form-group mb-4">
                                     <label for="exampleFormControlInput2">Date<span class="text-danger">*</span></label>
                                     <input type="date" name="date" class="form-control" value="{{ old('date') }}"
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-12">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="form-group mb-4">
                                     <label for="exampleFormControlInput2">Customer<span class="text-danger">*</span></label>
                                     <select name="customer" class="form-control disabled-results">
@@ -122,93 +122,147 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group mb-4">
-                                    <label for="exampleFormControlInput2">Tax Amount<span
-                                            class="text-danger">*</span></label>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                                <div class="row">
+                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                                        <div class="form-group mb-0 text-right">
+                                            <label for="exampleFormControlInput2"
+                                                class="font-weight-bold text-black text-right text-uppercase">Sub
+                                                Total</label>
+                                        </div>
+                                    </div>
 
-                                    <input type="text" name="tax_amount" class="form-control price" value="0"
-                                        id="tax_amount">
-
-                                    <span class="text-danger font-weight-bold err_tax_amount"></span>
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                                        <div class="form-group mb-0">
+                                            <input type="text" readonly name="sub_total" id="sub_total"
+                                                class="form-control sub_total text-right text-black" value="0"
+                                                id="exampleFormControlInput2">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group mb-4">
-                                    <label for="exampleFormControlInput2">Discount (%)<span
-                                            class="text-danger">*</span></label>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                                <div class="row">
+                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                                        <div class="form-group mb-0 text-right">
+                                            <label for="exampleFormControlInput2"
+                                                class="font-weight-bold text-black text-right text-uppercase">Discount
+                                                (%)<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
 
-                                    <input type="text" name="discount" class="form-control" value="0" max="100"
-                                        id="discount">
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                                        <div class="form-group mb-0">
+                                            <input type="text" name="discount" class="form-control text-right text-black" value="0"
+                                                max="100" id="discount">
 
-                                    <span class="text-danger font-weight-bold err_discount"></span>
+                                            <span class="text-danger font-weight-bold err_discount"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group mb-4">
-                                    <label for="exampleFormControlInput2">Payment Type<span
-                                            class="text-danger">*</span></label>
-                                    <select name="pay_type" class="form-control disabled-results">
-                                        <option value=""></option>
-                                        @foreach ($pay_type as $item)
-                                            <option value="{{ $item->id }}">{{ $item->method }}</option>
-                                        @endforeach
-                                    </select>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                                <div class="row">
+                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                                        <div class="form-group mb-0 text-right">
+                                            <label for="exampleFormControlInput2"
+                                                class="font-weight-bold text-black text-right text-uppercase">Total
+                                                Amount<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
 
-                                    <span class="text-danger font-weight-bold err_pay_type"></span>
-
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                                        <div class="form-group mb-0">
+                                            <input type="text" readonly name="total_amount" id="total_amount"
+                                                placeholder="0.00" class="form-control price text-right text-black" value="0.00">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group mb-4">
-                                    <label for="exampleFormControlInput2">Total Amount<span
-                                            class="text-danger">*</span></label>
+                            <input type="hidden" name="tax_amount" class="form-control price" value="0"
+                                id="tax_amount">
 
-                                    <input type="text" readonly name="total_amount" id="total_amount"
-                                        placeholder="0.00" class="form-control price" value="0.00">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                                <div class="row">
+                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                                        <div class="form-group mb-0 text-right">
+                                            <label for="exampleFormControlInput2"
+                                                class="font-weight-bold text-black text-right text-uppercase">Payment
+                                                Type<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                                        <div class="form-group mb-0">
+                                            <select name="pay_type" class="form-control disabled-results text-right text-black">
+                                                <option value=""></option>
+                                                @foreach ($pay_type as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->method }}</option>
+                                                @endforeach
+                                            </select>
+
+                                            <span class="text-danger font-weight-bold err_pay_type"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group mb-4">
-                                    <label for="exampleFormControlInput2">Paid Amount<span
-                                            class="text-danger">*</span></label>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                                <div class="row">
+                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                                        <div class="form-group mb-0 text-right">
+                                            <label for="exampleFormControlInput2"
+                                                class="font-weight-bold text-black text-right text-uppercase">Paid
+                                                Amount<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
 
-                                    <input type="text" name="paid_amount" class="form-control price" value="0"
-                                        id="paid_amount">
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                                        <div class="form-group mb-0">
+                                            <input type="text" name="paid_amount" class="form-control price text-right text-black"
+                                                value="0" id="paid_amount">
 
-                                    <span class="text-danger font-weight-bold err_paid_amount"></span>
+                                            <span class="text-danger font-weight-bold err_paid_amount"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group mb-4">
-                                    <label for="exampleFormControlInput2">Due Amount<span
-                                            class="text-danger">*</span></label>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                                <div class="row">
+                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                                        <div class="form-group mb-0 text-right">
+                                            <label for="exampleFormControlInput2"
+                                                class="font-weight-bold text-black text-right text-uppercase">Due
+                                                Amount<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
 
-                                    <input type="text" readonly name="due_amount" placeholder="0.00"
-                                        class="form-control price" value="0.00" id="due_amount">
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                                        <div class="form-group mb-0">
+                                            <input type="text" readonly name="due_amount" placeholder="0.00"
+                                                class="form-control price text-right text-black" value="0.00" id="due_amount">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
 
 
                     <div class="col-lg-12 col-12 mb-5" id="submit_button">
                         <div class="form-group text-center text-sm-right">
-                            <button type="submit" class="btn btn-primary btn-max-200 text-uppercase font-weight-bold"
+                            <button type="submit" class="btn btn-theme btn-max-200 text-uppercase font-weight-bold"
                                 style="width: 200px">Save</button>
                         </div>
                     </div>
 
                     <div class="col-lg-12 col-12 mb-5" id="disable_button" style="display: none">
                         <div class="form-group text-center text-sm-right">
-                            <button type="button" class="btn btn-primary btn-max-200 text-uppercase font-weight-bold"
+                            <button type="button" class="btn btn-theme btn-max-200 text-uppercase font-weight-bold"
                                 style="width: 200px"><i class="fas fa-spinner fa-spin"></i> Saving ...</button>
                         </div>
                     </div>
@@ -267,7 +321,7 @@
                     'product': product,
                     'qty': $('#qty').val(),
                     'price': $('#price').val(),
-                    'prduct_arry' : prduct_arry
+                    'prduct_arry': prduct_arry
                 }
 
                 if (product == '') {
@@ -292,41 +346,35 @@
                                         $('.err_' + key).text('');
                                     }
                                 });
-                            }
-                            else if(response.status == false)
-                            {
+                            } else if (response.status == false) {
                                 $('.err_product').text(response.message);
-                            }
-                            else {
+                            } else {
                                 //Clear the Data
                                 $('#product').val('').change();
                                 $('#qty').val('');
                                 $('#price').val('');
 
                                 //Set the product id to prduct_arry
-                                prduct_arry[response.data.product_id] = response.data.product_id;
+                                prduct_arry[response.data.product_id] = response.data
+                                .product_id;
 
                                 //Append the Invoice Data
                                 $('#invoice_table_body').append('<tr id="row_' + i + '">\
-                                        <td>' + response.data.product_name +
+                                            <td>' + response.data.product_name +
                                     ' <input type="hidden" name="product_id[]" id="product_id"  value="' +
                                     response.data.product_id + '"> </td>\
-                                        <td>' + response.data.qty + ' x ' + response.data.priceval +
+                                            <td>' + response.data.qty + ' x ' + response.data.priceval +
                                     ' <input type="hidden" name="qty[]"  value="' + response
                                     .data.qty + '"></td>\
-                                        <td>' + response.data.total + ' <input type="hidden" name="price[]"  value="' +
+                                            <td>' + response.data.total + ' <input type="hidden" name="price[]"  value="' +
                                     response.data.price +
                                     '"><input type="hidden" id="amount_val" name="amount"  value="' +
                                     response.data.amount + '"></td>\
-                                        <td><button type="button" class="btn btn-danger remove_button" id="' + i + '"><i class="fa fa-trash"></i></button></td>\
-                                    </tr>');
+                                            <td><button type="button" class="btn btn-danger remove_button" id="' + i + '"><i class="fa fa-trash"></i></button></td>\
+                                        </tr>');
 
                                 total = (total + response.data.amount);
-                                $('#tfoot_data').html('');
-                                $('#tfoot_data').append('<tr>\
-                                        <td colspan="2"> </td>\
-                                        <td colspan="2">' + total.toFixed(2) + ' </td>\
-                                    </tr>');
+                                $('#sub_total').val(total.toFixed(2));
 
                                 var tax_amount = $('#tax_amount').val();
                                 var discount_val = $('#discount').val();
@@ -386,11 +434,7 @@
                 $('#row_' + button_id + '').remove();
 
                 total = (total - val);
-                $('#tfoot_data').html('');
-                $('#tfoot_data').append('<tr>\
-                            <td colspan="2"> </td>\
-                            <td colspan="2">' + total.toFixed(2) + ' </td>\
-                        </tr>');
+                $('#sub_total').val(total);
 
                 var tax_amount = $('#tax_amount').val();
                 var discount_val = $('#discount').val();
@@ -588,12 +632,10 @@
                 //Due Amount Validation
                 if (due_amount_val < 0) {
                     var due_amount = 0;
-                    $('.err_paid_amount').text('Paid Amount must not be grater than '+total_amount);
-                }
-                else if (due_amount_val <= 0) {
+                    $('.err_paid_amount').text('Paid Amount must not be grater than ' + total_amount);
+                } else if (due_amount_val <= 0) {
                     var due_amount = 0;
-                }
-                else {
+                } else {
                     $('.err_paid_amount').text('');
                     var due_amount = due_amount_val;
                 }
@@ -630,12 +672,9 @@
                                     $('.err_' + key).text(item);
                                 }
                             });
-                        }
-                        else if(response.status == false)
-                        {
+                        } else if (response.status == false) {
                             $('.err_product').text(response.message);
-                        }
-                        else {
+                        } else {
                             $.confirm({
                                 theme: 'modern',
                                 columnClass: 'col-md-6 col-12 col-md-offset-4',
@@ -647,7 +686,8 @@
                                         text: 'OK',
                                         btnClass: 'btn-150',
                                         action: function() {
-                                            location.href = "{{ url('/admin/invoices/invoices') }}";
+                                            location.href =
+                                                "{{ url('/admin/invoices/invoices') }}";
                                         }
                                     },
                                 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Invoice;
 
+use App\Http\Controllers\Base\Invoice\InvoiceController as InvoiceInvoiceController;
 use App\Models\Invoice;
 use App\Models\Customer;
 use App\Models\Inventory;
@@ -22,6 +23,13 @@ class InvoiceController extends Controller
             'invoices' => $invoices,
             'customers' => $customers
         ]);
+    }
+
+    public function get_invoices(Request $request)
+    {
+        $data = (new InvoiceInvoiceController)->index($request);
+
+        return $data;
     }
 
     public function add_new()
@@ -85,7 +93,6 @@ class InvoiceController extends Controller
 
     public function create(Request $request)
     {
-        dd($request->all());
         $validator = Validator::make(
             $request->all(),
             [
@@ -106,17 +113,9 @@ class InvoiceController extends Controller
             return response()->json(['status' => false,  'message' => 'Please add atleast one Product']);
         }
 
-        $amount = (($request->total_amount * $request->discount)/100);
+        //Store Invoice Data
+        (new InvoiceInvoiceController)->create($request);
 
-        //Create Invoice
-        $invoice = new Invoice();
-        $invoice->ref_no = date('YmdHis');
-        $invoice->customer_id = $request->customer;
-        $invoice->user_id = Auth::user()->id;
-        $invoice->invoice_date = $request->date;
-        $invoice->tax_amount = $request->tax_amount;
-        $invoice->disc_percentage = $request->discount;
-        // $invoice->disc_amount = 
-
+        return response()->json(['status' => true,  'message' => 'New Invoice Created Successfully']);
     }
 }

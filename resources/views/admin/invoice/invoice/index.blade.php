@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
                         <label for="">Customer</label>
-                        <select name="supplier" class="form-control disabled-results supplier">
+                        <select name="customer" class="form-control disabled-results customer">
                             <option value=""></option>
                             @foreach ($customers as $item)
                                 <option class="ml-4" value="{{ $item->id }}">{{ $item->name }}</option>
@@ -74,6 +74,7 @@
                                 <th>Discount (%)</th>
                                 <th>Discount Amount</th>
                                 <th>Final Amount</th>
+                                <th>Due Amount</th>
                                 <th>Status</th>
                                 <th class="no-content">Actions</th>
                             </tr>
@@ -134,10 +135,9 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{!! url('/admin/inventory/get_purchases') !!}",
+                        url: "{!! url('/admin/invoices/get_invoices') !!}",
                         data: function(d) {
-                            d.supplier = $('.supplier').val(),
-                            d.status = $('.status').val(),
+                            d.customer = $('.customer').val(),
                             d.start_date = $('.start_date').val(),
                             d.end_date = $('.end_date').val()
                         }
@@ -149,20 +149,27 @@
                             searchable: false
                         },
                         {
-                            data: 'invoice',
-                            name: 'invoice'
+                            data: 'ref_no',
+                            name: 'ref_no'
                         },
                         {
-                            data: 'supplier',
-                            name: 'supplier'
+                            data: 'invoice_date',
+                            name: 'invoice_date',
+                            searchable: false
                         },
                         {
-                            data: 'pur_date',
-                            name: 'pur_date',
+                            data: 'customer',
+                            name: 'customer',
+                            searchable: false
                         },
                         {
-                            data: 'pur_amount',
-                            name: 'pur_amount',
+                            data: 'created_by',
+                            name: 'created_by',
+                            searchable: false
+                        },
+                        {
+                            data: 'sub_total',
+                            name: 'sub_total',
                             searchable: false
                         },
                         {
@@ -171,13 +178,18 @@
                             searchable: false
                         },
                         {
-                            data: 'final_amount',
-                            name: 'final_amount',
+                            data: 'disc_amount',
+                            name: 'disc_amount',
                             searchable: false
                         },
                         {
-                            data: 'inv_file',
-                            name: 'inv_file',
+                            data: 'total',
+                            name: 'total',
+                            searchable: false
+                        },
+                        {
+                            data: 'due_amount',
+                            name: 'due_amount',
                             searchable: false
                         },
                         {
@@ -208,8 +220,7 @@
             $('.btn_reset').click(function(e) {
                 e.preventDefault();
 
-                $('.supplier').val('').change();
-                $('.status').val('').change();
+                $('.customer').val('').change(),
                 $('.start_date').val('');
                 $('.end_date').val('');
 
