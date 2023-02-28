@@ -117,7 +117,7 @@ Route::middleware(['auth'])->group(function () {
         //Invoice Modules Dashboard
         Route::get('/', [App\Http\Controllers\Admin\Invoice\IndexController::class, 'index'])->name('admin.invoice.dashboard');
 
-        //Suppliers Controller
+        //Customer Controller
         Route::get('/customers', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'index'])->name('admin.invoice.customers');
         Route::get('/get_customers', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'get_customers'])->name('admin.invoice.get_customers');
         Route::get('/customers/create', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'add_new'])->name('admin.invoice.customers.create.form');
@@ -127,6 +127,14 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/customers/delete/{id}', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'delete'])->name('admin.invoice.customers.delete');
         Route::get('/customers/logs/{id}', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'logs'])->name('admin.invoice.customers.logs');
         Route::get('/customers/get_logs/{id}', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'get_logs'])->name('admin.invoice.customers.get_logs');
+
+        //Invoice Controller
+        Route::get('/invoices', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'index'])->name('admin.invoice.invoices');
+        Route::get('/get_invoices', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'get_invoices'])->name('admin.invoice.get_invoices');
+        Route::get('/invoices/create', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'add_new'])->name('admin.invoice.invoices.create.form');
+        Route::post('/invoices/get_product_info', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'get_product_info'])->name('admin.invoice.invoices.get_product_info');
+        Route::post('/invoices/product_validation', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'product_validation'])->name('admin.invoice.invoices.product_validation');
+        Route::post('/invoices/create', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'create'])->name('admin.invoice.invoices.create');
     });
 
     //Admin Access with Invoice Module
