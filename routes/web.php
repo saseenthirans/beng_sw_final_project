@@ -143,6 +143,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/invoices/get_invoice_items', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'get_invoice_items'])->name('admin.invoice.invoices.get_invoice_items');
         Route::post('/invoices/delete_invoice_items', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'delete_invoice_items'])->name('admin.invoice.invoices.delete_invoice_items');
         Route::post('/invoices/update', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'update'])->name('admin.invoice.invoices.update');
+
+        //----------- Payment Flow
+        Route::get('/invoices/payments/{id}', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'payments_form'])->name('admin.invoice.invoices.payments.form');
+        Route::get('/invoices/get_payments/{id}', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'get_payments'])->name('admin.invoice.invoices.payments.get');
+        Route::post('/invoices/store_payments', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'store_payments'])->name('admin.invoice.invoices.store_payments');
+        Route::post('/invoices/delete_payments', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'delete_payments'])->name('admin.invoice.invoices.delete_payments');
     });
 
     //Admin Access with Invoice Module

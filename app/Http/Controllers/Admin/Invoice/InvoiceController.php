@@ -9,6 +9,8 @@ use App\Models\Inventory;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
 use App\Http\Controllers\Controller;
+use App\Models\InvoiceLog;
+use App\Models\InvoicePayment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
@@ -134,7 +136,7 @@ class InvoiceController extends Controller
         $invoices = Invoice::find($id);
 
         $customers = Customer::withTrashed()->get();
-        $product = Inventory::withTrashed()->get();
+        $product = Inventory::where('status',1)->get();
         $pay_type = PaymentMethod::all();
 
         return view('admin.invoice.invoice.update',[
@@ -200,5 +202,63 @@ class InvoiceController extends Controller
         (new InvoiceInvoiceController)->update($request);
 
         return response()->json(['status' => true,  'message' => 'Selected Invoice Updated Successfully']);
+    }
+
+    public function payments_form($id)
+    {
+        $id = Crypt::decrypt($id);
+        $invoices = Invoice::find($id);
+        $pay_type = PaymentMethod::all();
+
+        return view('admin.invoice.invoice.payments',[
+            'pay_type' => $pay_type,
+            'invoices' => $invoices
+        ]);
+    }
+
+    public function get_payments($id)
+    {
+        $data = (new InvoiceInvoiceController)->get_payments($id);
+
+        return $data;
+    }
+
+    public function store_payments(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'pay_method' => 'required',
+                'paid_date' => 'required',
+                'paid_amount' => 'required|numeric|between:1,9999999999.99',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'statuscode' => 400, 'errors' => $validator->errors()]);
+        }
+
+        (new InvoiceInvoiceController)->store_payments($request);
+
+        return response()->json(['status' => true,  'message' => 'New Payment added successfully']);
+    }
+
+    public function delete_payments(Request $request)
+    {
+        $payment = InvoicePayment::find($request->id);
+        $invoice = Invoice::find($payment->invoice_id);
+        $invoice->status = $invoice->status == 1 ? 0 : 0;
+        $invoice->update();
+
+        InvoicePayment::destroy($request->id);
+
+        //Store the Invoice Log
+        $logs = new InvoiceLog();
+        $logs->inv_id = $invoice->id;
+        $logs->user_id = Auth::user()->id;
+        $logs->work = 'Delete payment';
+        $logs->save();
+
+        return response()->json(['status' => true,  'message' => 'Selected Payment deleted successfully']);
     }
 }
