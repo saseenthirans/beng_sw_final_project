@@ -11,6 +11,6 @@ class CustomerLog extends Model
 
     public function getCreator()
     {
-        return $this->hasOne(User::class, 'id','user_id');
+        return $this->hasOne(User::class, 'id','user_id')->withTrashed();
     }
 }

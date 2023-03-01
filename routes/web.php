@@ -149,6 +149,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/invoices/get_payments/{id}', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'get_payments'])->name('admin.invoice.invoices.payments.get');
         Route::post('/invoices/store_payments', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'store_payments'])->name('admin.invoice.invoices.store_payments');
         Route::post('/invoices/delete_payments', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'delete_payments'])->name('admin.invoice.invoices.delete_payments');
+
+        //------------ Deleting Flow
+        Route::post('/invoices/delete', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'delete'])->name('admin.invoice.invoices.delete');
+
+        //------------ Logs
+        Route::get('/invoices/logs/{id}', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'logs'])->name('admin.invoice.invoices.logs');
+        Route::get('/invoices/get_logs/{id}', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'get_logs'])->name('admin.invoice.invoices.get_logs');
+
+        //------------ Reporting Flow
+        Route::get('/invoices/download/{id}', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'download'])->name('admin.invoice.invoices.download');
+        Route::post('/invoices/export', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'export'])->name('admin.invoice.invoices.export');
     });
 
     //Admin Access with Invoice Module

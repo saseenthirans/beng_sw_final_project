@@ -327,4 +327,22 @@ class InvoiceController extends Controller
         $logs->save();
 
     }
+
+    public function invoiceExport($request)
+    {
+        $query = Invoice::with(['customers', 'creator', 'invoiceItems', 'invoicePayment']);
+
+        if (isset($request->customer) && !empty($request->customer))
+            $query = $query->where('customer_id', $request->customer);
+
+        if (isset($request->start_date) && !empty($request->start_date))
+            $query = $query->whereDate('invoice_date', '>=', $request->start_date);
+
+        if (isset($request->end_date) && !empty($request->end_date))
+            $query = $query->whereDate('invoice_date', '<=', $request->end_date);
+
+        $invoices = $query->orderBy('id', 'DESC')->get();
+
+        return $invoices;
+    }
 }

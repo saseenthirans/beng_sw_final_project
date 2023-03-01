@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Admin\Invoice;
 
-use App\Http\Controllers\Base\Invoice\InvoiceController as InvoiceInvoiceController;
+use App\Exports\InvoiceExport;
+use PDF;
+use App\Models\Company;
 use App\Models\Invoice;
 use App\Models\Customer;
 use App\Models\Inventory;
+use App\Models\InvoiceLog;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
-use App\Http\Controllers\Controller;
-use App\Models\InvoiceLog;
 use App\Models\InvoicePayment;
+use Yajra\DataTables\DataTables;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Base\Invoice\InvoiceController as InvoiceInvoiceController;
 
 class InvoiceController extends Controller
 {
@@ -260,5 +265,94 @@ class InvoiceController extends Controller
         $logs->save();
 
         return response()->json(['status' => true,  'message' => 'Selected Payment deleted successfully']);
+    }
+
+    public function delete(Request $request)
+    {
+        $invoice = Invoice::find($request->id);
+
+        //Delete the Payments
+        $invoice->invoicePayment()->delete();
+
+        //Increase the Invetory
+        foreach ($invoice->invoiceItems as $item) {
+            $inventory = Inventory::find($item->product_id);
+
+            if ($inventory) {
+
+                $inventory->qty = $inventory->qty + $item->qty;
+                $inventory->update();
+            }
+        }
+
+        //Delete Invoice Items
+        $invoice->invoiceItems()->delete();
+
+        //Delete Invoice
+        Invoice::destroy($request->id);
+
+        return response()->json(['status' => true,  'message' => 'Selected Invoice deleted successfully']);
+    }
+
+    public function logs($id)
+    {
+        $id = Crypt::decrypt($id);
+
+        $invoice = Invoice::find($id);
+
+        return view('admin.invoice.invoice.logs',[
+            'invoice' => $invoice
+        ]);
+    }
+
+    public function get_logs($id)
+    {
+        $category = InvoiceLog::with(['getCreator'])->where('inv_id',$id)->orderBy('id','DESC');
+
+        $data =  Datatables::of($category)
+            ->addIndexColumn()
+
+            ->addColumn('created', function ($item) {
+                return ucwords($item->getCreator->name);
+            })
+            ->addColumn('acc_date', function ($item) {
+                return date('Y-m-d h:i:s A', strtotime($item->created_at));
+            })
+            ->rawColumns(['created','acc_date'])
+            ->make(true);
+
+        return $data;
+    }
+
+    public function download($id)
+    {
+        $id = Crypt::decrypt($id);
+
+        $invoice = Invoice::find($id);
+        $company = Company::find(1);
+
+        $data = [
+            'invoice' => $invoice,
+            'company' =>$company,
+            'url' => url($company->image)
+        ];
+
+        $pdf = PDF::loadView('admin.invoice.invoice.download', $data);
+        return $pdf->download('invoice' . date('Ymdhis') . '.pdf');
+    }
+
+    public function export(Request $request)
+    {
+        $data = (new InvoiceInvoiceController)->invoiceExport($request);
+
+        $customer_name = '';
+        if (isset($request->customer) && !empty($request->customer))
+        {
+            $customer = Customer::find($request->customer);
+            $customer_name = $customer->name;
+        }
+
+        $file_name = 'invoice' . date('_YmdHis') . '.xlsx';
+        return Excel::download(new InvoiceExport($data, count($data),$request,$customer_name), $file_name);
     }
 }

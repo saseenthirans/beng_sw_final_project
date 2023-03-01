@@ -299,7 +299,7 @@ class PurchaseController extends Controller
             $supplier = Supplier::find($request->supplier);
             $supplier_name = $supplier->name;
         }
-        
+
         $file_name = 'purchased' . date('_YmdHis') . '.xlsx';
         return Excel::download(new PurchaseExport($data, count($data),$request,$supplier_name), $file_name);
     }

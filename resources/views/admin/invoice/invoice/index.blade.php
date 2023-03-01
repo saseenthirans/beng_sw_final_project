@@ -238,14 +238,12 @@
 
             $('#btn_export').click(function (e) {
                 e.preventDefault();
-                var supplier = $('.supplier').val();
+                var customer = $('.customer').val();
                 var start_date = $('.start_date').val();
                 var end_date = $('.end_date').val();
-                var status = $('.status').val();
 
                 var data = {
-                    'supplier' :supplier,
-                    'status' : status,
+                    'customer' :customer,
                     'start_date' : start_date,
                     'end_date' : end_date
                 }
@@ -255,14 +253,14 @@
                         responseType: 'blob',
                     },
                     type: "POST",
-                    url: "{{url('/admin/inventory/purchases/export')}}",
+                    url: "{{url('/admin/invoices/invoices/export')}}",
                     data: data,
                     success: function(data)
                     {
                         var name = Date.now();
                         var link = document.createElement('a');
                         link.href = window.URL.createObjectURL(data);
-                        link.download = `purchase_`+name+`.xlsx`;
+                        link.download = `invoices_`+name+`.xlsx`;
                         link.click();
                     },
                 });
@@ -284,7 +282,7 @@
                 columnClass: 'col-md-6 col-md-offset-4',
                 icon: 'fa fa-info-circle text-danger',
                 title: 'Are you Sure!',
-                content: 'Do you want to Delete the Selected Purchase?',
+                content: 'Do you want to Delete the Selected Invoice? If you delete you will lost the Related Invoice Data and Inventory will update',
                 type: 'red',
                 autoClose: 'cancel|10000',
                 buttons: {
@@ -298,10 +296,10 @@
                             }
                             $.ajax({
                                 type: "POST",
-                                url: "{{ url('/admin/inventory/purchases/delete/') }}" + "/" + id,
+                                url: "{{ url('/admin/invoices/invoices/delete') }}",
                                 data: data,
                                 success: function(response) {
-                                    location.href = "{{ url('/admin/inventory/purchases') }}";
+                                    location.href = "{{ url('/admin/invoices/invoices') }}";
                                 }
                             });
                         }
