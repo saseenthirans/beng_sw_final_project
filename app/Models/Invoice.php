@@ -29,4 +29,9 @@ class Invoice extends Model
     {
         return $this->hasMany(InvoicePayment::class, 'invoice_id','id');
     }
+
+    public function firstPayment()
+    {
+        return $this->hasOne(InvoicePayment::class, 'invoice_id','id')->orderBy('id','ASC')->first();
+    }
 }

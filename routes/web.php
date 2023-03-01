@@ -131,10 +131,18 @@ Route::middleware(['auth'])->group(function () {
         //Invoice Controller
         Route::get('/invoices', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'index'])->name('admin.invoice.invoices');
         Route::get('/get_invoices', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'get_invoices'])->name('admin.invoice.get_invoices');
+
+        //----------- Creating Flow
         Route::get('/invoices/create', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'add_new'])->name('admin.invoice.invoices.create.form');
         Route::post('/invoices/get_product_info', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'get_product_info'])->name('admin.invoice.invoices.get_product_info');
         Route::post('/invoices/product_validation', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'product_validation'])->name('admin.invoice.invoices.product_validation');
         Route::post('/invoices/create', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'create'])->name('admin.invoice.invoices.create');
+
+        //----------- Updating Flow
+        Route::get('/invoices/update/{id}', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'update_form'])->name('admin.invoice.invoices.update.form');
+        Route::post('/invoices/get_invoice_items', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'get_invoice_items'])->name('admin.invoice.invoices.get_invoice_items');
+        Route::post('/invoices/delete_invoice_items', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'delete_invoice_items'])->name('admin.invoice.invoices.delete_invoice_items');
+        Route::post('/invoices/update', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'update'])->name('admin.invoice.invoices.update');
     });
 
     //Admin Access with Invoice Module
