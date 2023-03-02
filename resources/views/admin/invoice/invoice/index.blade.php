@@ -32,12 +32,12 @@
 
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
                         <label for="">Start Date</label>
-                        <input type="date" name="start_date" class="form-control start_date" max="{{date('Y-m-d')}}">
+                        <input type="date" name="start_date" class="form-control start_date" max="{{ date('Y-m-d') }}">
                     </div>
 
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
                         <label for="">End Date</label>
-                        <input type="date" name="end_date" class="form-control end_date" max="{{date('Y-m-d')}}">
+                        <input type="date" name="end_date" class="form-control end_date" max="{{ date('Y-m-d') }}">
                     </div>
 
                     <div class="col-lg-12 col-12 form-group">
@@ -138,8 +138,8 @@
                         url: "{!! url('/admin/invoices/get_invoices') !!}",
                         data: function(d) {
                             d.customer = $('.customer').val(),
-                            d.start_date = $('.start_date').val(),
-                            d.end_date = $('.end_date').val()
+                                d.start_date = $('.start_date').val(),
+                                d.end_date = $('.end_date').val()
                         }
                     },
                     columns: [{
@@ -221,7 +221,7 @@
                 e.preventDefault();
 
                 $('.customer').val('').change(),
-                $('.start_date').val('');
+                    $('.start_date').val('');
                 $('.end_date').val('');
 
                 //reload the table
@@ -230,22 +230,22 @@
                 table.draw();
             });
 
-            $('.start_date').change(function (e) {
+            $('.start_date').change(function(e) {
                 e.preventDefault();
                 $('.end_date').attr('min', $(this).val());
                 $('.end_date').val($(this).val());
             });
 
-            $('#btn_export').click(function (e) {
+            $('#btn_export').click(function(e) {
                 e.preventDefault();
                 var customer = $('.customer').val();
                 var start_date = $('.start_date').val();
                 var end_date = $('.end_date').val();
 
                 var data = {
-                    'customer' :customer,
-                    'start_date' : start_date,
-                    'end_date' : end_date
+                    'customer': customer,
+                    'start_date': start_date,
+                    'end_date': end_date
                 }
 
                 $.ajax({
@@ -253,14 +253,13 @@
                         responseType: 'blob',
                     },
                     type: "POST",
-                    url: "{{url('/admin/invoices/invoices/export')}}",
+                    url: "{{ url('/admin/invoices/invoices/export') }}",
                     data: data,
-                    success: function(data)
-                    {
+                    success: function(data) {
                         var name = Date.now();
                         var link = document.createElement('a');
                         link.href = window.URL.createObjectURL(data);
-                        link.download = `invoices_`+name+`.xlsx`;
+                        link.download = `invoices_` + name + `.xlsx`;
                         link.click();
                     },
                 });
@@ -316,4 +315,27 @@
             });
         }
     </script>
+
+    @if (session('mail_success'))
+        <script>
+            $(document).ready(function() {
+                $.confirm({
+                    theme: 'modern',
+                    columnClass: 'col-md-6 col-12 col-md-offset-4',
+                    title: 'Success! ',
+                    content: '{{ session('mail_success') }}',
+                    type: 'green',
+                    buttons: {
+                        confirm: {
+                            text: 'OK',
+                            btnClass: 'btn-150',
+                            action: function() {
+
+                            }
+                        },
+                    }
+                });
+            });
+        </script>
+    @endif
 @endsection

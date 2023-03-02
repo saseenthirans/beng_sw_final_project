@@ -41,4 +41,13 @@ class HelperController extends Controller
                     ->subject($data["title"]);
         });
     }
+
+    public function sendPDFMail($data, $pdf, $pdf_name)
+    {
+        Mail::send($data["view"], $data, function($message)use($data, $pdf, $pdf_name) {
+            $message->to($data["email"], $data["email"])
+                    ->subject($data["title"])
+                    ->attachData($pdf->output(), $pdf_name);
+        });
+    }
 }

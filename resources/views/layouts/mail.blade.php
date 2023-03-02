@@ -79,8 +79,8 @@
 																				<tbody>
 																					<tr>
 																						<td bgcolor="#dbdef8" align="center" class="alg_center" valign="top">
-																							<p style="color:#29274c; font-size:18px; font-weight:600; margin:12px 0px; text-transform: uppercase">
-																								RK Mobiles
+																							<p style="color:#29274c; font-size:22px; font-weight:900; margin:12px 0px; text-transform: uppercase">
+																								{{$company->name}}
 																							</p>
 																						</td>
 																					</tr>
@@ -96,28 +96,28 @@
                                                     @yield('body')
 
 
-													{{-- <tr>
+													<tr>
 														<td style="padding:0px 0px 0px;" align="center" valign="top">
 															<table bgcolor="#daddf7" align="center" border="0" cellpadding="0" cellspacing="0" class="wrap100" width="800">
 																<tbody>
 																	<tr>
 																		<td style="padding:12px 0px 0px;" align="center" valign="top">
-																			<p style="color:#424560; font-size:13px; font-weight:600; margin:0px 0px;">
-																				Marino Beach Hotel
+																			<p style="color:#424560; font-size:13px; font-weight:600; margin:0px 0px; text-transform: uppercase">
+																				{{$company->name}}
 																			</p>
 																		</td>
 																	</tr>
 																	<tr>
 																		<td style="padding:4px 0px 12px;" align="center" valign="top">
-																			<a style="color:#424560; font-size:11px; font-weight:400; margin:0px 0px; text-decoration:none; display:inline-block;">
-																				Marino Mall - 590 Galle Main Rd Floor 7 Colombo 00300 Sri Lanka
+																			<a style="color:#424560; font-size:11px; font-weight:400; margin:0px 0px; text-decoration:none; display:inline-block;text-transform: uppercase">
+																				{{'Address : '.$company->address .' | Email : '.$company->email.' | Contact : '.$company->contact }}
 																			</a>
 																		</td>
 																	</tr>
 																</tbody>
 															</table>
 														</td>
-													</tr> --}}
+													</tr>
 													<tr>
 														<td style="padding:0px 0px 0px;" align="center" valign="top">
 															<table bgcolor="#f2f2f2" align="center" border="0" cellpadding="0" cellspacing="0" class="wrap100" width="800">
@@ -125,7 +125,7 @@
 																	<tr>
 																		<td style="padding:12px 0px;" align="center" valign="top">
 																			<p style="color:#898ea6; font-size:11px; font-weight:400; margin:0px 0px; text-decoration:none;">
-																				© RK MOBILES 2022 | Designed and Developed by LK DEVOPS
+																				© {{ Str::upper($company->name)}} 2022 | Designed and Developed by <a href="https://lkdevops.com/" target="_blank">LK DEVOPS</a>
 																			</p>
 																		</td>
 																	</tr>

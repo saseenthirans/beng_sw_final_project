@@ -31,5 +31,13 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('company', $company);
             }
         );
+
+        view()->composer(
+            'layouts.mail',
+            function ($view) {
+                $company = Company::find(1);
+                $view->with('company', $company);
+            }
+        );
     }
 }

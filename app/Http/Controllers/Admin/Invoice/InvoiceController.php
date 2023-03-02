@@ -337,7 +337,7 @@ class InvoiceController extends Controller
             'url' => url($company->image)
         ];
 
-        $pdf = PDF::loadView('admin.invoice.invoice.download', $data);
+        $pdf = PDF::loadView('download.invoice', $data);
         return $pdf->download('invoice' . date('Ymdhis') . '.pdf');
     }
 
@@ -354,5 +354,12 @@ class InvoiceController extends Controller
 
         $file_name = 'invoice' . date('_YmdHis') . '.xlsx';
         return Excel::download(new InvoiceExport($data, count($data),$request,$customer_name), $file_name);
+    }
+
+    public function send_mail($id)
+    {
+        (new InvoiceInvoiceController)->send_mail($id);
+
+        return redirect()->back()->with('mail_success','Selected Invoice Details Sent to the Custmer mail Successfully');
     }
 }

@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Admin\Staff;
 
-use App\Http\Controllers\Base\HelperController;
 use App\Models\User;
+use App\Models\Company;
+use App\Models\UserSalary;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-use App\Models\UserSalary;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Base\HelperController;
 
 class StaffController extends Controller
 {
@@ -113,11 +114,12 @@ class StaffController extends Controller
 
         $user->assignRole('Staff');
 
+        $company = Company::find(1);
         //Email Sending
             $data["email"] = $user->email;
             $data["name"] = $user->name;
             $data["password"] = $password;
-            $data["title"] = "Welcome To RK Mobiles";
+            $data["title"] = "Welcome To ".$company->name;
             $data["view"] = "admin.staff.staff.welcome";
 
             (new HelperController)->welcomeMail($data);

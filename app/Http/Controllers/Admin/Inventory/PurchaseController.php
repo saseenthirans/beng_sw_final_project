@@ -285,7 +285,7 @@ class PurchaseController extends Controller
             'purchase' => $purchase
         ];
 
-        $pdf = PDF::loadView('admin.inventory.purchase.download', $data);
+        $pdf = PDF::loadView('download.purchase', $data);
         return $pdf->download('purchase' . date('Ymdhis') . '.pdf');
     }
 
