@@ -104,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin/invoices')->middleware(['is_admin'])->group(function () {
         //Invoice Modules Dashboard
         Route::get('/', [App\Http\Controllers\Admin\Invoice\IndexController::class, 'index'])->name('admin.invoice.dashboard');
+        Route::get('/get_invoice_count', [App\Http\Controllers\Admin\Invoice\IndexController::class, 'get_invoice_count'])->name('admin.invoice.dashboard.get_invoice_count');
 
         //Customer Controller
         Route::get('/customers', [App\Http\Controllers\Admin\Invoice\CustomerController::class, 'index'])->name('admin.invoice.customers');
