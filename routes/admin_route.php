@@ -154,7 +154,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/invoices/mail/{id}', [App\Http\Controllers\Admin\Invoice\InvoiceController::class, 'send_mail'])->name('admin.invoice.invoices.send_mail');
     });
 
-    //Admin Access with Invoice Module
+    //Admin Access with Staff Module
     Route::prefix('admin/staffs')->middleware(['is_admin'])->group(function () {
         //Staff Modules Dashboard
         Route::get('/', [App\Http\Controllers\Admin\Staff\IndexController::class, 'index'])->name('admin.staffs.dashboard');
@@ -179,5 +179,22 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/salary/update', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'update'])->name('admin.staffs.salary.update');
         Route::post('/salary/delete/{id}', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'delete'])->name('admin.staffs.salary.delete');
         Route::post('/salary/export', [App\Http\Controllers\Admin\Staff\StaffSalaryController::class, 'export'])->name('admin.staffs.salary.export');
+    });
+
+    //Admin Access with Repair Item Module
+    Route::prefix('admin/repair_items')->middleware(['is_admin'])->group(function () {
+        //Dashboard
+        Route::get('/', [App\Http\Controllers\Admin\RepairItem\IndexController::class, 'index'])->name('admin.repair_items.dashboard');
+
+        //Category Controller
+        Route::get('/categories', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'index'])->name('admin.repair_items.category');
+        Route::get('/get_categories', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'get_categories'])->name('admin.repair_items.get_category');
+        Route::get('/categories/create', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'add_new'])->name('admin.repair_items.category.create.form');
+        Route::post('/categories/create', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'create'])->name('admin.repair_items.category.create');
+        Route::get('/categories/update/{id}', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'update_form'])->name('admin.repair_items.category.update.form');
+        Route::post('/categories/update', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'update'])->name('admin.repair_items.category.update');
+        Route::post('/categories/delete/{id}', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'delete'])->name('admin.repair_items.category.delete');
+        Route::get('/categories/logs/{id}', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'logs'])->name('admin.repair_items.category.logs');
+        Route::get('/categories/get_logs/{id}', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'get_logs'])->name('admin.repair_items.category.get_logs');
     });
 });
