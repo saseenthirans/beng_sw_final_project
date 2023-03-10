@@ -196,5 +196,15 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/categories/delete', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'delete'])->name('admin.repair_items.category.delete');
         Route::get('/categories/logs/{id}', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'logs'])->name('admin.repair_items.category.logs');
         Route::get('/categories/get_logs/{id}', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'get_logs'])->name('admin.repair_items.category.get_logs');
+
+        //Repairing Controller
+        Route::get('/repairing', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'index'])->name('admin.repair_items.repairing');
+        Route::get('/get_repairing', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'get_repairing'])->name('admin.repair_items.get_repairing');
+
+        //----------- Creating Flow
+        Route::get('/repairing/create', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'add_new'])->name('admin.repair_items.repairing.create.form');
+        Route::post('/repairing/get_product_info', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'get_product_info'])->name('admin.repair_items.repairing.get_product_info');
+        Route::post('/repairing/product_validation', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'product_validation'])->name('admin.repair_items.repairing.product_validation');
+        Route::post('/repairing/create', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'create'])->name('admin.repair_items.repairing.create');
     });
 });
