@@ -15,6 +15,11 @@ class InvoiceExport implements FromView, ShouldAutoSize, WithEvents
     /**
     * @return \Illuminate\Support\Collection
     */
+    private $data;
+    private $count;
+    private $request;
+    private $customer;
+    
     public function __construct($data, $count, $request, $customer)
     {
         $this->data = $data;

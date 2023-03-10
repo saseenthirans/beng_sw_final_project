@@ -221,5 +221,6 @@ Route::middleware(['auth'])->group(function () {
 
         //------------ Download and Export
         Route::get('/repairing/download/{id}', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'download'])->name('admin.repair_items.repairing.download');
+        Route::post('/repairing/export', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'export'])->name('admin.repair_items.repairing.export');
     });
 });

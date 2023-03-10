@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\RepairItem;
 
+use App\Exports\RepairingExport;
 use PDF;
 use App\Models\Company;
 use App\Models\Customer;
@@ -13,6 +14,7 @@ use App\Models\PaymentMethod;
 use App\Models\RepairCategory;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Base\RepairItem\RepairingController as RepairItemRepairingController;
@@ -306,5 +308,20 @@ class RepairingController extends Controller
 
         $pdf = PDF::loadView('download.repairing', $data);
         return $pdf->download('repairing' . date('Ymdhis') . '.pdf');
+    }
+
+    public function export(Request $request)
+    {
+        $data = $this->baseRepair->repairingExport($request);
+
+        $category_name = '';
+        if (isset($request->category) && !empty($request->category))
+        {
+            $category = RepairCategory::find($request->category);
+            $category_name = $category->category;
+        }
+
+        $file_name = 'repairing' . date('_YmdHis') . '.xlsx';
+        return Excel::download(new RepairingExport($data, count($data),$request,$category_name), $file_name);
     }
 }

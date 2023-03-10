@@ -14,6 +14,11 @@ class StaffSalaryExport implements FromView, ShouldAutoSize, WithEvents
     /**
     * @return \Illuminate\Support\Collection
     */
+    private $data;
+    private $count;
+    private $request;
+    private $staff;
+
     public function __construct($data, $count, $request, $staff)
     {
         $this->data = $data;

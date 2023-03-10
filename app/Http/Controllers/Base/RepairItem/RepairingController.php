@@ -310,4 +310,22 @@ class RepairingController extends Controller
 
         (new HelperController)->repairSMS($repairing);
     }
+
+    public function repairingExport($request)
+    {
+        $query = Repairing::with(['customer', 'category', 'creator']);
+
+        if (isset($request->category) && !empty($request->category))
+            $query = $query->where('category_id', $request->category);
+
+        if (isset($request->start_date) && !empty($request->start_date))
+            $query = $query->whereDate('taken_date', '>=', $request->start_date);
+
+        if (isset($request->end_date) && !empty($request->end_date))
+            $query = $query->whereDate('taken_date', '<=', $request->end_date);
+
+        $repairings = $query->orderBy('id', 'DESC')->get();
+
+        return $repairings;
+    }
 }

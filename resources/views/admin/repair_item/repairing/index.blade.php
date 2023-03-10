@@ -71,7 +71,7 @@ Repair Item - Repairing
                                 <th>Customer</th>
                                 <th>Created By</th>
                                 <th>Amount</th>
-                                <th>Advanced Amount</th>
+                                <th>Advanced/Paid Amount</th>
                                 <th>Balance Amount</th>
                                 <th>Status</th>
                                 <th>Collect Before</th>
