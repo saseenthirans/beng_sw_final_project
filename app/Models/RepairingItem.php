@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class RepairingItem extends Model
 {
     use HasFactory;
+
+    public function product()
+    {
+        return $this->hasOne(Inventory::class,'id','product_id')->withTrashed();
+    }
 }

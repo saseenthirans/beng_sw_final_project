@@ -1,19 +1,19 @@
 @extends('layouts.admin_staff')
 
 @section('title')
-    Invoice - Invoice
+    Repair Item - Repairing
 @endsection
 
 <!-- Add the Dynamic Menu -->
 @section('menus')
-    @include('admin_menu.invoice')
+    @include('admin_menu.repair_item')
 @endsection
 
 @section('content')
     <div class="col-lg-12 col-12 layout-spacing">
         <div class="col-lg-6 col-6">
             <div class="form-group mb-4">
-                <a href="{{ url('admin/invoices/invoices') }}"
+                <a href="{{ url('admin/repair_items/repairing') }}"
                     class="btn btn-success btn-max-200 text-uppercase font-weight-bold" style="width: 200px"><i
                         class="fa fa-arrow-left"></i> Back</a>
             </div>
@@ -23,7 +23,7 @@
             <div class="widget-header">
                 <div class="row">
                     <div class="col-xl-12 col-md-12 col-sm-12 col-12 text-center">
-                        <h3 class="p-4 font-weight-bold text-uppercase">Create New Invoice </h3>
+                        <h3 class="p-4 font-weight-bold text-uppercase">Update Repairing Details </h3>
                     </div>
                 </div>
             </div>
@@ -33,11 +33,28 @@
                     <div class="col-lg-12 col-12 mt-5 mb-5">
                         <div class="row">
 
+                            <input type="hidden" name="id" value="{{ $repairing->id }}" id="">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="form-group mb-4">
+                                    <label for="exampleFormControlInput2">Title
+                                        <span class="text-danger">*</span>
+                                        <small class="text-info">(Device Name)</small>
+                                    </label>
+                                    <input type="text" name="title" class="form-control"
+                                        value="{{ $repairing->title }}" id="exampleFormControlInput2">
+
+                                    <span class="text-danger font-weight-bold err_title"></span>
+
+                                </div>
+                            </div>
+
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="form-group mb-4">
-                                    <label for="exampleFormControlInput2">Date<span class="text-danger">*</span></label>
-                                    <input type="date" name="date" class="form-control" value="{{ old('date') }}"
-                                        max="{{ date('Y-m-d') }}" id="exampleFormControlInput2">
+                                    <label for="exampleFormControlInput2">Taken Date<span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" name="date" class="form-control"
+                                        value="{{ $repairing->taken_date }}" max="{{ date('Y-m-d') }}"
+                                        id="exampleFormControlInput2">
 
                                     <span class="text-danger font-weight-bold err_date"></span>
 
@@ -50,11 +67,52 @@
                                     <select name="customer" class="form-control disabled-results">
                                         <option value=""></option>
                                         @foreach ($customers as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}"
+                                                {{ $repairing->customer_id == $item->id ? 'selected' : '' }}>
+                                                {{ $item->name }}</option>
                                         @endforeach
                                     </select>
 
                                     <span class="text-danger font-weight-bold err_customer"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="form-group mb-4">
+                                    <label for="exampleFormControlInput2">Category<span class="text-danger">*</span></label>
+                                    <select name="category" class="form-control disabled-results">
+                                        <option value=""></option>
+                                        @foreach ($category as $item)
+                                            <option value="{{ $item->id }}"
+                                                {{ $repairing->category_id == $item->id ? 'selected' : '' }}>
+                                                {{ $item->category }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <span class="text-danger font-weight-bold err_category"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="form-group mb-4">
+                                    <label for="exampleFormControlInput2">Service Charge<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" name="service_charge" class="form-control price"
+                                        value="{{ $repairing->charge }}" id="service_charge">
+
+                                    <span class="text-danger font-weight-bold err_service_charge"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="form-group mb-4">
+                                    <label for="exampleFormControlInput2">Note</label>
+                                    <textarea name="note" class="form-control">{{ $repairing->note }}</textarea>
+
+                                    <span class="text-danger font-weight-bold err_note"></span>
 
                                 </div>
                             </div>
@@ -76,7 +134,7 @@
                                                 <th style="width: 10%" class="text-center"></th>
                                             </tr>
                                         </thead>
-                                        <tbody id="invoice_table_body">
+                                        <tbody>
                                             <tr>
                                                 <td>
                                                     <div class="form-group">
@@ -122,6 +180,52 @@
                                 </div>
                             </div>
 
+                            <div class="col-lg-12 col-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped mb-4">
+                                        <tbody id="invoice_table_body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            @php
+                                $repair_status = [
+                                    0 => 'Taken',
+                                    1 => 'Processing',
+                                    2 => 'Ready to Collect',
+                                    3 => 'Collected'
+                                ];
+                            @endphp
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="form-group mb-4">
+                                    <label for="exampleFormControlInput2">Repair Status<span class="text-danger">*</span></label>
+                                    <select name="status" class="form-control disabled-results">
+                                        <option value=""></option>
+                                        @foreach ($repair_status as $key => $item)
+                                            <option value="{{ $key }}"
+                                                {{ $repairing->status == $key ? 'selected' : '' }}>
+                                                {{ $item }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <span class="text-danger font-weight-bold err_status"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="form-group mb-4">
+                                    <label for="exampleFormControlInput2">Collect Before</label>
+                                    <input type="date" name="collect_before" class="form-control"
+                                        value="{{ $repairing->collect_before }}" min="{{ date('Y-m-d') }}"
+                                        id="exampleFormControlInput2">
+
+                                    <span class="text-danger font-weight-bold err_collect_before"></span>
+
+                                </div>
+                            </div>
+
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
                                 <div class="row">
                                     <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
@@ -135,8 +239,8 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                                         <div class="form-group mb-0">
                                             <input type="text" readonly name="sub_total" id="sub_total"
-                                                class="form-control sub_total text-right text-black" value="0"
-                                                id="exampleFormControlInput2">
+                                                class="form-control sub_total text-right text-black"
+                                                value="{{ $repairing->amount }}" id="exampleFormControlInput2">
                                         </div>
                                     </div>
                                 </div>
@@ -147,83 +251,16 @@
                                     <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
                                         <div class="form-group mb-0 text-right">
                                             <label for="exampleFormControlInput2"
-                                                class="font-weight-bold text-black text-right text-uppercase">Discount
-                                                (%)<span class="text-danger">*</span></label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                                        <div class="form-group mb-0">
-                                            <input type="text" name="discount" class="form-control price text-right text-black" value="0"
-                                                max="100" id="discount">
-
-                                            <span class="text-danger font-weight-bold err_discount"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-                                <div class="row">
-                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
-                                        <div class="form-group mb-0 text-right">
-                                            <label for="exampleFormControlInput2"
-                                                class="font-weight-bold text-black text-right text-uppercase">Total
+                                                class="font-weight-bold text-black text-right text-uppercase">Advance/Paid
                                                 Amount<span class="text-danger">*</span></label>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                                         <div class="form-group mb-0">
-                                            <input type="text" readonly name="total_amount" id="total_amount"
-                                                placeholder="0.00" class="form-control price text-right text-black" value="0.00">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <input type="hidden" name="tax_amount" class="form-control price" value="0"
-                                id="tax_amount">
-
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-                                <div class="row">
-                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
-                                        <div class="form-group mb-0 text-right">
-                                            <label for="exampleFormControlInput2"
-                                                class="font-weight-bold text-black text-right text-uppercase">Payment
-                                                Type<span class="text-danger">*</span></label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                                        <div class="form-group mb-0">
-                                            <select name="pay_type" class="form-control disabled-results text-right text-black">
-                                                <option value=""></option>
-                                                @foreach ($pay_type as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->method }}</option>
-                                                @endforeach
-                                            </select>
-
-                                            <span class="text-danger font-weight-bold err_pay_type"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-                                <div class="row">
-                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
-                                        <div class="form-group mb-0 text-right">
-                                            <label for="exampleFormControlInput2"
-                                                class="font-weight-bold text-black text-right text-uppercase">Paid
-                                                Amount<span class="text-danger">*</span></label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                                        <div class="form-group mb-0">
-                                            <input type="text" name="paid_amount" class="form-control price text-right text-black"
-                                                value="0" id="paid_amount">
+                                            <input type="text" name="paid_amount"
+                                                class="form-control price text-right text-black"
+                                                value="{{ $repairing->adv_amount }}" id="paid_amount">
 
                                             <span class="text-danger font-weight-bold err_paid_amount"></span>
                                         </div>
@@ -244,7 +281,8 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                                         <div class="form-group mb-0">
                                             <input type="text" readonly name="due_amount" placeholder="0.00"
-                                                class="form-control price text-right text-black" value="0.00" id="due_amount">
+                                                class="form-control price text-right text-black" value="0.00"
+                                                id="due_amount">
                                         </div>
                                     </div>
                                 </div>
@@ -256,14 +294,14 @@
                     <div class="col-lg-12 col-12 mb-5" id="submit_button">
                         <div class="form-group text-center text-sm-right">
                             <button type="submit" class="btn btn-theme btn-max-200 text-uppercase font-weight-bold"
-                                style="width: 200px">Save</button>
+                                style="width: 200px">Update</button>
                         </div>
                     </div>
 
                     <div class="col-lg-12 col-12 mb-5" id="disable_button" style="display: none">
                         <div class="form-group text-center text-sm-right">
                             <button type="button" class="btn btn-theme btn-max-200 text-uppercase font-weight-bold"
-                                style="width: 200px"><i class="fas fa-spinner fa-spin"></i> Saving ...</button>
+                                style="width: 200px"><i class="fas fa-spinner fa-spin"></i> Updating ...</button>
                         </div>
                     </div>
                 </form>
@@ -285,7 +323,74 @@
             //Main Variable
             var i = 1;
             let total = 0;
-            const prduct_arry = [];
+            var prduct_arry = [];
+
+            loadRepairingItems();
+
+            //-------------------- get Invoice Items ---------------------------------
+            function loadRepairingItems() {
+                var data = {
+                    'id': '{{ $repairing->id }}'
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('/admin/repair_items/repairing/get_repairing_items') }}",
+                    data: data,
+                    dataType: "JSON",
+                    success: function(response) {
+                        //Remove the Array value from prduct_arry;
+                        prduct_arry = [];
+                        total = 0;
+
+                        $('#invoice_table_body').html('');
+                        if (response.data.length > 0) {
+                            $.each(response.data, function(key, item) {
+                                $('#invoice_table_body').append('<tr id="' + item.id + '">\
+                                                <td>' + item.product_name + ' </td>\
+                                                <td>' + item.qty + ' x ' + item.price + '</td>\
+                                                <td>' + item.total + '</td>\
+                                                <td><button type="button" class="btn btn-danger remove_button" id="' + item
+                                    .id + '"><i class="fa fa-trash"></i></button></td>\
+                                            </tr>');
+
+                                prduct_arry[item.product_id] = item.product_id;
+
+                                total = (total + parseFloat(item.total));
+                            });
+                        }
+
+                        //Service Charge Amount
+                        var service_charge = $('#service_charge').val();
+                        if (service_charge == "" || service_charge == 0) {
+                            var charge = parseFloat(0);
+                        } else {
+                            var charge = parseFloat(service_charge);
+                        }
+                        var sub_total = (total + charge);
+
+                        $('#sub_total').val(sub_total.toFixed(2));
+
+                        //Paid Amount
+                        var paid_amount_val = $('#paid_amount').val();
+
+                        if (paid_amount_val == "" || paid_amount_val == 0) {
+                            var paid_amount = parseFloat(0);
+                        } else {
+                            var paid_amount = parseFloat(paid_amount_val);
+                        }
+
+                        var due_amount_val = (sub_total - paid_amount);
+
+                        if (due_amount_val <= 0) {
+                            var due_amount = 0;
+                        } else {
+                            var due_amount = due_amount_val;
+                        }
+                        $('#due_amount').val(due_amount.toFixed(2));
+                    }
+                });
+            }
 
             //--------------------- get the Product Information ----------------------
             $('.product').change(function(e) {
@@ -301,7 +406,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('/admin/invoices/invoices/get_product_info') }}",
+                    url: "{{ url('/admin/repair_items/repairing/get_product_info') }}",
                     data: data,
                     dataType: "JSON",
                     success: function(response) {
@@ -321,7 +426,8 @@
                     'product': product,
                     'qty': $('#qty').val(),
                     'price': $('#price').val(),
-                    'prduct_arry': prduct_arry
+                    'prduct_arry': prduct_arry,
+                    'repair_id': '{{ $repairing->id }}'
                 }
 
                 if (product == '') {
@@ -329,7 +435,7 @@
                 } else {
                     $.ajax({
                         type: "POST",
-                        url: "{{ url('/admin/invoices/invoices/product_validation') }}",
+                        url: "{{ url('/admin/repair_items/repairing/product_validation') }}",
                         data: data,
                         dataType: "JSON",
                         success: function(response) {
@@ -354,65 +460,7 @@
                                 $('#qty').val('');
                                 $('#price').val('');
 
-                                //Set the product id to prduct_arry
-                                prduct_arry[response.data.product_id] = response.data
-                                .product_id;
-
-                                //Append the Invoice Data
-                                $('#invoice_table_body').append('<tr id="row_' + i + '">\
-                                            <td>' + response.data.product_name +
-                                    ' <input type="hidden" name="product_id[]" id="product_id"  value="' +
-                                    response.data.product_id + '"> </td>\
-                                            <td>' + response.data.qty + ' x ' + response.data.priceval +
-                                    ' <input type="hidden" name="qty[]"  value="' + response
-                                    .data.qty + '"></td>\
-                                            <td>' + response.data.total + ' <input type="hidden" name="price[]"  value="' +
-                                    response.data.price +
-                                    '"><input type="hidden" id="amount_val" name="amount"  value="' +
-                                    response.data.amount + '"></td>\
-                                            <td><button type="button" class="btn btn-danger remove_button" id="' + i + '"><i class="fa fa-trash"></i></button></td>\
-                                        </tr>');
-
-                                total = (total + response.data.amount);
-                                $('#sub_total').val(total.toFixed(2));
-
-                                var tax_amount = $('#tax_amount').val();
-                                var discount_val = $('#discount').val();
-                                var paid_amount_val = $('#paid_amount').val();
-
-                                //Tax amount Validation
-                                if (tax_amount == "" || tax_amount == 0) {
-                                    var tax = parseFloat(0);
-                                } else {
-                                    var tax = parseFloat(tax_amount);
-                                }
-
-                                //Discount Validation
-                                if (discount_val == "" || discount_val == 0) {
-                                    var discount = parseInt(0);
-                                } else {
-                                    var discount = parseInt(discount_val);
-                                }
-
-                                //Paid amount Validation
-                                if (paid_amount_val == "" || paid_amount_val == 0) {
-                                    var paid_amount = parseFloat(0);
-                                } else {
-                                    var paid_amount = parseFloat(paid_amount_val);
-                                }
-
-                                var amount = (total + tax);
-                                var total_amount = (amount - (amount * discount) / 100);
-                                var due_amount_val = (total_amount - paid_amount);
-
-                                //Due Amount Validation
-                                if (due_amount_val <= 0) {
-                                    var due_amount = 0;
-                                } else {
-                                    var due_amount = due_amount_val;
-                                }
-                                $('#total_amount').val(total_amount.toFixed(2));
-                                $('#due_amount').val(due_amount.toFixed(2));
+                                loadRepairingItems();
                             }
                         }
                     });
@@ -420,59 +468,80 @@
 
             });
 
-            $(document).on('click', '.remove_button', function(e) {
+            $('#service_charge').keyup(function(e) {
                 e.preventDefault();
 
-                var button_id = $(this).attr("id");
+                var service_charge = $(this).val();
 
-                var val = $(this).closest('#row_' + button_id + '').find('#amount_val').val();
-                var prouduct_id_ = $(this).closest('#row_' + button_id + '').find('#product_id').val();
+                if (service_charge == "" || service_charge == 0) {
+                    var charge = parseFloat(0);
+                } else {
+                    var charge = parseFloat(service_charge);
+                }
 
-                //remove the product id from prduct_arry
-                delete prduct_arry[prouduct_id_];
+                var sub_total = (total + charge);
+                $('#sub_total').val(sub_total.toFixed(2));
 
-                $('#row_' + button_id + '').remove();
-
-                total = (total - val);
-                $('#sub_total').val(total);
-
-                var tax_amount = $('#tax_amount').val();
-                var discount_val = $('#discount').val();
+                //Paid Amount
                 var paid_amount_val = $('#paid_amount').val();
 
-                //Tax amount Validation
-                if (tax_amount == "" || tax_amount == 0) {
-                    var tax = parseFloat(0);
-                } else {
-                    var tax = parseFloat(tax_amount);
-                }
-
-                //Discount Validation
-                if (discount_val == "" || discount_val == 0) {
-                    var discount = parseInt(0);
-                } else {
-                    var discount = parseInt(discount_val);
-                }
-
-                //Paid amount Validation
                 if (paid_amount_val == "" || paid_amount_val == 0) {
                     var paid_amount = parseFloat(0);
                 } else {
                     var paid_amount = parseFloat(paid_amount_val);
                 }
 
-                var amount = (total + tax);
-                var total_amount = (amount - (amount * discount) / 100);
-                var due_amount_val = (total_amount - paid_amount);
+                var due_amount_val = (sub_total - paid_amount);
 
-                //Due Amount Validation
                 if (due_amount_val <= 0) {
                     var due_amount = 0;
                 } else {
                     var due_amount = due_amount_val;
                 }
-                $('#total_amount').val(total_amount.toFixed(2));
                 $('#due_amount').val(due_amount.toFixed(2));
+            });
+
+
+            $(document).on('click', '.remove_button', function(e) {
+                e.preventDefault();
+
+                var data = {
+                    'id': $(this).attr("id")
+                };
+
+                $.confirm({
+                    theme: 'modern',
+                    columnClass: 'col-md-6 col-md-offset-4',
+                    icon: 'fa fa-info-circle text-danger',
+                    title: 'Are you Sure!',
+                    content: 'Do you want to Delete the Selected Repairing Item? After Delete Item, It will add to Inventory',
+                    type: 'red',
+                    autoClose: 'cancel|10000',
+                    buttons: {
+                        confirm: {
+                            text: 'Yes',
+                            btnClass: 'btn-150',
+                            action: function() {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ url('/admin/repair_items/repairing/delete_repairing_items') }}",
+                                    data: data,
+                                    success: function(response) {
+                                        loadRepairingItems();
+                                    }
+                                });
+                            }
+                        },
+
+                        cancel: {
+                            text: 'Cancel',
+                            btnClass: 'btn-150-danger',
+                            action: function() {
+
+                            }
+                        },
+                    }
+                });
             });
 
             function clearError() {
@@ -483,9 +552,10 @@
 
             function clearFormError() {
                 $('.err_customer').text('');
+                $('.err_category').text('');
                 $('.err_date').text('');
-                $('.err_pay_type').text('');
-                $('.err_discount').text('');
+                $('.err_service_charge').text('');
+                $('.err_title').text('');
                 $('.err_tax_amount').text('');
                 $('.err_paid_amount').text('');
             }
@@ -496,126 +566,19 @@
                 $('#price').val('');
             }
 
-            $('#tax_amount').keyup(function(e) {
-                e.preventDefault();
-
-                $('.err_tax_amount').text('');
-
-                var tax_amount = $(this).val();
-                var discount_val = $('#discount').val();
-                var paid_amount_val = $('#paid_amount').val();
-
-                //Tax amount Validation
-                if (tax_amount == "" || tax_amount == 0) {
-                    var tax = parseFloat(0);
-                } else {
-                    var tax = parseFloat(tax_amount);
-                }
-
-                //Discount Validation
-                if (discount_val == "" || discount_val == 0) {
-                    var discount = parseInt(0);
-                } else {
-                    var discount = parseInt(discount_val);
-                }
-
-                //Paid amount Validation
-                if (paid_amount_val == "" || paid_amount_val == 0) {
-                    var paid_amount = parseFloat(0);
-                } else {
-                    var paid_amount = parseFloat(paid_amount_val);
-                }
-
-                var amount = (total + tax);
-                var total_amount = (amount - (amount * discount) / 100);
-                var due_amount_val = (total_amount - paid_amount);
-
-                //Due Amount Validation
-                if (due_amount_val <= 0) {
-                    var due_amount = 0;
-                } else {
-                    var due_amount = due_amount_val;
-                }
-                $('#total_amount').val(total_amount.toFixed(2));
-                $('#due_amount').val(due_amount.toFixed(2));
-
-            });
-
-            $('#discount').keyup(function(e) {
-                e.preventDefault();
-
-                $('.err_discount').text('');
-
-                var tax_amount = $('#tax_amount').val();
-                var discount_val = $(this).val();
-                var paid_amount_val = $('#paid_amount').val();
-
-                if (discount_val > 100) {
-                    discount_val = 100;
-                    $('#discount').val(discount_val);
-                } else {
-                    discount_val = discount_val;
-                }
-
-                //Tax amount Validation
-                if (tax_amount == "" || tax_amount == 0) {
-                    var tax = parseFloat(0);
-                } else {
-                    var tax = parseFloat(tax_amount);
-                }
-
-                //Discount Validation
-                if (discount_val == "" || discount_val == 0) {
-                    var discount = parseInt(0);
-                    $('#discount').val(discount);
-                } else {
-                    var discount = parseInt(discount_val);
-                }
-
-                //Paid amount Validation
-                if (paid_amount_val == "" || paid_amount_val == 0) {
-                    var paid_amount = parseFloat(0);
-                    $('#paid_amount').val(paid_amount);
-                } else {
-                    var paid_amount = parseFloat(paid_amount_val);
-                }
-
-                var amount = (total + tax);
-                var total_amount = (amount - (amount * discount) / 100);
-                var due_amount_val = (total_amount - paid_amount);
-
-                //Due Amount Validation
-                if (due_amount_val <= 0) {
-                    var due_amount = 0;
-                } else {
-                    var due_amount = due_amount_val;
-                }
-                $('#total_amount').val(total_amount.toFixed(2));
-                $('#due_amount').val(due_amount.toFixed(2));
-
-            });
-
             $('#paid_amount').keyup(function(e) {
                 e.preventDefault();
 
                 $('.err_paid_amount').text('');
 
-                var tax_amount = $('#tax_amount').val();
-                var discount_val = $('#discount').val();
                 var paid_amount_val = $(this).val();
 
-                //Tax amount Validation
-                if (tax_amount == "" || tax_amount == 0) {
-                    var tax = parseFloat(0);
+                //Service Charge Amount
+                var service_charge = $('#service_charge').val();
+                if (service_charge == "" || service_charge == 0) {
+                    var charge = parseFloat(0);
                 } else {
-                    var tax = parseFloat(tax_amount);
-                }
-
-                //Discount Validation
-                if (discount_val == "" || discount_val == 0) {
-                    var discount = parseInt(0);
-                } else {
-                    var discount = parseInt(discount_val);
+                    var charge = parseFloat(service_charge);
                 }
 
                 //Paid amount Validation
@@ -625,21 +588,20 @@
                     var paid_amount = parseFloat(paid_amount_val);
                 }
 
-                var amount = (total + tax);
-                var total_amount = (amount - (amount * discount) / 100);
-                var due_amount_val = (total_amount - paid_amount);
+                var subtotal = (total + charge);
+                var due_amount_val = (subtotal - paid_amount);
 
                 //Due Amount Validation
                 if (due_amount_val < 0) {
                     var due_amount = 0;
-                    $('.err_paid_amount').text('Paid Amount must not be grater than ' + total_amount);
+                    $('.err_paid_amount').text('Paid Amount must not be grater than ' + subtotal);
                 } else if (due_amount_val <= 0) {
                     var due_amount = 0;
                 } else {
                     $('.err_paid_amount').text('');
                     var due_amount = due_amount_val;
                 }
-                $('#total_amount').val(total_amount.toFixed(2));
+
                 $('#due_amount').val(due_amount.toFixed(2));
 
             });
@@ -655,7 +617,7 @@
                         $('#submit_button').css('display', 'none');
                         $('#disable_button').css('display', 'block');
                     },
-                    url: "{{ url('/admin/invoices/invoices/create') }}",
+                    url: "{{ url('/admin/repair_items/repairing/update') }}",
                     data: formData,
                     dataType: "JSON",
                     contentType: false,
@@ -687,7 +649,7 @@
                                         btnClass: 'btn-150',
                                         action: function() {
                                             location.href =
-                                                "{{ url('/admin/invoices/invoices') }}";
+                                                "{{ url('/admin/repair_items/repairing') }}";
                                         }
                                     },
                                 }

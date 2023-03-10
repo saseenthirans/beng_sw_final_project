@@ -21,11 +21,11 @@ Repair Item - Repairing
             <form action="">
                 <div class="row">
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
-                        <label for="">Customer</label>
-                        <select name="customer" class="form-control disabled-results customer">
+                        <label for="">Category</label>
+                        <select name="category" class="form-control disabled-results category">
                             <option value=""></option>
-                            @foreach ($customers as $item)
-                                <option class="ml-4" value="{{ $item->id }}">{{ $item->name }}</option>
+                            @foreach ($category as $item)
+                                <option class="ml-4" value="{{ $item->id }}">{{ $item->category }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -88,7 +88,7 @@ Repair Item - Repairing
 
         <div class="col-lg-12 col-12  layout-spacing">
             <button id="btn_export" class="btn btn-dark float-right text-uppercase">
-                <i class="fa fa-download"></i> Export Invoice
+                <i class="fa fa-download"></i> Export Repairing
             </button>
         </div>
     @else
@@ -96,7 +96,7 @@ Repair Item - Repairing
             style="height: calc(100vh - 40vh);  align-items: center; display: flex; justify-content: center;">
             <a href="{{ url('admin/repair_items/repairing/create') }}"
                 class="btn btn-theme btn-lg text-uppercase font-weight-bold" style="width: 300px;"><i
-                    class="fa fa-plus"></i> Create New Invoice</a>
+                    class="fa fa-plus"></i> Create New Repairing</a>
         </div>
     @endif
 @endsection
@@ -138,9 +138,9 @@ Repair Item - Repairing
                     ajax: {
                         url: "{!! url('/admin/repair_items/get_repairing') !!}",
                         data: function(d) {
-                            d.customer = $('.customer').val(),
-                                d.start_date = $('.start_date').val(),
-                                d.end_date = $('.end_date').val()
+                            d.category = $('.category').val(),
+                            d.start_date = $('.start_date').val(),
+                            d.end_date = $('.end_date').val()
                         }
                     },
                     columns: [{
@@ -154,8 +154,8 @@ Repair Item - Repairing
                             name: 'ref_no'
                         },
                         {
-                            data: 'invoice_date',
-                            name: 'invoice_date',
+                            data: 'taken_date',
+                            name: 'taken_date',
                             searchable: false
                         },
                         {
@@ -169,23 +169,13 @@ Repair Item - Repairing
                             searchable: false
                         },
                         {
-                            data: 'sub_total',
-                            name: 'sub_total',
+                            data: 'amount',
+                            name: 'amount',
                             searchable: false
                         },
                         {
-                            data: 'discount',
-                            name: 'discount',
-                            searchable: false
-                        },
-                        {
-                            data: 'disc_amount',
-                            name: 'disc_amount',
-                            searchable: false
-                        },
-                        {
-                            data: 'total',
-                            name: 'total',
+                            data: 'adv_amount',
+                            name: 'adv_amount',
                             searchable: false
                         },
                         {
@@ -198,7 +188,21 @@ Repair Item - Repairing
                             name: 'status',
                             searchable: false
                         },
-
+                        {
+                            data: 'collect_before',
+                            name: 'collect_before',
+                            searchable: false
+                        },
+                        {
+                            data: 'paid_status',
+                            name: 'paid_status',
+                            searchable: false
+                        },
+                        {
+                            data: 'collect_at',
+                            name: 'collect_at',
+                            searchable: false
+                        },
                         {
                             data: 'action',
                             name: 'action',
@@ -221,8 +225,8 @@ Repair Item - Repairing
             $('.btn_reset').click(function(e) {
                 e.preventDefault();
 
-                $('.customer').val('').change(),
-                    $('.start_date').val('');
+                $('.category').val('').change(),
+                $('.start_date').val('');
                 $('.end_date').val('');
 
                 //reload the table
@@ -239,12 +243,12 @@ Repair Item - Repairing
 
             $('#btn_export').click(function(e) {
                 e.preventDefault();
-                var customer = $('.customer').val();
+                var category = $('.category').val();
                 var start_date = $('.start_date').val();
                 var end_date = $('.end_date').val();
 
                 var data = {
-                    'customer': customer,
+                    'category': category,
                     'start_date': start_date,
                     'end_date': end_date
                 }

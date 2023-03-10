@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class RepairingLog extends Model
 {
     use HasFactory;
+
+    public function getCreator()
+    {
+        return $this->hasOne(User::class, 'id','user_id')->withTrashed();
+    }
 }

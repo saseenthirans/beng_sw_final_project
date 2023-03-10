@@ -206,5 +206,20 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/repairing/get_product_info', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'get_product_info'])->name('admin.repair_items.repairing.get_product_info');
         Route::post('/repairing/product_validation', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'product_validation'])->name('admin.repair_items.repairing.product_validation');
         Route::post('/repairing/create', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'create'])->name('admin.repair_items.repairing.create');
+
+        //----------- Updating Flow
+        Route::get('/repairing/update/{id}', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'update_form'])->name('admin.repair_items.repairing.update.form');
+        Route::post('/repairing/get_repairing_items', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'get_repairing_items'])->name('admin.repair_items.repairing.get_repairing_items');
+        Route::post('/repairing/delete_repairing_items', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'delete_repairing_items'])->name('admin.repair_items.repairing.delete_repairing_items');
+        Route::post('/repairing/update', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'update'])->name('admin.repair_items.repairing.update');
+
+        Route::post('/repairing/delete', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'delete'])->name('admin.repair_items.repairing.delete');
+
+        //------------ Logs
+        Route::get('/repairing/logs/{id}', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'logs'])->name('admin.repair_items.repairing.logs');
+        Route::get('/repairing/get_logs/{id}', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'get_logs'])->name('admin.repair_items.repairing.get_logs');
+
+        //------------ Download and Export
+        Route::get('/repairing/download/{id}', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'download'])->name('admin.repair_items.repairing.download');
     });
 });

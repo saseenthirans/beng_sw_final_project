@@ -23,8 +23,8 @@ class CreateRepairingsTable extends Migration
             $table->decimal('amount',20,2)->default(0);
             $table->decimal('adv_amount',20,2)->default(0);
             $table->integer('status');
-            $table->date('collect_before');
-            $table->integer('paid_status');
+            $table->date('collect_before')->nullable();
+            $table->integer('paid_status')->nullable();
             $table->date('collected_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

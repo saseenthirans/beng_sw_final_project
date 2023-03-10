@@ -12,12 +12,12 @@ class Invoice extends Model
 
     public function customers()
     {
-        return $this->hasOne(Customer::class, 'id', 'customer_id');
+        return $this->hasOne(Customer::class, 'id', 'customer_id')->withTrashed();
     }
 
     public function creator()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id')->withTrashed();
     }
 
     public function invoiceItems()

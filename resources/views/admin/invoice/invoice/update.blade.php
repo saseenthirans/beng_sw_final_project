@@ -167,7 +167,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                                         <div class="form-group mb-0">
                                             <input type="text" name="discount"
-                                                class="form-control text-right text-black"
+                                                class="form-control text-right price text-black"
                                                 value="{{ round($invoices->disc_percentage) }}" max="100"
                                                 id="discount">
 
