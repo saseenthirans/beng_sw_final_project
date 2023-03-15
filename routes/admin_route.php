@@ -185,6 +185,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin/repair_items')->middleware(['is_admin'])->group(function () {
         //Dashboard
         Route::get('/', [App\Http\Controllers\Admin\RepairItem\IndexController::class, 'index'])->name('admin.repair_items.dashboard');
+        Route::get('/get_monthly_income', [App\Http\Controllers\Admin\RepairItem\IndexController::class, 'get_monthly_income'])->name('admin.repair_items.dashboard.get_monthly_income');
 
         //Category Controller
         Route::get('/categories', [App\Http\Controllers\Admin\RepairItem\CategoryController::class, 'index'])->name('admin.repair_items.category');
