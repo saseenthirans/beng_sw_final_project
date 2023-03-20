@@ -224,4 +224,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/repairing/download/{id}', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'download'])->name('admin.repair_items.repairing.download');
         Route::post('/repairing/export', [App\Http\Controllers\Admin\RepairItem\RepairingController::class, 'export'])->name('admin.repair_items.repairing.export');
     });
+
+    //Accounting Module
+    Route::prefix('admin/accounts')->middleware(['is_admin'])->group(function () {
+
+        //Dashboard
+        Route::get('/', [App\Http\Controllers\Admin\Account\IndexController::class, 'index'])->name('admin.accounts.dashboard');
+
+        //Category Controller
+        Route::get('/categories', [App\Http\Controllers\Admin\Account\CategoryController::class, 'index'])->name('admin.accounts.category');
+        Route::get('/get_categories', [App\Http\Controllers\Admin\Account\CategoryController::class, 'get_categories'])->name('admin.accounts.get_category');
+        Route::post('/categories/create', [App\Http\Controllers\Admin\Account\CategoryController::class, 'create'])->name('admin.accounts.category.create');
+        Route::post('/categories/delete', [App\Http\Controllers\Admin\Account\CategoryController::class, 'delete'])->name('admin.accounts.category.delete');
+    });
 });
