@@ -230,6 +230,7 @@ Route::middleware(['auth'])->group(function () {
 
         //Dashboard
         Route::get('/', [App\Http\Controllers\Admin\Account\IndexController::class, 'index'])->name('admin.accounts.dashboard');
+        Route::get('/get_expense_data', [App\Http\Controllers\Admin\Account\IndexController::class, 'get_expense_data'])->name('admin.accounts.dashboard.get_expense_data');
 
         //Category Controller
         Route::get('/categories', [App\Http\Controllers\Admin\Account\CategoryController::class, 'index'])->name('admin.accounts.category');
@@ -240,6 +241,7 @@ Route::middleware(['auth'])->group(function () {
         //Expense Controller
         Route::get('/expense', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'index'])->name('admin.accounts.expense');
         Route::get('/get_expense', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'get_expense'])->name('admin.accounts.expense.get');
+
         Route::get('/expense/create', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'create_form'])->name('admin.accounts.expense.create.form');
         Route::post('/expense/create', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'create'])->name('admin.accounts.expense.create');
         Route::get('/expense/update/{id}', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'update_form'])->name('admin.accounts.expense.update.form');
