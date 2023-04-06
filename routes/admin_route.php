@@ -236,5 +236,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/get_categories', [App\Http\Controllers\Admin\Account\CategoryController::class, 'get_categories'])->name('admin.accounts.get_category');
         Route::post('/categories/create', [App\Http\Controllers\Admin\Account\CategoryController::class, 'create'])->name('admin.accounts.category.create');
         Route::post('/categories/delete', [App\Http\Controllers\Admin\Account\CategoryController::class, 'delete'])->name('admin.accounts.category.delete');
+
+        //Expense Controller
+        Route::get('/expense', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'index'])->name('admin.accounts.expense');
+        Route::get('/get_expense', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'get_expense'])->name('admin.accounts.expense.get');
+        Route::get('/expense/create', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'create_form'])->name('admin.accounts.expense.create.form');
+        Route::post('/expense/create', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'create'])->name('admin.accounts.expense.create');
+        Route::get('/expense/update/{id}', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'update_form'])->name('admin.accounts.expense.update.form');
+        Route::post('/expense/update', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'update'])->name('admin.accounts.expense.update');
+        Route::post('/expense/delete', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'delete'])->name('admin.accounts.expense.delete');
+        Route::post('/expense/export', [App\Http\Controllers\Admin\Account\ExpenseController::class, 'export'])->name('admin.accounts.expense.export');
     });
 });
