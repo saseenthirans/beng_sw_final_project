@@ -68,4 +68,28 @@ class IndexController extends Controller
         return response()->json(['category_data' => $category_data, 'data' => $data]);
     }
 
+    public function get_monthly_expense()
+    {
+        $months = $this->getMonths();
+
+        $data = [];
+
+        foreach ($months['months'] as $key => $value) {
+            //Purchase Count
+                $counts = Expense::where('year',date('Y'))->where('month',$value)->sum('amount');
+                $data[] = round($counts);
+            // End
+        }
+
+        return response()->json(['amount' => $data, 'month'=>$months['monthsName']]);
+    }
+
+    public function getMonths()
+    {
+        $monthsName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep','Oct','Nov','Dec'];
+        $months = ['1', '2', '3', '4', '5', '6', '7', '8','9','10','11','12'];
+
+        return ['months' => $months, 'monthsName' => $monthsName];
+    }
+
 }

@@ -231,6 +231,7 @@ Route::middleware(['auth'])->group(function () {
         //Dashboard
         Route::get('/', [App\Http\Controllers\Admin\Account\IndexController::class, 'index'])->name('admin.accounts.dashboard');
         Route::get('/get_expense_data', [App\Http\Controllers\Admin\Account\IndexController::class, 'get_expense_data'])->name('admin.accounts.dashboard.get_expense_data');
+        Route::get('/get_monthly_expense', [App\Http\Controllers\Admin\Account\IndexController::class, 'get_monthly_expense'])->name('admin.accounts.dashboard.get_monthly_expense');
 
         //Category Controller
         Route::get('/categories', [App\Http\Controllers\Admin\Account\CategoryController::class, 'index'])->name('admin.accounts.category');

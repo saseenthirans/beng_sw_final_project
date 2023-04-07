@@ -58,6 +58,22 @@
     </div>
 </div>
 
+<div id="chartDonut" class="col-xl-12 col-lg-12 col-12 layout-spacing">
+    <div class="statbox widget box box-shadow">
+        <div class="widget-header">
+            <div class="row">
+                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                    <h4 class="text-center font-weight-bold text-uppercase" style="font-size: 24px">Monthly Expenses -
+                        {{ date('Y') }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="widget-content widget-content-area">
+            <div id="chartMonthlyExpense" class=""></div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -66,6 +82,7 @@
     $(document).ready(function () {
 
         chartPurchase();
+        chartExpense();
 
         function chartPurchase()
         {
@@ -112,6 +129,56 @@
 
                     var chart = new ApexCharts(
                         document.querySelector("#chartPurchase"),
+                        sLineArea
+                    );
+
+                    chart.render();
+                }
+            });
+        }
+
+
+
+        function chartExpense()
+        {
+            $.ajax({
+                type: "GET",
+                url: "{{url('/admin/accounts/get_monthly_expense')}}",
+                dataType: "JSON",
+                success: function (response) {
+
+                    var sLineArea = {
+                        chart: {
+                            height: 450,
+                            type: 'area',
+                            toolbar: {
+                            show: false,
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            curve: 'smooth'
+                        },
+                        series: [{
+                            name: 'Paid Amount',
+                            data: response.amount
+                        }],
+                        yaxis: {
+                            title: {
+                                text: 'Monthly Expenses'
+                            }
+                        },
+
+                        xaxis: {
+                            categories: response.month,
+                        },
+
+                    }
+
+                    var chart = new ApexCharts(
+                        document.querySelector("#chartMonthlyExpense"),
                         sLineArea
                     );
 
