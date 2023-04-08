@@ -29,4 +29,19 @@ class SubCategory extends Model
     {
         return $this->hasMany(SubCategoryLog::class, 'id', 'sub_category_id');
     }
+
+    public function getInventory()
+    {
+        return $this->hasMany(Inventory::class, 'category_id', 'id')->where('status',1);
+    }
+
+    public function getFeaturedInventory()
+    {
+        return $this->hasMany(Inventory::class, 'category_id', 'id')->where('status',1)->orderBy('views','DESC')->take(4);
+    }
+
+    public function getInventoryPage()
+    {
+        return $this->hasMany(Inventory::class, 'category_id', 'id')->where('status',1)->orderBy('id','ASC');
+    }
 }

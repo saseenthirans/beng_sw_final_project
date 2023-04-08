@@ -14,15 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home.index');
+Route::get('/categories/{id}', [App\Http\Controllers\HomeController::class, 'categories'])->name('home.categories');
+Route::get('/sub_categories/{id}', [App\Http\Controllers\HomeController::class, 'sub_categories'])->name('home.sub_categories');
 
-    return view('welcome');
-});
-
-Route::get('/mails', function () {
-
-    return view('mails.invoice');
-});
 
 Auth::routes(['register' => false]);
 

@@ -15,4 +15,14 @@ class Inventory extends Model
     {
         return $this->hasOne(SubCategory::class, 'id', 'category_id');
     }
+
+    public function inventoryImage()
+    {
+        return $this->hasMany(InventoryImage::class,'inv_id','id');
+    }
+
+    public function saleItem()
+    {
+        return $this->hasOne(Sales::class,'inv_id','id')->where('status',1);
+    }
 }

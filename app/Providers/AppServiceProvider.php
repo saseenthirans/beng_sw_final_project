@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\Company;
 use Illuminate\Support\ServiceProvider;
 
@@ -39,5 +40,24 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('company', $company);
             }
         );
+
+        view()->composer(
+            'layouts.home',
+            function ($view) {
+                $company = Company::find(1);
+                $categories = Category::where('status',1)->orderBy('name','ASC')->take(11)->get();
+                $categories_count = Category::where('status',1)->count();
+
+                $view->with([
+                    'company'=> $company,
+                    'categories' => $categories,
+                    'categories_count' => $categories_count
+                ]);
+
+
+            }
+        );
+
+
     }
 }

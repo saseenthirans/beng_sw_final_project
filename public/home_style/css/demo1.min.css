@@ -13244,7 +13244,6 @@ aside .sp-sidebar-banner span {
 .header-search.hs-expanded input.form-control {
   color: #666;
   border-right: none;
-  border-left: none;
 }
 .header-search.hs-expanded .btn-search {
   display: -webkit-box;
@@ -14606,7 +14605,7 @@ aside .sp-sidebar-banner span {
   right: 0.5rem;
 }
 .category-menu .megamenu {
-  min-width: 68.5rem;
+  min-width: 20rem;
 }
 .category-menu .megamenu > li:not(:last-child) {
   padding: 2.8rem 2rem 0 0rem;
