@@ -15089,7 +15089,7 @@ body .product-popup {
 .header-search.hs-expanded input.form-control {
   color: #666;
   border-right: none;
-  border-left: none;
+  border-radius: 5px;
 }
 .header-search.hs-expanded .btn-search {
   display: -webkit-box;
@@ -15672,7 +15672,7 @@ body .product-popup {
 }
 
 .category-dropdown > a {
-  background: #fff;
+  /* background: #fff; */
   min-width: 28rem;
   padding: 1.9rem 1.8rem 1.7rem 2rem;
   letter-spacing: -0.025em;
@@ -16451,7 +16451,7 @@ body .product-popup {
   right: 0.5rem;
 }
 .category-menu .megamenu {
-  min-width: 68.5rem;
+  min-width: 25rem;
 }
 .category-menu .megamenu > li:not(:last-child) {
   padding: 2.8rem 2rem 0 0rem;

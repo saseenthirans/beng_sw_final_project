@@ -57,9 +57,9 @@
 
                 <li class="nav-item dropdown user-profile-dropdown order-lg-0 order-1">
 
-                    <a href="{{ url('settings') }}" class="nav-link btn btn-info font-weight-bold text-uppercase" id="user-profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{-- <a href="{{ url('settings') }}" class="nav-link btn btn-info font-weight-bold text-uppercase" id="user-profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-cogs"></i> Settings
-                    </a>
+                    </a> --}}
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
@@ -127,7 +127,7 @@
                                     @if (Auth::user()->hasRole('Admin'))
                                         class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                     @else
-                                        class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                        class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                     @endif
                                     >
 
@@ -149,7 +149,7 @@
                                         @if (Auth::user()->hasRole('Admin'))
                                             class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                         @else
-                                            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                            class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                         @endif
                                         >
 
@@ -168,7 +168,7 @@
                                     </a>
                                 </div>
 
-                                <div id="card_3"
+                                {{-- <div id="card_3"
                                         @if (Auth::user()->hasRole('Admin'))
                                             class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                         @else
@@ -189,13 +189,13 @@
                                             </div>
                                         </div>
                                     </a>
-                                </div>
+                                </div> --}}
 
                                 <div id="card_3"
                                         @if (Auth::user()->hasRole('Admin'))
                                             class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                         @else
-                                            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 layout-spacing"
+                                            class="col-lg-4 col-md-6 col-sm-12 col-xs-12 layout-spacing"
                                         @endif
                                         >
 

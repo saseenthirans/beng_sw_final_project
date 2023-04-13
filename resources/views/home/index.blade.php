@@ -272,7 +272,7 @@
                                             <div class="col-md-6">
                                                 <div class="product-details scrollable">
                                                     <h2 class="product-title mb-1"><a
-                                                            href="product-default.html">{{ $item->inventory->name }}</a>
+                                                            href="{{url('/products/'.Crypt::encrypt($item->inventory->id))}}">{{ $item->inventory->name }}</a>
                                                     </h2>
 
                                                     <hr class="product-divider">
@@ -306,7 +306,8 @@
                                                         <a href="#" class="rating-reviews">(3 Reviews)</a>
                                                     </div>
 
-                                                    <div class="product-form pt-4">
+                                                    <div class="product-form pt-4 _product_data" >
+                                                        <input type="hidden"  class="_product_id" value="{{$item->inventory->id}}">
                                                         <div class="product-qty-form mb-2 mr-2">
                                                             <div class="input-group">
                                                                 <input class="quantity form-control" type="number"
@@ -315,7 +316,7 @@
                                                                 <button class="quantity-minus w-icon-minus"></button>
                                                             </div>
                                                         </div>
-                                                        <button class="btn btn-primary btn-cart">
+                                                        <button class="btn btn-primary btn-cart btn_add_to_cart">
                                                             <i class="w-icon-cart"></i>
                                                             <span>Add to Cart</span>
                                                         </button>
@@ -633,7 +634,7 @@
                                     <div class="swiper-slide product-wrap">
                                         <div class="product product-simple text-center">
                                             <figure class="product-media">
-                                                <a href="product-default.html">
+                                                <a href="{{url('/products/'.Crypt::encrypt($inventory->id))}}">
                                                     <img src="{{ asset($inventory->image) }}" alt="Product"
                                                         width="330" height="338" />
                                                     <img src="{{ asset($inventory->image) }}" alt="Product"
@@ -647,14 +648,14 @@
                                             </figure>
                                             <div class="product-details">
                                                 <h4 class="product-name"><a
-                                                        href="product-default.html">{{ $inventory->name }}</a>
+                                                        href="{{url('/products/'.Crypt::encrypt($inventory->id))}}">{{ $inventory->name }}</a>
                                                 </h4>
                                                 <div class="ratings-container">
                                                     <div class="ratings-full">
                                                         <span class="ratings" style="width: 100%;"></span>
                                                         <span class="tooltiptext tooltip-top"></span>
                                                     </div>
-                                                    <a href="product-default.html" class="rating-reviews">(3 reviews)</a>
+                                                    <a href="{{url('/products/'.Crypt::encrypt($inventory->id))}}" class="rating-reviews">(3 reviews)</a>
                                                 </div>
                                                 @php
                                                     if ($inventory->saleItem) {
@@ -713,14 +714,14 @@
                                                 @foreach ($actCategory->getInventory as $inventory)
                                                     <div class="product product-widget bb-no">
                                                         <figure class="product-media">
-                                                            <a href="product-default.html">
+                                                            <a href="{{url('/products/'.Crypt::encrypt($inventory->id))}}">
                                                                 <img src="{{ asset($inventory->image) }}" alt="Product"
                                                                     width="105" height="118" />
                                                             </a>
                                                         </figure>
                                                         <div class="product-details">
                                                             <h4 class="product-name">
-                                                                <a href="product-default.html">{{ $inventory->name }}</a>
+                                                                <a href="{{url('/products/'.Crypt::encrypt($inventory->id))}}">{{ $inventory->name }}</a>
                                                             </h4>
                                                             <div class="ratings-container">
                                                                 <div class="ratings-full">

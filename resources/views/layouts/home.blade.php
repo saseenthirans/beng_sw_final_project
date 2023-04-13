@@ -50,6 +50,7 @@
 
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('home_style/css/demo3.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('home_style/css/style.min.css')}}">
 </head>
 
 <body class="home">
@@ -397,6 +398,7 @@
             <!-- End of Dropdown Box -->
         </div>
 
+
         <div class="header-search hs-toggle dir-up">
             <a href="#" class="search-toggle sticky-link">
                 <i class="w-icon-search"></i>
@@ -694,6 +696,42 @@
 
     <!-- Main Js -->
     <script src="{{asset('home_style/js/main.min.js')}}"></script>
+
+    <!-- Add to Cart -->
+
+    <script>
+        $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('.btn_add_to_cart').click(function (e) {
+                e.preventDefault();
+                var id = $(this).closest('._product_data').find('._product_id').val();
+                var qty = $(this).closest('._product_data').find('.quantity').val();
+
+                var data = {
+                    'product_id' : id,
+                    'qty' : qty
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url('/add_to_cart')}}",
+                    data: data,
+                    dataType: "JSON",
+                    success: function (response) {
+
+                    }
+                });
+
+            });
+        });
+    </script>
+
+    @yield('scripts')
 </body>
 
 </html>

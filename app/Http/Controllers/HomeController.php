@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Company;
+use App\Models\Inventory;
 use App\Models\Sales;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
@@ -50,6 +51,16 @@ class HomeController extends Controller
 
         return view('home.subcategory',[
             'subcategory' => $subcategory
+        ]);
+    }
+
+    public function products($id)
+    {
+        $id = Crypt::decrypt($id);
+        $inventory = Inventory::find($id);
+
+        return view('home.products',[
+            'inventory' => $inventory
         ]);
     }
 }
