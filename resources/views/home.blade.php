@@ -134,7 +134,7 @@
                                     @if (Auth::user()->hasRole('Admin'))
                                         <a href="{{ url('admin/inventory') }}">
                                     @else
-                                        <a href="{{ url('staff/inventory') }}">
+                                        <a href="{{ url('admin/inventory') }}">
                                     @endif
                                         <div class="component-card_3 bg-primary">
                                             <div class="card-body">
@@ -156,7 +156,7 @@
                                         @if (Auth::user()->hasRole('Admin'))
                                             <a href="{{ url('admin/invoices') }}">
                                         @else
-                                            <a href="{{ url('staff/invoices') }}">
+                                            <a href="{{ url('admin/invoices') }}">
                                         @endif
 
                                         <div class="component-card_3 bg-success">
@@ -202,7 +202,7 @@
                                         @if (Auth::user()->hasRole('Admin'))
                                             <a href="{{ url('admin/repair_items') }}">
                                         @else
-                                            <a href="{{ url('staff/repair_items') }}">
+                                            <a href="{{ url('admin/repair_items') }}">
                                         @endif
 
                                         <div class="component-card_3 bg-danger">
